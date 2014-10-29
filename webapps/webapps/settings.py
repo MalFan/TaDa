@@ -36,6 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'TaDa',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,12 +65,24 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#         'NAME': 'TaDa',                      # Or path to database file if using sqlite3.
+#         # The following settings are not used with sqlite3:
+#         'USER': 'webapps',
+#         'PASSWORD': 'fun',
+#         'HOST': 'localhost',    # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.
+#         'PORT': '',             # Set to empty string for default.
+#     }
+# }
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Eastern'
 
 USE_I18N = True
 
@@ -81,3 +95,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/login'
+
+LOGIN_REDIRECT_URL = '/'
+
+# Configures Django to merely print emails rather than sending them.
+# Comment out this line to enable real email-sending.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# To enable real email-sending, you should uncomment and 
+# configure the settings below.
+# EMAIL_HOST = 'Your-SMTP-host'               # perhaps 'smtp.andrew.cmu.edu'
+# EMAIL_HOST_USER = 'Your-SMTP-username'      # perhaps your Andrew ID
+# EMAIL_HOST_PASSWORD = 'Your-SMTP-password'
+# EMAIL_USE_TLS = True
