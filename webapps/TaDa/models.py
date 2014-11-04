@@ -28,14 +28,16 @@ class Person(models.Model):
 
 
 class Movie(models.Model):
-	name = models.CharField(max_length = 255)
+	imdbid = models.CharField(max_length = 8)
+	title = models.CharField(max_length = 255)
 	year = models.CharField(max_length = 4)
-	date = models.DateField()
-	is_in_theater = models.BooleanField(default = False)
-	cover = models.ImageField(upload_to = 'movie-cover', blank = True)
+	# date = models.DateField()
+	# is_in_theater = models.BooleanField(default = False) # to be deleted
+	# cover = models.ImageField(upload_to = 'movie-cover', blank = True)
+	cover = models.CharField(max_length = 255)
 	director = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
 	writer = models.ManyToManyField(Person, related_name = 'writing', blank = True)
-	cast = models.ManyToManyField(Person, related_name = 'acting', blank = True)
+	cast = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
 	storyline = models.CharField(max_length = 1024)
 	genre = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)

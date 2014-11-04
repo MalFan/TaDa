@@ -1,3 +1,4 @@
+{% load extra_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,11 +43,18 @@
                 </div>
             </form>
 
-            <ul>
-            {% for movie in movie_list %} <!-- "http://www.imdb.com/title/tt movie.movieID" -->
-                <li><a role="button" class="btn btn-default btn-sm" href="{% url 'admin_add_movie' movie.movieID %}"><span class="glyphicon glyphicon-plus"></span></a>ID:{{movie.movieID}}&nbsp;&nbsp;&nbsp;&nbsp;year:{{movie.year}}&nbsp;&nbsp;&nbsp;&nbsp;Title:{{movie.title}}<br>{{movie.languages}}</li>
-            {% endfor %}
-            </ul>
+            <p>
+                ID:{{imdbid}}<br>
+                Title:{{title}}<br>
+                year:{{year}}<br>
+                Director:{% for d in director %} {{d}}; &nbsp; {% endfor %}<br>
+                Writer:{% for w in writer %} {{w}}; &nbsp; {% endfor %}<br>
+                Genres:{% for g in genres %} {{g}}; &nbsp; {% endfor %}<br>
+                Cast:{% for p in cast %} {{p}}; &nbsp; {% endfor %}<br>
+                Storyline:{{storyline}}<br>
+                Certificates:{% for cer in certificate %} {{cer}}; &nbsp; {% endfor %}<br>
+                <img src="{{cover}}" alt="small cover"><br>
+            </p>
 
           </div><!-- /.post-main -->
   

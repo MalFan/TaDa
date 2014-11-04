@@ -4,6 +4,7 @@ from django.contrib import admin
 urlpatterns = patterns('',
 	url(r'^admin$', 'TaDa.views.admin_homepage', name='admin_homepage'),
 	url(r'^admin-search$', 'TaDa.views.admin_search', name='admin_search'),
+	url(r'^admin-add-movie/(?P<movie_id>\d+)$', 'TaDa.views.admin_add_movie', name='admin_add_movie'),
 	# url(r'^my-grumbls$', 'grumblr.views.my_grumbls', name='mygrumbls'),
 	# url(r'^search$', 'grumblr.views.search', name='search'),
 	# url(r'^add-grumbl/(?P<next>\w+)$', 'grumblr.views.add_grumbl', name='addgrumbl'),
