@@ -18,33 +18,35 @@ class Genre(models.Model):
 
 
 class Person(models.Model):
+	person_id = models.CharField(max_length = 16)
 	name = models.CharField(max_length = 255)
-	dob = models.DateField()
-	bio = models.CharField(max_length = 1024)	
-	photo = models.ImageField(upload_to = 'person-photos', blank = True)
-
+	birthyear = models.CharField(max_length = 8, blank = True)
+	bio = models.CharField(max_length = 1024, blank = True)	
+	# photo = models.ImageField(upload_to = 'person-photos', blank = True)
+	photo = models.CharField(max_length = 255, blank = True)
+	has_full_info = models.BooleanField(default = False)
 	def __unicode__(self):
 		return self.name
 
 
 class Movie(models.Model):
-	imdbid = models.CharField(max_length = 8)
+	imdb_id = models.CharField(max_length = 8)
 	title = models.CharField(max_length = 255)
-	year = models.CharField(max_length = 4)
+	year = models.CharField(max_length = 4, blank = True)
 	# date = models.DateField()
 	# is_in_theater = models.BooleanField(default = False) # to be deleted
 	# cover = models.ImageField(upload_to = 'movie-cover', blank = True)
-	cover = models.CharField(max_length = 255)
-	director = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
-	writer = models.ManyToManyField(Person, related_name = 'writing', blank = True)
-	cast = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
-	storyline = models.CharField(max_length = 1024)
-	genre = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
+	cover = models.CharField(max_length = 255, blank = True)
+	director_list = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
+	writer_list = models.ManyToManyField(Person, related_name = 'writing', blank = True)
+	cast_list = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
+	storyline = models.CharField(max_length = 1024, blank = True)
+	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)
 	# tag = models.ManyToManyField(Tag, related_name='', blank=True)
 
 	def __unicode__(self):
-		return self.name
+		return self.title
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, primary_key = True)

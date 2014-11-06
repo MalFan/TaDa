@@ -44,16 +44,11 @@
             </form>
 
             <p>
-                ID:{{imdb_id}}<br>
-                Title:{{title}}<br>
-                Year:{{year}}<br>
-                Director:{% for d in director %} <a href="{% url 'admin_add_person' d.person_id %}">{{d}}</a>; &nbsp; {% endfor %}<br>
-                Writer:{% for w in writer %} <a href="{% url 'admin_add_person' w.person_id %}">{{w}}</a>; &nbsp; {% endfor %}<br>
-                Genres:{% for g in genres %} {{g}}; &nbsp;{% endfor %}<br>
-                Cast:{% for s in cast %} <a href="{% url 'admin_add_person' s.person_id %}">{{s}}</a>; &nbsp; {% endfor %}<br>
-                Storyline:{{storyline}}<br>
-                Certificates:{{certificate}}<br>
-                Cover:{% if cover %}<img src="{{cover}}" alt="small cover">{% endif %}<br>
+                PersonID:{{person_id}}<br>
+                Name:{{name}}<br>
+                Birthyear:{{birthyear}}<br>
+                Bio:{{bio}}<br>
+                Photo:{% if photo %}<img src="{{photo}}">{% endif %}<br>
             </p>
 
           </div><!-- /.post-main -->
