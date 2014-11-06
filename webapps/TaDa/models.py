@@ -9,13 +9,6 @@ class Genre(models.Model):
 	def __unicode__(self):
 		return self.name
 
-# Reserved for future development
-# class Tag(models.Model):
-# 	name = models.CharField(max_length=255)
-
-# 	def __unicode__(self):
-# 		return self.name
-
 
 class Person(models.Model):
 	person_id = models.CharField(max_length = 16)
@@ -33,8 +26,6 @@ class Movie(models.Model):
 	imdb_id = models.CharField(max_length = 8)
 	title = models.CharField(max_length = 255)
 	year = models.CharField(max_length = 4, blank = True)
-	# date = models.DateField()
-	# is_in_theater = models.BooleanField(default = False) # to be deleted
 	# cover = models.ImageField(upload_to = 'movie-cover', blank = True)
 	cover = models.CharField(max_length = 255, blank = True)
 	director_list = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
@@ -43,10 +34,10 @@ class Movie(models.Model):
 	storyline = models.CharField(max_length = 1024, blank = True)
 	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)
-	# tag = models.ManyToManyField(Tag, related_name='', blank=True)
 
 	def __unicode__(self):
 		return self.title
+
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, primary_key = True)

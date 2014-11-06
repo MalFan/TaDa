@@ -1,6 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse
-from django.core import serializers
+from django.shortcuts import render
 import imdb
 
 from models import *
@@ -9,10 +7,8 @@ from models import *
 # Create your views here.
 def admin_homepage(request):
 	context = {}
-	# i = imdb.IMDb()
-	# movie_list = i.get_top250_movies()
-	# context['movie_list'] = movie_list
 	return render(request, 'admin_homepage.html', context)
+
 
 def admin_search(request):
 	context = {}
@@ -22,6 +18,7 @@ def admin_search(request):
 	context['movie_list'] = movie_list
 
 	return render(request, 'admin_homepage.html', context)
+
 
 def admin_add_movie(request, movie_id):
 	context = {}
@@ -122,7 +119,6 @@ def admin_add_movie(request, movie_id):
 	context['certificate'] = m_to_add.certificate
 
 	return render(request, 'admin_movie.html', context)
-
 
 
 def admin_add_person(request, person_id):
