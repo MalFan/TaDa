@@ -1,0 +1,276 @@
+{% extends "generic.html" %}
+
+{% block active-status %}
+<li class="active"><a href="/">Home</a></li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recommendation <span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="/recommend-movie">Movies</a></li>
+    <li><a href="#">Users</a></li>
+  </ul>
+</li>
+{% endblock active-status %}
+                     
+{% block content %}
+<div class="coverflow-wrapper">                
+  <p class = "font-Georgia font-lg font-bold text-center">In Theater</p>
+  <div class="coverflow" >
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/dracula.jpg"/>                  
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">Dracula Untold</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+
+        <span class="imdbRatingPlugin"data-title="tt0829150" data-style="p4">
+          <a href="http://www.imdb.com/title/tt0829150/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/equalizer.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">the Equalizer</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+
+        <span class="imdbRatingPlugin"data-title="tt0455944" data-style="p4">
+          <a href="http://www.imdb.com/title/tt0455944/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class=" movie-pic colorflow-shadow" src="static/img/fury.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">Fury</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/gonegirl.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">Gone Girl</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt2267998" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2267998/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Gone Girl (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/johnwick.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">John Wick</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+        <span class="imdbRatingPlugin" data-title="tt2911666" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2911666/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="John Wick (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "btn btn-info btn-ticket"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/mazerunner.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">the Maze Runner</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+
+        <span class="imdbRatingPlugin"data-title="tt1790864" data-style="p4">
+          <a href="http://www.imdb.com/title/tt1790864/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/nightcrawler.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">Nightcrewler</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+
+        <span class="imdbRatingPlugin"data-title="tt2872718" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2872718/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/interstellar.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">Interstellar</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt0816692" data-style="p4">
+          <a href="http://www.imdb.com/title/tt0816692/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/judge.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">the Judge</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt1872194" data-style="p4">
+          <a href="http://www.imdb.com/title/tt1872194/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+
+    </div>
+    <div class="cover">
+      <img class="movie-pic colorflow-shadow" src="static/img/bookoflife.jpg"/>
+      <div class="coverflow-detail" ><br>
+        <a href=""><p class="font-black font-Calson font-md">the Book of Life</p></a>
+        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+
+        <span class="imdbRatingPlugin"data-title="tt2262227" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2262227/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span><br>
+        <button class = "form-control btn btn-info"  >Get Tickets</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class= "upcoming-wrapper">
+  <p class = "font-Georgia font-lg font-bold text-center">Upcoming</p>
+  <div class = "upcoming-group-wrapper">
+    <div class = "upcoming-date-wrapper">
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 07, 2014</p>
+    </div>
+    <div class = "upcoming-movie-wrapper">
+      <ul class = "upcoming-movie-list">
+        <li class = "upcoming-movie col-md-12" id="">
+          <div class ="upcoming-movie-inner">
+            <div class ="col-md-2">
+              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="col-md-6">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+        <li class = "upcoming-movie col-md-12" id="">
+          <div class ="upcoming-movie-inner">
+            <div class ="col-md-2">
+              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="col-md-6">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+        <li class = "upcoming-movie col-md-12" id="">
+          <div class ="upcoming-movie-inner">
+            <div class ="col-md-2">
+              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="col-md-6">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class = "upcoming-group-wrapper">
+    <div class = "upcoming-date-wrapper" >
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 14, 2014</p>
+    </div>
+    <div class = "upcoming-movie-wrapper">
+      <ul class = "upcoming-movie-list">
+        <li class = "upcoming-movie col-md-12" id="">
+          <div class ="upcoming-movie-inner">
+            <div class ="col-md-2">
+              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="col-md-6">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+   <div class = "upcoming-group-wrapper">
+    <div class = "upcoming-date-wrapper" >
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 21, 2014</p>
+    </div>
+    <div class = "upcoming-movie-wrapper">
+      <ul class = "upcoming-movie-list">
+        <li class = "upcoming-movie col-md-12" id="">
+          <div class ="upcoming-movie-inner">
+            <div class ="col-md-2">
+              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="col-md-6">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %} 
+
+{% block additional_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+<script src="/static/js/jquery.mousewheel.js"></script>
+
+<script src="/static/js/jquery.touchSwipe.min.js"></script>
+
+<script src="/static/js/jquery.coverflow.js"></script>
+<script src="/static/js/home.js"></script>
+
+<script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
+{% endblock additional_js %}

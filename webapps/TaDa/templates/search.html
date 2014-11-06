@@ -1,0 +1,60 @@
+{% extends "generic.html" %}
+
+{% block content %}
+  <div class = "search-wrapper">
+    <div class = "search-inner">
+      <form class="search" action = "" method="get">
+        <div class="input-group">
+          <input type="text" class="form-control" name="keyword" placeholder="Search TaDa...">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Search <span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li><a href="#">Movie</a></li>
+              <li><a href="#">Celebrity</a></li>
+              <li><a href="#">User</a></li>
+            </ul>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class = "search-result-wrapper">
+    <p class = "font-Georgia font-lg font-bold">Search results for ""</p>
+    <ul class = "search-list">
+      <li class = "search-movie col-md-12" id="">
+          <div class ="search-movie-inner">
+            <div class ="search-cover col-md-3">
+              <img class="movie-pic-md" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="search-detail col-md-7">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>April, 1945. As the Allies make their final push in the European Theatre, a battle-hardened army sergeant named Wardaddy commands a Sherman tank and his five-man crew on a deadly mission behind enemy lines. Out-numbered, out-gunned, and with a rookie soldier thrust into their platoon, Wardaddy and his men face overwhelming odds in their heroic attempts to strike at the heart of Nazi Germany.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+        <li class = "search-movie col-md-12" id="">
+          <div class ="search-movie-inner">
+            <div class ="search-cover col-md-3">
+              <img class="movie-pic-md" src="static/img/fury.jpg"/>
+            </div>
+            <div class ="search-detail col-md-7">                        
+              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
+              <div id = "certificate" class="inline">PG </div>
+              <div id = "time" class="inline">120 min</div>
+              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+              <div id = "plot"><b>Plot: </b>April, 1945. As the Allies make their final push in the European Theatre, a battle-hardened army sergeant named Wardaddy commands a Sherman tank and his five-man crew on a deadly mission behind enemy lines. Out-numbered, out-gunned, and with a rookie soldier thrust into their platoon, Wardaddy and his men face overwhelming odds in their heroic attempts to strike at the heart of Nazi Germany.</div>
+              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            </div>
+          </div>
+        </li>
+    </ul>
+  </div>
+
+{% endblock content %} 
