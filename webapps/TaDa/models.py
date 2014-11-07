@@ -26,12 +26,14 @@ class Movie(models.Model):
 	imdb_id = models.CharField(max_length = 8)
 	title = models.CharField(max_length = 255)
 	year = models.CharField(max_length = 4, blank = True)
+	duration = models.CharField(max_length = 8, blank = True)
 	# cover = models.ImageField(upload_to = 'movie-cover', blank = True)
 	cover = models.CharField(max_length = 255, blank = True)
 	director_list = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
 	writer_list = models.ManyToManyField(Person, related_name = 'writing', blank = True)
 	cast_list = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
 	storyline = models.CharField(max_length = 1024, blank = True)
+	short_storyline = models.CharField(max_length = 256, blank = True)
 	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)
 

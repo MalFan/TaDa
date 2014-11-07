@@ -33,7 +33,12 @@ def admin_add_movie(request, movie_id):
 		m_to_add.save()
 
 		try:
-			m_to_add.cover = movie['cover url']
+			m_to_add.duration = movie['runtimes'][0] + ' min'
+		except KeyError:
+	    		pass
+
+		try:
+			m_to_add.cover = movie['full-size cover url']
 		except KeyError:
 	    		pass
 		
@@ -65,6 +70,7 @@ def admin_add_movie(request, movie_id):
 
 	    	try:
 			m_to_add.storyline = movie['plot'][0]
+			m_to_add.short_storyline = movie['plot'][-1]
 		except KeyError:
 	    		pass
 
@@ -110,10 +116,12 @@ def admin_add_movie(request, movie_id):
 	context['imdb_id'] = m_to_add.imdb_id
 	context['title'] = m_to_add.title
 	context['year'] = m_to_add.year
+	context['duration'] = m_to_add.duration
 	context['cover'] = m_to_add.cover
 	context['director'] = m_to_add.director_list.all()
 	context['writer'] = m_to_add.writer_list.all()
 	context['storyline'] = m_to_add.storyline
+	context['short_storyline'] = m_to_add.short_storyline
 	context['cast'] = m_to_add.cast_list.all()[:15]
 	context['genres'] = m_to_add.genre_list.all()
 	context['certificate'] = m_to_add.certificate

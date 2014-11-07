@@ -36,7 +36,7 @@
           <div class ="search-detail col-md-7">                        
             <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
             <div id = "certificate" class="inline">{{m.certificate}} </div>
-            <div id = "time" class="inline">120 min</div>
+            <div id = "time" class="inline">{{m.duration}}</div>
             <div id ="genre"><b>Genre: </b>{% for g in m.genre_list %}<a>{{g}}</a> {% endfor %}</div>
             <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
             <div id ="director"><b>Director: </b>{% for d in m.director_list %}<a>{{d}}</a>, {% endfor %}</div>
