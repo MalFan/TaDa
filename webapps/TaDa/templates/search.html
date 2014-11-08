@@ -1,11 +1,12 @@
 {% extends "generic.html" %}
 
 {% block content %}
+<div class = "search-outer shadow white-block">
   <div class = "search-wrapper">
     <div class = "search-inner">
       <form class="search" action = "/search" method="get">
         <div class="input-group">
-          <input type="text" class="form-control" name="keyword" placeholder="Search TaDa...">
+          <input type="text" class="form-control" name="keyword" placeholder="Search TaDa..." value="{{keyword}}">
           <span class="input-group-btn">
             <button type="button" class="btn btn-info" data-toggle="dropdown"><!-- dropdown-toggle -->
               <span class="caret"></span>
@@ -25,27 +26,58 @@
   </div>
 
   <div class = "search-result-wrapper">
-    <p class = "font-Georgia font-lg font-bold">Search results for ""</p>
+    <p class = "font-Georgia font-lg font-bold">Search results for "{{keyword}}"</p>
     <ul class = "search-list">
       {% for m in movie_combos %}
-      <li class = "search-movie col-md-12" id="">
+      <div class = "divider-line"></div>
+      <li class = "search-movie row">
         <div class ="search-movie-inner">
-          <div class ="search-cover col-md-3">
+          <div class ="search-cover col-md-2">
             <img class="movie-pic-md" src="{{m.cover}}"/>
           </div>
-          <div class ="search-detail col-md-7">                        
-            <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
-            <div id = "certificate" class="inline">{{m.certificate}} </div>
-            <div id = "time" class="inline">{{m.duration}}</div>
-            <div id ="genre"><b>Genre: </b>{% for g in m.genre_list %}<a>{{g}}</a> {% endfor %}</div>
-            <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
-            <div id ="director"><b>Director: </b>{% for d in m.director_list %}<a>{{d}}</a>, {% endfor %}</div>
-            <div id ="stars"><b>Stars: </b>{% for s in m.cast_list %}<a>{{s}}</a>, {% endfor %}</div>
+
+          <div class ="col-md-1"></div>
+          <div class ="search-detail col-md-6">                        
+            <a href="/movie">
+              <p class="font-black font-Calson font-md inline">{{m.title}}</p>
+            </a>&nbsp;
+            <div id = "certificate" class="inline">
+              {{m.certificate}}
+            </div>
+            <div id = "time" class="inline">
+              {{m.duration}}
+            </div>
+            <div id ="genre">
+              <b>Genre: </b>
+              {% for g in m.genre_list %}
+                <a>{{g}}</a>
+              {% endfor %}
+            </div>
+            <div id = "plot">
+              <b>Plot: </b>
+              {{m.storyline}}
+            </div>
+            <div id ="director">
+              <b>Director: </b>
+              {% for d in m.director_list %}
+                <a>{{d}}</a>, 
+              {% endfor %}
+            </div>
+            <div id ="stars">
+              <b>Stars: </b>
+              {% for s in m.cast_list %}
+              <a>{{s}}</a>
+              , {% endfor %}</div>
           </div>
         </div>
       </li>
       {% endfor %}
     </ul>
   </div>
-
+</div>
+<div class = "back-to-top">
+  <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
+    <p class="back-to-top-text text-center font-Calson font-md">Back to Top</p>
+  </a>
+</div>
 {% endblock content %} 

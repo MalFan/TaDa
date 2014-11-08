@@ -1,0 +1,54 @@
+{% extends "generic.html" %}
+
+{% block content %}
+<div class = "movie-page-wrapper">
+  <div class = "movie-info-wrapper shadow white-block row">
+    <div class ="col-md-3">
+      <img class="movie-pic" src="static/img/fury.jpg"/>
+      <button class = "ticket-btn btn btn-info"  >Get Tickets</button>
+    </div>
+    <div class ="col-md-6">                        
+      <a href="/movie"><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;<br>
+      <div id = "certificate" class="inline">PG </div>
+      <div id = "time" class="inline">120 min</div>
+      <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
+      
+      <div id ="director"><b>Director: </b><a>David Ayer</a></div>
+      <div id ="director"><b>Writer: </b><a>David Ayer</a></div>
+      <div id ="director"><b>Producer: </b><a>David Ayer</a></div>
+      <div id = "plot"><b>Plot: </b>April, 1945. As the Allies make their final push in the European Theatre, a battle-hardened army sergeant named Wardaddy commands a Sherman tank and his five-man crew on a deadly mission behind enemy lines. Out-numbered, out-gunned, and with a rookie soldier thrust into their platoon, Wardaddy and his men face overwhelming odds in their heroic attempts to strike at the heart of Nazi Germany.</div>
+    </div>
+
+    <div class = "col-md-3">
+      <p class="font-black inline">Liked by 1,024 users</p>
+      <span class="imdbRatingPlugin"data-title="tt1872194" data-style="p4">
+        <a href="http://www.imdb.com/title/tt1872194/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+        </a>
+      </span><br>
+      <button class = "like-btn btn btn-info"  >Like</button>
+      <button class = "ticket-btn btn btn-info"  >Dislike</button>
+    </div>
+  </div>
+  
+  <div class = "movie-detail-wrapper row">
+    <div class = "movie-cast-and-review-wrapper col-md-9">
+      <div class = "movie-cast-wrapper white-block shadow">
+      </div>
+      <div class = "movie-review-wrapper white-block  shadow">
+      </div>
+    </div>
+    <div class = "movie-relevent-wrapper col-md-3">
+      <div class = "people-also-like-wrapper white-block  shadow">
+      </div>
+      <div class = "people-who-liked-this-wrapper white-block  shadow">
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock content %} 
+
+{% block additional_js %}
+<script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
+{% endblock additional_js %}

@@ -35,4 +35,7 @@ def search(request):
 
 	return render(request, 'search.html', context)
 
+def movie(request):
+	context = {}
+	return render(request, 'movie.html', context)
 

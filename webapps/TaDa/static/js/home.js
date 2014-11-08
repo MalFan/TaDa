@@ -1,6 +1,5 @@
 $(function() {
-	$('.coverflow').coverflow();
-	
+	$('.coverflow').coverflow();	
 });
 
 $('.upcoming-group-wrapper').on('click', function() {

@@ -1,12 +1,14 @@
 body{
     background-color:#dddddd;  
-    background-image: url("D:/Dropbox/Work/15637 Web Application/Project/template/static/img/background.jpg");    
-    background-size: 100%;
-    background-attachment: fixed;
+    background-image: url("/static/img/background1.png");
+    background-repeat: true;    
+ /*   background-size: 100%;
+    background-attachment: fixed;*/
 }
 .navbar-wrapper{
-    margin-top:10px;
+    margin-top:10px;    
 }
+
 .popup-wrapper{
     margin:30px;
 }
@@ -14,6 +16,10 @@ body{
     .search-input{
         width:300px;
     }
+}
+
+.shadow{    
+    box-shadow: 0px 0px 10px 2px #aaaaaa;
 }
 
 p.font-Georgia{
@@ -42,9 +48,9 @@ p.font-black{
 }
 
 img.logo{
-    height:51px;
-    width:120px;
-    margin-top:-16px;
+    height:41px;
+    width:100px;
+    margin-top:-10px;
 }
 
 img.photo-sm{
@@ -79,6 +85,38 @@ ul
 .inline{
     display:inline-block;
 }
+
+.back-to-top{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.divider-line{
+    margin-left: -13px;
+    height: 3px;
+    width: 100%;
+    background-color:#888888;
+    border-top: solid #eeeeee;
+    border-bottom: solid #aaaaaa;
+    border-width: 1px;
+}
+
+.no-underline:hover{    
+    text-decoration: none;
+}
+
+.back-to-top-link,.back-to-top-text{
+    margin-left: auto;
+    margin-right:auto;
+    color: #999999!important;
+}
+
+.white-block{
+    background-color: #ffffff;
+    border-radius: 3px;
+}
 /*generic above*/
 
 /*home*/
@@ -110,6 +148,7 @@ div.current div{
     overflow:hidden;
     text-align:center;   
     line-height:1.2em;
+
 }
 
 .divider:before, .divider:after{
@@ -305,11 +344,16 @@ img.movie-pic-reverse{
 }
 
 /*search*/
+.search-outer{
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
 .search-wrapper{
     width: 100%;
     height: 60px;
-    margin-left: 60px;
-    margin-right:60px;
+    padding-left: 60px;
+    padding-right:60px;
 }
 
 .search-inner{
@@ -320,18 +364,34 @@ img.movie-pic-reverse{
 }
 .search-result-wrapper{
     width: 100%;
-
-    margin-left: 60px;
-    margin-right: 60px;
+    padding-left: 60px;
+    padding-right:60px;
 }
 
 li.search-movie{
-    
-    padding-bottom: 40px;
-
-    margin-left: -70px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom:5px;
+    width: 100%;
 }
-
 .search-movie-inner{
     float:left;
+}
+
+ul.search-list{
+    padding-left: -40px; 
+}
+
+.movie-page-wrapper{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.movie-info-wrapper{
+    padding: 30px;
+}
+
+.ticket-btn{
+    margin-top:5px;  
+    width:214px;
 }
