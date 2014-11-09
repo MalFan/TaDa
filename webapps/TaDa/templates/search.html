@@ -1,6 +1,7 @@
 {% extends "generic.html" %}
 
 {% block content %}
+<div class = "search-outer shadow white-block">
   <div class = "search-wrapper">
     <div class = "search-inner">
       <form class="search" action = "/search" method="get">
@@ -92,9 +93,11 @@
       {% endif %}
   </div>
 </div>
+</div>
 <div class = "back-to-top">
   <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
     <p class="back-to-top-text text-center font-Calson font-md">Back to Top</p>
   </a>
 </div>
+
 {% endblock content %} 
