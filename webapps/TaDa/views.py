@@ -16,6 +16,7 @@ def home(request):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
+	context['search_form'] = SearchForm() 
 	context['next'] = '/'
 	return render(request, 'home.html', context)
 
@@ -23,6 +24,7 @@ def register(request):
 	context = {}
 	regis_form = RegistrationForm(request.POST)
 	context['regis_form'] = regis_form
+	context['search_form'] = SearchForm() 
 
 	if request.method == 'GET':
 		return redirect('/')
@@ -84,33 +86,58 @@ def recommend_movie(request):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
-
+	context['search_form'] = SearchForm() 
+	
 	context['next_page'] = '/recommend-movie'
 	return render(request, 'recommend_movie.html', context)
 
 def search(request):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	keyword = request.GET['keyword']
-	movies = Movie.objects.filter(title__contains = keyword)
-	context['movie_combos'] = []
-	for m in movies:
-		movie_combo = {
-				'imdb_id' : m.imdb_id,
-				'title' : m.title,
-				'year' : m.year,
-				'duration' : m.duration,
-				'cover' : m.cover,
-				'director_list' : m.director_list.all(),
-				'writer_list' : m.writer_list.all(),
-				'cast_list' : m.cast_list.all()[:15],
-				'storyline' : m.short_storyline,
-				'genre_list' : m.genre_list.all(),
-				'certificate' : m.certificate}
-		context['movie_combos'].append(movie_combo)
+	context['search_form'] = SearchForm(request.GET) 
+	keywords = request.GET['search_content']
+	search_type = request.GET['search_type']
+	if search_type == 'all':
+		movies = Movie.objects.filter(title__contains = keywords)
+		names = Person.objects.filter(name__contains = keywords, has_full_info = True)
+
+		context['movie_combos'] = []
+		for m in movies:
+			movie_combo = {
+					'imdb_id' : m.imdb_id,
+					'title' : m.title,
+					'year' : m.year,
+					'duration' : m.duration,
+					'cover' : m.cover,
+					'director_list' : m.director_list.all(),
+					'writer_list' : m.writer_list.all(),
+					'cast_list' : m.cast_list.all()[:15],
+					'storyline' : m.short_storyline,
+					'genre_list' : m.genre_list.all(),
+					'certificate' : m.certificate}
+			context['movie_combos'].append(movie_combo)
+
+		context['name_combos'] = names
+
+	elif search_type == 'movies':
+		movies = Movie.objects.filter(title__contains = keywords)
+		context['movie_combos'] = []
+		for m in movies:
+			movie_combo = {
+					'imdb_id' : m.imdb_id,
+					'title' : m.title,
+					'year' : m.year,
+					'duration' : m.duration,
+					'cover' : m.cover,
+					'director_list' : m.director_list.all(),
+					'writer_list' : m.writer_list.all(),
+					'cast_list' : m.cast_list.all()[:15],
+					'storyline' : m.short_storyline,
+					'genre_list' : m.genre_list.all(),
+					'certificate' : m.certificate}
+			context['movie_combos'].append(movie_combo)
+	elif search_type == 'names':
+		names = Person.objects.filter(name__contains = keywords, has_full_info = True)
+		context['name_combos'] = names
 
 	return render(request, 'search.html', context)
 

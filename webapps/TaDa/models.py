@@ -33,7 +33,7 @@ class Movie(models.Model):
 	writer_list = models.ManyToManyField(Person, related_name = 'writing', blank = True)
 	cast_list = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
 	storyline = models.CharField(max_length = 1024, blank = True)
-	short_storyline = models.CharField(max_length = 256, blank = True)
+	short_storyline = models.CharField(max_length = 255, blank = True)
 	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)
 

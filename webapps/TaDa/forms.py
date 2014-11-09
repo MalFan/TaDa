@@ -103,3 +103,15 @@ class CommentForm(forms.ModelForm):
 		widgets = {
 			'text': forms.TextInput(attrs={'placeholder': 'add comment to this review'}),
 		}
+
+
+class SearchForm(forms.Form):
+    search_content = forms.CharField(max_length=42,
+                widget = forms.TextInput(attrs = \
+                {'class' : 'form-control',
+                'name' : 'keyword',
+                'placeholder' : 'Search...'}))
+    search_type = forms.ChoiceField(choices = \
+                [('all', 'All'), ('movies', 'Movies'), ('names', 'Names'), ('users', 'Users')], 
+                widget = forms.Select(attrs = {'name':"search_type"}),
+                initial = 'all')
