@@ -196,6 +196,22 @@ li.upcoming-movie{
     margin-left: auto;
     margin-right: auto;
 }
+@media only screen and (min-width:1200px){
+    .recommend-movie-wrapper{
+    width: 1070px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width:1199px){
+    .recommend-movie-wrapper{
+    width: 856px;
+    }
+}
+
+@media only screen and (max-width:991px){
+    .recommend-movie-wrapper{
+    width: 642px;
+    }
+}
 
 .recommend-movie-cell{
     display: inline-block;
