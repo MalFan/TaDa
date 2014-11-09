@@ -13,6 +13,10 @@ urlpatterns = patterns('',
 	url(r'^search$','TaDa.views.search'),
 	url(r'^movie$','TaDa.views.movie'),
 	url(r'^person$','TaDa.views.person'),
+	url(r'^review$','TaDa.views.review'),
+	url(r'^write-review$','TaDa.views.write_review'),
+
+	url(r'^profile$','TaDa.views.profile'),
 
 	url(r'^register$','TaDa.views.register'),
 	url(r'^login$', 'TaDa.views.log_in'),

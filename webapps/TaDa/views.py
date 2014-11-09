@@ -89,6 +89,18 @@ def person(request):
 	context = {}
 	return render(request, 'person.html', context)
 
+def write_review(request):
+	context = {}
+	return render(request, 'write_review.html', context)
+
+def review(request):
+	context = {}
+	return render(request, 'review.html', context)
+
+def profile(request):
+	context = {}
+	return render(request, 'profile.html', context)
+
 
 def register(request):
 	context = {}
