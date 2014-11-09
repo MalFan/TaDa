@@ -41,6 +41,18 @@ class LoginForm(AuthenticationForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'Password'}))
 
+	def clean(self):
+		# Calls our parent (forms.Form) .clean function, gets a dictionary
+		# of cleaned data as a result
+		cleaned_data = super(LoginForm, self).clean()
+
+		# Confirms that the two password fields match
+		username = cleaned_data.get('username')
+		password = cleaned_data.get('password')
+
+		# Generally return the cleaned data we got from our parent.
+		return cleaned_data
+		
 # log in user change password
 class LoginChangePasswordForm(PasswordChangeForm):
 	old_password = forms.CharField(max_length = 20, 
@@ -79,15 +91,15 @@ class ReviewForm(forms.ModelForm):
 		model = Review
 		fields = ('title', 'text')
 		widgets = {
-			'title': forms.TextInput(attrs={'class': '','placeholder': 'Enter the title'})
-			'text': forms.TextInput(attrs={'class': '','placeholder': 'Add your review here'}),
+			'title': forms.TextInput(attrs={'placeholder': 'Enter the title'}),
+			'text': forms.TextInput(attrs={'placeholder': 'Add your review here'}),
 		}
 
 
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
-		fields = ('text')
+		fields = ('text',)
 		widgets = {
-			'text': forms.TextInput(attrs={'class': '','placeholder': 'add comment to this review'}),
+			'text': forms.TextInput(attrs={'placeholder': 'add comment to this review'}),
 		}

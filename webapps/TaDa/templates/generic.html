@@ -14,7 +14,7 @@
     <body>
         <div class="container">
             {% block navi-bar %}
-            <div class="navbar-wrapper shadow">
+            <div class="navbar-wrapper">
               <nav class="navbar navbar-default" role="navigation">
                   <div class="container-fluid">
                     <div class="navbar-header">
@@ -55,8 +55,13 @@
                               </form>
                           </li>
                           <li><a href="/search" class="hidden-md hidden-sm hidden-lg">Search</a></li>
+                          {% if user.username %}
                         <li><a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-sm"> {{user}}</a></li>
+                        
+                        <li><a data-toggle="modal" href="{% url 'logout' %}">Log Out</a></li>
+                        {% else %}
                         <li><a data-toggle="modal" href=".login-popup">Log In</a></li>
+                        {% endif%}
                       </ul>
                     </div>
                   </div>
@@ -68,10 +73,18 @@
       				<div class="modal-content">
       					<div class = "popup-wrapper">
                       <p class = "font-Calson font-lg text-center">Log in to TaDa<p>
-                      <form class="login-form" action = "" method= "post">
-                          <input type="text" class = "form-control" name ="username" placeholder = "Username">
-                          <input type="password" class = "form-control" name ="password" placeholder = "Password"><br>
+                      <form class="login-form" action = "login" method= "post">
+                        <table>
+                          {% for field in login_form.visible_fields %}
+                            {{field}}
+                            {{field.errors}}
+                          {% endfor %}
+                        </table><br>
+                          <!-- <input type="text" class = "form-control" name ="username" placeholder = "Username">
+                          <input type="password" class = "form-control" name ="password" placeholder = "Password"><br> -->
                           <input type="submit" class = "form-control btn btn-info" name ="submit" value="Log In">
+                          <!-- <input type="hidden" name="next" value="{{ next }}" > -->
+                       {% csrf_token %}   
                       </form>
                       Don't have an account? <a data-toggle="modal" href=".popup">Sign Up</a>
                   </div>
@@ -84,12 +97,20 @@
                 <div class="modal-content">
                     <div class = "popup-wrapper">
                         <p class = "font-Calson font-lg text-center">Create Your TaDa Account<p>
-                        <form class="login-form" action = "" method= "post">
-                            <input type="text" class = "form-control" name ="email" placeholder = "Email">
+                        <form class="login-form" action = "register" method= "post">
+                            <table>
+                              {% for field in regis_form.visible_fields %}
+                                {{field}}
+                                {{field.errors}}
+                             {% endfor %}
+                            </table><br>
+                            <!-- <input type="text" class = "form-control" name ="email" placeholder = "Email">
                             <input type="text" class = "form-control" name ="username" placeholder = "Username">
                             <input type="password" class = "form-control" name ="password1" placeholder = "Password">
-                            <input type="password" class = "form-control" name ="password2" placeholder = "Confirm Password"><br>
+                            <input type="password" class = "form-control" name ="password2" placeholder = "Confirm Password"><br> -->
                             <input type="submit" class = "form-control btn btn-info" name ="submit" value="Sign Up">
+                            <input type="hidden" name="next" value="{{ next }}" >
+                        {% csrf_token %}  
                         </form>
                         Already have an account? <a data-toggle="modal" href=".popup">Log In</a>
                     </div>
@@ -107,7 +128,6 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
         <script src="/static/js/bootstrap.js"></script>
-        <script src="/static/js/script.js"></script>
         {% block additional_js %}
         {% endblock additional_js %}
     </body>
