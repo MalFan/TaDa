@@ -81,8 +81,22 @@ def search(request):
 
 	return render(request, 'search.html', context)
 
-def movie(request):
+def movie(request, movie_id):
 	context = {}
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	context['m'] = movie_combo
 	return render(request, 'movie.html', context)
 
 def person(request):
