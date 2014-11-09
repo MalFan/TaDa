@@ -85,6 +85,10 @@ def movie(request):
 	context = {}
 	return render(request, 'movie.html', context)
 
+def person(request):
+	context = {}
+	return render(request, 'person.html', context)
+
 
 def register(request):
 	context = {}
