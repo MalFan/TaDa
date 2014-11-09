@@ -553,3 +553,18 @@ li.relevant-movie-item{
 .recent-work-inner{
     padding: 10px;
 }
+
+/*write review*/
+.correspond-movie{
+    /*margin-right: -15px;*/
+}
+.correspond-movie-inner {
+    padding: 20px;
+    text-align: center;
+    margin-right: -15px;
+}
+.correspond-movie-pic{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
