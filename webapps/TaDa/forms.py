@@ -87,12 +87,17 @@ class ProfileForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(ReviewForm, self).__init__(*args, **kwargs)
+		self.fields['text'].label = 'Content'
+	
 	class Meta:
 		model = Review
 		fields = ('title', 'text')
+		
 		widgets = {
-			'title': forms.TextInput(attrs={'placeholder': 'Enter the title'}),
-			'text': forms.TextInput(attrs={'placeholder': 'Add your review here'}),
+			'title': forms.TextInput(attrs={'class': 'form-control'}),
+			'text': forms.Textarea(attrs={'class': 'form-control','rows': 5}),
 		}
 
 

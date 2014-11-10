@@ -53,7 +53,24 @@
         <p class = "review-title font-Georgia font-lg font-bold inline">Review</p>
         <button data-toggle="modal" href=".review-popup" class = "review-btn btn btn-info">Write a Review</button>
         <ul class = "review-list">
+          {% for review in reviews %}
           <li class = "review-item row">
+            <div class = "review-inner">
+              <div class = "review-photo col-md-1">
+                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+              </div>
+              <div class = "review-detail col-md-11">
+                <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
+                <p class = "review-time inline">{{review.time}}</p>
+                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
+                <p class = ""> {{review.text}}</p> 
+                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+
+          <!-- <li class = "review-item row">
             <div class = "review-inner">
               <div class = "review-photo col-md-1">
                 <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
@@ -81,22 +98,7 @@
                 <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
               </div>
             </div>
-          </li>
-
-          <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-photo col-md-1">
-                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
-              </div>
-              <div class = "review-detail col-md-11">
-                <a href="#"><p class = "font-black bold inline"> username</p></a>
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
-              </div>
-            </div>
-          </li>
+          </li> -->
 
 
           <a href="#"><p class = "font-md font-Calson">more ...</p></a>
@@ -177,14 +179,22 @@
         {% if user.username %}
         <p class = "font-Calson font-lg text-center">Write Your Review<p>
             
-        <form class="review-form" id = "review-form" action = "" method= "post">
-            <p class = "font-Calson font-md">Subject:<p>
+         <form class="review-form" id = "review-form" action = "{% url 'write_review' m.imdb_id %}" method= "post">
+          <table>
+            {% for field in review_form.visible_fields %}
+              <p class = "font-Calson font-md">{{field.label_tag}}</p>
+              {{field}}
+              {{field.errors}}<br>
+            {% endfor %}
+          </table><br>
+            <!-- <p class = "font-Calson font-md">Subject:<p>
             <input type="textarea" class = "form-control" name ="subject">
              <p class = "font-Calson font-md">Content:<p>
-            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br>
+            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br> -->
             <input type="submit" class = "submit-review-btn btn btn-info" name ="submit" value="Post">
+            {% csrf_token %} 
         </form>
-        <a href="/write-review">Open in a new page.</a>
+        <a href="{% url 'new_review' m.imdb_id %}">Open in a new page.</a>
         {% else %}  
         <p class = "font-Calson font-lg text-center">Please <a data-toggle="modal" href=".popup2">log in</a> before write your post.<p>
         {% endif %}  

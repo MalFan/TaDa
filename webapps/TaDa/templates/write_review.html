@@ -6,12 +6,20 @@
     <div class = "person-info-wrapper shadow white-block row">
       <p class = "font-Calson font-lg text-center">Write Your Review<p>
             
-        <form class="review-form" id = "review-form" action = "" method= "post">
-            <p class = "font-Calson font-md">Subject:<p>
+        <form class="review-form" id = "review-form" action = "{% url 'write_review' m.imdb_id %}" method= "post">
+            <table>
+              {% for field in review_form.visible_fields %}
+                <p class = "font-Calson font-md">{{field.label_tag}}</p>
+                {{field}}
+                {{field.errors}}<br>
+              {% endfor %}
+            </table><br>
+            <!-- <p class = "font-Calson font-md">Subject:<p>
             <input type="textarea" class = "form-control" name ="subject">
              <p class = "font-Calson font-md">Content:<p>
-            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br>
+            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br> -->
             <input type="submit" class = "submit-review-btn btn btn-info" name ="submit" value="Post">
+            {% csrf_token %}
         </form>
 
     </div>

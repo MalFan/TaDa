@@ -14,7 +14,8 @@ urlpatterns = patterns('',
 	url(r'^movie/(?P<movie_id>\d+)$','TaDa.views.movie'),
 	url(r'^person/(?P<person_id>\d+)$','TaDa.views.person'),
 	url(r'^review$','TaDa.views.review'),
-	url(r'^write-review$','TaDa.views.write_review'),
+	url(r'^write-review/(?P<movie_id>\d+)$','TaDa.views.write_review',name='write_review'),
+	url(r'^new_review/(?P<movie_id>\d+)$','TaDa.views.new_review',name='new_review'),
 
 	url(r'^profile$','TaDa.views.profile'),
 

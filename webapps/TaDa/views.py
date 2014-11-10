@@ -115,7 +115,41 @@ def search(request):
 
 def movie(request, movie_id):
 	context = {}
+	context['search_form'] = SearchForm()
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['review_form'] = review_form
+	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	context['reviews'] = reviews
+	return render(request, 'movie.html', context)
+
+def person(request, person_id):
+	context = {}
 	context['search_form'] = SearchForm() 
+	p = get_object_or_404(Person, person_id = person_id)
+	context['p'] = p
+	return render(request, 'person.html', context)
+
+
+def write_review(request,movie_id):
+	context = {}
+	context['search_form'] = SearchForm() 
+	review_form = ReviewForm()
+	context['review_form'] = review_form
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 	movie_combo = {
 			'imdb_id' : m.imdb_id,
@@ -130,19 +164,47 @@ def movie(request, movie_id):
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate}
 	context['m'] = movie_combo
+	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
+	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
+
+	if request.method == 'GET':
+		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+		context['reviews'] = reviews
+		return render(request, 'movie.html', context)
+
+	
+	review_form = ReviewForm(request.POST, instance = review_new)
+
+	if not review_form.is_valid():
+		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+		context['reviews'] = reviews
+		return render(request, 'movie.html', context)
+
+	review_form.save()
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	context['reviews'] = reviews
+	
 	return render(request, 'movie.html', context)
 
-def person(request, person_id):
+def new_review(request,movie_id):
 	context = {}
-	context['search_form'] = SearchForm() 
-	p = get_object_or_404(Person, person_id = person_id)
-	context['p'] = p
-	return render(request, 'person.html', context)
+	review_form = ReviewForm()
+	context['review_form'] = review_form
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	context['m'] = movie_combo
 
-
-def write_review(request):
-	context = {}
-	context['search_form'] = SearchForm() 
 	return render(request, 'write_review.html', context)
 
 def review(request):
