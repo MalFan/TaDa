@@ -23,7 +23,7 @@
   <div class = "search-result-wrapper">
     {% if name_combos or movie_combos %}
       <p class = "font-Georgia font-lg font-bold">Search results for "{{request.GET.search_content}}"</p>
-      
+      {% if name_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Names</p>
       <ul class = "person-list">
 
@@ -41,7 +41,8 @@
         </li>
         {% endfor %}
       </ul>
-
+       {% endif %}
+      {% if movie_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Movies</p>
       <ul class = "search-list">
         {% for m in movie_combos %}
@@ -89,6 +90,7 @@
         </li>
         {% endfor %}
       </ul>
+      {% endif %}
       {% else %}
       <p class = "font-Georgia font-lg font-bold">No results for "{{request.GET.search_content}}"</p>
       {% endif %}
