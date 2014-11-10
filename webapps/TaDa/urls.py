@@ -12,7 +12,7 @@ urlpatterns = patterns('',
 	url(r'^recommend-movie$','TaDa.views.recommend_movie'),
 	url(r'^search$','TaDa.views.search'),
 	url(r'^movie/(?P<movie_id>\d+)$','TaDa.views.movie'),
-	url(r'^person$','TaDa.views.person'),
+	url(r'^person/(?P<person_id>\d+)$','TaDa.views.person'),
 	url(r'^review$','TaDa.views.review'),
 	url(r'^write-review$','TaDa.views.write_review'),
 

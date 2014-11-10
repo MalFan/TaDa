@@ -15,134 +15,23 @@
 <div class="coverflow-wrapper">                
   <p class = "font-Georgia font-lg font-bold text-center">In Theater</p>
   <div class="coverflow" >
+    {% for m in movie_combos %}
     <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/dracula.jpg"/>                  
+      <img class="movie-pic colorflow-shadow" src="{{m.cover}}"/>                  
       <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">Dracula Untold</p></a>
+        <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md">{{m.title}}</p></a>
         <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
 
-        <span class="imdbRatingPlugin"data-title="tt0829150" data-style="p4">
-          <a href="http://www.imdb.com/title/tt0829150/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+        <span class="imdbRatingPlugin"data-title="tt{{m.imdb_id}}" data-style="p4">
+          <a href="http://www.imdb.com/title/tt{{m.imdb_id}}/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="{{m.title}} on IMDb" />
           </a>
         </span><br>
 
         <button class = "form-control btn btn-info"  >Get Tickets</button>
       </div>
     </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/equalizer.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">the Equalizer</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
+    {% endfor %}
 
-        <span class="imdbRatingPlugin"data-title="tt0455944" data-style="p4">
-          <a href="http://www.imdb.com/title/tt0455944/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class=" movie-pic colorflow-shadow" src="static/img/fury.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">Fury</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/gonegirl.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">Gone Girl</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-        <span class="imdbRatingPlugin"data-title="tt2267998" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2267998/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Gone Girl (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/johnwick.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">John Wick</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-        <span class="imdbRatingPlugin" data-title="tt2911666" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2911666/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="John Wick (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "btn btn-info btn-ticket"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/mazerunner.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">the Maze Runner</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-
-        <span class="imdbRatingPlugin"data-title="tt1790864" data-style="p4">
-          <a href="http://www.imdb.com/title/tt1790864/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/nightcrawler.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">Nightcrewler</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-
-        <span class="imdbRatingPlugin"data-title="tt2872718" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2872718/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/interstellar.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">Interstellar</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-        <span class="imdbRatingPlugin"data-title="tt0816692" data-style="p4">
-          <a href="http://www.imdb.com/title/tt0816692/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/judge.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">the Judge</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-        <span class="imdbRatingPlugin"data-title="tt1872194" data-style="p4">
-          <a href="http://www.imdb.com/title/tt1872194/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-
-    </div>
-    <div class="cover">
-      <img class="movie-pic colorflow-shadow" src="static/img/bookoflife.jpg"/>
-      <div class="coverflow-detail" ><br>
-        <a href=""><p class="font-black font-Calson font-md">the Book of Life</p></a>
-        <a href=""><p class="font-black inline">Liked by 1,024 users</p></a>
-
-        <span class="imdbRatingPlugin"data-title="tt2262227" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2262227/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
-          </a>
-        </span><br>
-        <button class = "form-control btn btn-info"  >Get Tickets</button>
-      </div>
-    </div>
   </div>
 </div>
 

@@ -19,7 +19,37 @@ def home(request):
 	context['login_form'] = login_form
 	context['search_form'] = SearchForm() 
 	context['next'] = '/'
+	context['movie_combos'] = get_in_theater_movies()
 	return render(request, 'home.html', context)
+
+
+def get_in_theater_movies():
+	movies = []
+	id_list = [
+			'0829150', 
+			'0455944', 
+			'2713180', 
+			'2267998', 
+			'2911666', 
+			'1790864', 
+			'2872718', 
+			'0816692', 
+			'1872194', 
+			'2262227']
+	for m_id in id_list:
+		m = Movie.objects.get(imdb_id = m_id)
+		movies.append(m)
+
+	movie_combos = []
+	for m in movies:
+		movie_combo = {
+				'imdb_id' : m.imdb_id,
+				'title' : m.title,
+				'cover' : m.cover,}
+		movie_combos.append(movie_combo)
+
+	return movie_combos
+
 
 def recommend_movie(request):
 	context = {}
@@ -82,8 +112,10 @@ def search(request):
 
 	return render(request, 'search.html', context)
 
+
 def movie(request, movie_id):
 	context = {}
+	context['search_form'] = SearchForm() 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 	movie_combo = {
 			'imdb_id' : m.imdb_id,
@@ -100,20 +132,27 @@ def movie(request, movie_id):
 	context['m'] = movie_combo
 	return render(request, 'movie.html', context)
 
-def person(request):
+def person(request, person_id):
 	context = {}
+	context['search_form'] = SearchForm() 
+	p = get_object_or_404(Person, person_id = person_id)
+	context['p'] = p
 	return render(request, 'person.html', context)
+
 
 def write_review(request):
 	context = {}
+	context['search_form'] = SearchForm() 
 	return render(request, 'write_review.html', context)
 
 def review(request):
 	context = {}
+	context['search_form'] = SearchForm() 
 	return render(request, 'review.html', context)
 
 def profile(request):
 	context = {}
+	context['search_form'] = SearchForm() 
 	return render(request, 'profile.html', context)
 
 

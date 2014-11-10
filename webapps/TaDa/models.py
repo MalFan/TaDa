@@ -14,6 +14,7 @@ class Person(models.Model):
 	person_id = models.CharField(max_length = 16)
 	name = models.CharField(max_length = 255)
 	birthyear = models.CharField(max_length = 8, blank = True)
+	# birthnote = models.CharField(max_length = 64, blank = True)
 	bio = models.CharField(max_length = 1024, blank = True)	
 	# photo = models.ImageField(upload_to = 'person-photos', blank = True)
 	photo = models.CharField(max_length = 255, blank = True)
