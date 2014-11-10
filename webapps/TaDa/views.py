@@ -136,7 +136,7 @@ def recommend_movie(request):
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
 	context['search_form'] = SearchForm() 
-	
+	context['movie_combos'] = get_in_theater_movies()
 	context['next_page'] = '/recommend-movie'
 	return render(request, 'recommend_movie.html', context)
 

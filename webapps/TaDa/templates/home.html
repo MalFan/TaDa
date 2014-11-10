@@ -50,7 +50,7 @@
               <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
             <div class ="col-md-10">                        
-              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
@@ -78,7 +78,7 @@
               <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
             <div class ="col-md-10">                        
-              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
@@ -107,7 +107,7 @@
               <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
             <div class ="col-md-10">                        
-              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
