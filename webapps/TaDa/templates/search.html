@@ -23,26 +23,27 @@
   <div class = "search-result-wrapper">
     {% if name_combos or movie_combos %}
       <p class = "font-Georgia font-lg font-bold">Search results for "{{request.GET.search_content}}"</p>
-      <ul class = "search-list">
+      
+      <p class = "search-title font-Georgia font-md font-bold">Names</p>
+      <ul class = "person-list">
 
         {% for n in name_combos %}
         <div class = "divider-line"></div>
-        <li class = "search-movie row">
-          <div class ="search-movie-inner">
-            <div class ="search-cover col-md-2">
-              <img class="movie-pic-md" src="{{n.photo}}"/>
-            </div>
-
-            <div class ="col-md-1"></div>
-            <div class ="search-detail col-md-6">                        
-              <a href="/person/{{n.person_id}}">
-                <p class="font-black font-Calson font-md inline">{{n.name}}</p>
-              </a>
-            </div>
+        <li class = "search-person row">
+          <div class ="search-person-photo col-md-2">
+            <img class="person-pic-md" src="{{n.photo}}"/>
+          </div>
+          <div class ="search-person-name col-md-6">                        
+            <a href="/person">
+              <p class="font-black font-Calson font-md inline">{{n.name}}</p>
+            </a>
           </div>
         </li>
         {% endfor %}
+      </ul>
 
+      <p class = "search-title font-Georgia font-md font-bold">Movies</p>
+      <ul class = "search-list">
         {% for m in movie_combos %}
         <div class = "divider-line"></div>
         <li class = "search-movie row">

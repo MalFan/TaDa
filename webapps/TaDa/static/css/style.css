@@ -63,6 +63,11 @@ img.photo-md{
     width:40px;
 }
 
+img.photo-lg{
+    height: 100px;
+    width: 100px;
+}
+
 img.movie-pic{    
     width:214px;
     height:317px;
@@ -71,6 +76,11 @@ img.movie-pic{
 img.person-pic-sm{     
     width:32px;
     height:44px;
+}
+
+img.person-pic-md{
+    width: 96px;
+    height: 132px;
 }
 
 img.movie-pic-md{    
@@ -405,6 +415,22 @@ ul.search-list{
     padding-left: -40px; 
 }
 
+li.search-person{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+ul.person-list{
+    padding-bottom: 60px;
+}
+
+.search-person-name{
+    padding-top: 40px;
+}
+
+.search-title{
+    padding-left: 23px;
+}
 /*movie*/
 .movie-page-wrapper{
     padding-left: 15px;
@@ -555,9 +581,6 @@ li.relevant-movie-item{
 }
 
 /*write review*/
-.correspond-movie{
-    /*margin-right: -15px;*/
-}
 .correspond-movie-inner {
     padding: 20px;
     text-align: center;
@@ -567,4 +590,57 @@ li.relevant-movie-item{
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+}
+
+/*review*/
+.review-comment-wrapper{
+    padding: 20px;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 18px
+}
+ul.comment-list{
+    margin-left: -27px;
+    margin-top: 10px;
+}
+.comment-username{
+   margin-left: 10px;
+}
+
+.comment-text,.comment-time{
+    margin-top: 10px;
+}
+
+li.comment-item{
+    margin-bottom: 2px;
+    margin-right: 3px;
+}
+li.comment-item:nth-child(odd){    
+    background-color: #f2f2f2;
+}
+li.comment-item:nth-child(even){    
+    background-color: #e8e8e8;
+}
+
+/*profile*/
+.user-brief{
+    margin-top: 25px;
+}
+.following-wrapper{
+    padding-left: 18px; 
+}
+.following-inner{
+    padding:20px;
+    margin-right: -15px;   
+}
+li.following-item{
+    padding-bottom: 5px;
+}
+
+.liked-movie-wrapper,.posted-review-wrapper{
+    margin-top: 18px;
+}
+
+.liked-movie-wrapper,.posted-review-wrapper{
+    padding: 30px;
 }
