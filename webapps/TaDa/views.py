@@ -219,9 +219,9 @@ def movie(request, movie_id):
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 	context['reviews'] = reviews
-	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
@@ -258,9 +258,9 @@ def write_review(request,movie_id):
 	if request.method == 'GET':
 		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 		context['reviews'] = reviews
-		like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+		like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 		context['like_num'] = like_count
-		dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+		dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 		context['dislike_num'] = dislike_count
 		return render(request, 'movie.html', context)
 
@@ -270,9 +270,9 @@ def write_review(request,movie_id):
 	if not review_form.is_valid():
 		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 		context['reviews'] = reviews
-		like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+		like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 		context['like_num'] = like_count
-		dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+		dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 		context['dislike_num'] = dislike_count
 		return render(request, 'movie.html', context)
 
@@ -280,9 +280,9 @@ def write_review(request,movie_id):
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 	context['reviews'] = reviews
 
-	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
@@ -305,9 +305,9 @@ def new_review(request,movie_id):
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate}
 	context['m'] = movie_combo
-	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
 	return render(request, 'write_review.html', context)
 
@@ -342,10 +342,10 @@ def like(request, movie_id):
 	else:
 		movie_be_like.like_list.add(request.user)
 	
-	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 
 	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
@@ -379,10 +379,10 @@ def dislike(request, movie_id):
 		movie_be_dislike.dislike_list.remove(request.user)
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
-	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 
 	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
