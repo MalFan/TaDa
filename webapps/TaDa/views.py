@@ -213,6 +213,10 @@ def movie(request, movie_id):
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 	context['reviews'] = reviews
+	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
 def person(request, person_id):
@@ -222,7 +226,7 @@ def person(request, person_id):
 	context['p'] = p
 	return render(request, 'person.html', context)
 
-
+@login_required
 def write_review(request,movie_id):
 	context = {}
 	context['search_form'] = SearchForm() 
@@ -248,6 +252,10 @@ def write_review(request,movie_id):
 	if request.method == 'GET':
 		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 		context['reviews'] = reviews
+		like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+		context['like_num'] = like_count
+		dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+		context['dislike_num'] = dislike_count
 		return render(request, 'movie.html', context)
 
 	
@@ -256,14 +264,23 @@ def write_review(request,movie_id):
 	if not review_form.is_valid():
 		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 		context['reviews'] = reviews
+		like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+		context['like_num'] = like_count
+		dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+		context['dislike_num'] = dislike_count
 		return render(request, 'movie.html', context)
 
 	review_form.save()
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
 	context['reviews'] = reviews
-	
+
+	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
+@login_required
 def new_review(request,movie_id):
 	context = {}
 	review_form = ReviewForm()
@@ -282,8 +299,86 @@ def new_review(request,movie_id):
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate}
 	context['m'] = movie_combo
-
+	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
 	return render(request, 'write_review.html', context)
+
+@login_required
+def like(request, movie_id):
+	context = {}
+	context['search_form'] = SearchForm()
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['review_form'] = review_form
+	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	context['reviews'] = reviews 
+
+	current_user = request.user
+	movie_be_like = Movie.objects.get(imdb_id = movie_id)
+	if current_user in movie_be_like.like_list.all():
+		movie_be_like.like_list.remove(request.user)
+	else:
+		movie_be_like.like_list.add(request.user)
+	
+	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
+	return render(request, 'movie.html', context)
+
+@login_required
+def dislike(request, movie_id):
+	context = {}
+	context['search_form'] = SearchForm()
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['review_form'] = review_form
+	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	context['reviews'] = reviews 
+
+	current_user = request.user
+	movie_be_dislike = Movie.objects.get(imdb_id = movie_id)
+	if current_user in movie_be_dislike.dislike_list.all():
+		movie_be_dislike.dislike_list.remove(request.user)
+	else:
+		movie_be_dislike.dislike_list.add(request.user)
+	like_count = Movie.objects.filter(like_list__in = User.objects.all()).count()
+
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
+	return render(request, 'movie.html', context)
 
 def review(request):
 	context = {}

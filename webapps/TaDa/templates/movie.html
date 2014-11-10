@@ -25,9 +25,8 @@
         </a>
       </span>
       <br>      
-      <p class="font-black inline font-md">Liked by 1,024 users</p>
-      <button class = "like-btn btn btn-info"  >Like</button>
-      <button class = "dislike-btn btn btn-info"  >Dislike</button>
+      <a role="button" class = "like-btn btn btn-info"  href="{% url 'like' m.imdb_id %}">Like <span class="badge pull-right">{{like_num}}</span></a>
+      <a role="button" class = "like-btn btn btn-info"  href="{% url 'dislike' m.imdb_id %}">Dislike <span class="badge pull-right">{{dislike_num}}</span></a>
     </div>
   </div>
   
