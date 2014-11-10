@@ -39,110 +39,85 @@
   <p class = "font-Georgia font-lg font-bold text-center">Upcoming</p>
   <div class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper">
-      <p class="divider font-Georgia font-md font-bold text-center">Nov 07, 2014</p>
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 14, 2014</p>
     </div>
     <div class = "upcoming-movie-wrapper">
       <ul class = "upcoming-movie-list">
+        {% for m in upcoming_movies_combo1 %}
         <li class = "upcoming-movie col-md-12" id="">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
-              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+              <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
-            <div class ="col-md-6">                        
-              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
-              <div id = "certificate" class="inline">PG </div>
-              <div id = "time" class="inline">120 min</div>
-              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
-              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
-              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
-              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
-            </div>
-          </div>
-        </li>
-        <li class = "upcoming-movie col-md-12" id="">
-          <div class ="upcoming-movie-inner">
-            <div class ="col-md-2">
-              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            </div>
-            <div class ="col-md-6">                        
-              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
-              <div id = "certificate" class="inline">PG </div>
-              <div id = "time" class="inline">120 min</div>
-              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
-              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
-              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
-              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            <div class ="col-md-10">                        
+              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <div id = "certificate" class="inline">{{m.certificate}} </div>
+              <div id = "time" class="inline">{{m.duration}}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
             </div>
           </div>
         </li>
-        <li class = "upcoming-movie col-md-12" id="">
-          <div class ="upcoming-movie-inner">
-            <div class ="col-md-2">
-              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            </div>
-            <div class ="col-md-6">                        
-              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
-              <div id = "certificate" class="inline">PG </div>
-              <div id = "time" class="inline">120 min</div>
-              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
-              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
-              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
-              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
-            </div>
-          </div>
-        </li>
+        {% endfor %}     
       </ul>
     </div>
   </div>
 
   <div class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper" >
-      <p class="divider font-Georgia font-md font-bold text-center">Nov 14, 2014</p>
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 21, 2014</p>
     </div>
     <div class = "upcoming-movie-wrapper">
       <ul class = "upcoming-movie-list">
+        {% for m in upcoming_movies_combo2 %}
         <li class = "upcoming-movie col-md-12" id="">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
-              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+              <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
-            <div class ="col-md-6">                        
-              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
-              <div id = "certificate" class="inline">PG </div>
-              <div id = "time" class="inline">120 min</div>
-              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
-              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
-              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
-              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            <div class ="col-md-10">                        
+              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <div id = "certificate" class="inline">{{m.certificate}} </div>
+              <div id = "time" class="inline">{{m.duration}}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
             </div>
           </div>
         </li>
+        {% endfor %} 
       </ul>
     </div>
   </div>
 
    <div class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper" >
-      <p class="divider font-Georgia font-md font-bold text-center">Nov 21, 2014</p>
+      <p class="divider font-Georgia font-md font-bold text-center">Nov 28, 2014</p>
     </div>
     <div class = "upcoming-movie-wrapper">
       <ul class = "upcoming-movie-list">
+        
+        {% for m in upcoming_movies_combo3 %}
         <li class = "upcoming-movie col-md-12" id="">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
-              <img class="movie-pic-sm" src="static/img/fury.jpg"/>
+              <img class="movie-pic-sm" src="{{m.cover}}"/>
             </div>
-            <div class ="col-md-6">                        
-              <a href=""><p class="font-black font-Calson font-md inline">Fury</p></a>&nbsp;
-              <div id = "certificate" class="inline">PG </div>
-              <div id = "time" class="inline">120 min</div>
-              <div id ="genre"><b>Genre: </b><a>Action</a> <a>Drama</a> <a>War</a></div>
-              <div id = "plot"><b>Plot: </b>A short plot, a short plot, a short plot, a short plot.</div>
-              <div id ="director"><b>Director: </b><a>David Ayer</a></div>
-              <div id ="stars"><b>Stars: </b><a>Brad Pitt</a>,  <a>Shia LaBeouf</a>, <a>Logan Lerman</a></div>
+            <div class ="col-md-10">                        
+              <a href=""><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
+              <div id = "certificate" class="inline">{{m.certificate}} </div>
+              <div id = "time" class="inline">{{m.duration}}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
             </div>
           </div>
         </li>
+        {% endfor %} 
       </ul>
 
     </div>

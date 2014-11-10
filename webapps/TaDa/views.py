@@ -19,8 +19,84 @@ def home(request):
 	context['search_form'] = SearchForm() 
 	context['next'] = '/'
 	context['movie_combos'] = get_in_theater_movies()
+	context.update(get_upcoming_movies())
 	return render(request, 'home.html', context)
 
+def get_upcoming_movies():
+	context = {}
+	movies1 = []
+	movies2 = []
+	movies3 = []
+	context['upcoming_movies_combo1'] = []
+	context['upcoming_movies_combo2'] = []
+	context['upcoming_movies_combo3'] = []
+
+	id_list1 = [
+			'1100089',
+			'3125324',
+			'2096672',
+			'2398231']
+	id_list2 = [
+			'1951265',
+			'3704538',
+			'2171902',
+			'2960930']
+	id_list3 = [
+			'2170439',
+			'1911658',
+			'2084970']
+
+	for m_id in id_list1:
+		m = Movie.objects.filter(imdb_id = m_id)
+		if( len(m) > 0 ):
+			movies1.append(m[0])	
+	for m_id in id_list2:
+		m = Movie.objects.filter(imdb_id = m_id)
+		if( len(m) > 0 ):
+			movies2.append(m[0])
+
+	for m_id in id_list3:
+		m = Movie.objects.filter(imdb_id = m_id)
+		if( len(m) > 0 ):
+			movies3.append(m[0])
+
+	for m in movies1:
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		context['upcoming_movies_combo1'].append(movie_combo)				
+	for m in movies2:
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		context['upcoming_movies_combo2'].append(movie_combo)
+	for m in movies3:
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		context['upcoming_movies_combo3'].append(movie_combo)
+	return context
 
 def get_in_theater_movies():
 	movies = []
