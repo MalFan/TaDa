@@ -56,6 +56,19 @@ def admin_add_movie(request, movie_id):
 	    		pass
 
 	    	try:
+			producer_list = movie['producer']
+			for pd in producer_list:
+				try:
+					producer = Person.objects.get(person_id = pd.personID)
+					m_to_add.producer_list.add(producer)
+				except Person.DoesNotExist:
+					new_producer = Person(person_id = pd.personID, name = pd['name'])
+					new_producer.save()
+					m_to_add.producer_list.add(new_producer)
+		except KeyError:
+	    		pass
+
+	    	try:
 			writer_list = movie['writer']
 			for w in writer_list:
 				try:
@@ -119,6 +132,7 @@ def admin_add_movie(request, movie_id):
 	context['duration'] = m_to_add.duration
 	context['cover'] = m_to_add.cover
 	context['director'] = m_to_add.director_list.all()
+	context['producer'] = m_to_add.producer_list.all()
 	context['writer'] = m_to_add.writer_list.all()
 	context['storyline'] = m_to_add.storyline
 	context['short_storyline'] = m_to_add.short_storyline
@@ -148,6 +162,11 @@ def admin_add_person(request, person_id):
 	    		pass
 
 		try:
+			p_to_add.birthnotes = person['birth notes']
+		except KeyError:
+	    		pass
+
+		try:
 			p_to_add.bio = person['mini biography'][0]
 		except KeyError:
 	    		pass
@@ -164,6 +183,7 @@ def admin_add_person(request, person_id):
 	context['person_id'] = p_to_add.person_id
 	context['name'] = p_to_add.name
 	context['birthyear'] = p_to_add.birthyear
+	context['birthnotes'] = p_to_add.birthnotes
 	context['bio'] = p_to_add.bio
 	context['photo'] = p_to_add.photo
 

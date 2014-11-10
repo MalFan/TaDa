@@ -14,11 +14,12 @@ class Person(models.Model):
 	person_id = models.CharField(max_length = 16)
 	name = models.CharField(max_length = 255)
 	birthyear = models.CharField(max_length = 8, blank = True)
-	# birthnote = models.CharField(max_length = 64, blank = True)
+	birthnotes = models.CharField(max_length = 64, blank = True)
 	bio = models.CharField(max_length = 1024, blank = True)	
 	# photo = models.ImageField(upload_to = 'person-photos', blank = True)
 	photo = models.CharField(max_length = 255, blank = True)
 	has_full_info = models.BooleanField(default = False)
+
 	def __unicode__(self):
 		return self.name
 
@@ -31,12 +32,15 @@ class Movie(models.Model):
 	# cover = models.ImageField(upload_to = 'movie-cover', blank = True)
 	cover = models.CharField(max_length = 255, blank = True)
 	director_list = models.ManyToManyField(Person, related_name = 'directing', blank = True)	
+	producer_list = models.ManyToManyField(Person, related_name = 'producing', blank = True)	
 	writer_list = models.ManyToManyField(Person, related_name = 'writing', blank = True)
 	cast_list = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
 	storyline = models.CharField(max_length = 1024, blank = True)
 	short_storyline = models.CharField(max_length = 255, blank = True)
 	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)
 	certificate = models.CharField(max_length = 10, blank = True)
+	like_list = models.ManyToManyField(User, related_name='m_like')
+	dislike_list = models.ManyToManyField(User, related_name='m_dislike')
 
 	def __unicode__(self):
 		return self.title
@@ -62,6 +66,8 @@ class Review(models.Model):
 	text = models.CharField(max_length = 8192)
 	publisher = models.ForeignKey(User, related_name = 'reviews_published')
 	movie = models.ForeignKey(Movie, related_name = 'reviews_included')
+	like_list = models.ManyToManyField(User, related_name='r_like')
+	dislike_list = models.ManyToManyField(User, related_name='r_dislike')
 
 	def __unicode__(self):
 		return self.title

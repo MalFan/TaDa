@@ -13,8 +13,8 @@
       <div id = "time" class="inline">{{m.duration}}</div>
       <div id ="genre"><b>Genre: </b>{% for g in m.genre_list %} <a>{{g}}</a> {% endfor %}</div>
       
-      <div id ="director"><b>Director: </b>{% for d in m.director_list %}<a>{{d}}</a>, {% endfor %}</div>
-      <div id ="director"><b>Writer: </b>{% for w in m.writer_list %}<a>{{w}}</a>, {% endfor %}</div>
+      <div id ="director"><b>Director: </b>{% for d in m.director_list %}<a href="/person/{{d.person_id}}">{{d}}</a>, {% endfor %}</div>
+      <div id ="director"><b>Writer: </b>{% for w in m.writer_list %}<a href="/person/{{w.person_id}}">{{w}}</a>, {% endfor %}</div>
       <div id ="director"><b>Producer: </b><a>David Ayer</a></div>
       <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
     </div>
@@ -39,8 +39,8 @@
 
           {% for s in m.cast_list %}
           <li class = "cast-item row">
-             <a href="/profile"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm">
-               &nbsp; <p class = "font-black inline">{{s}}</p>
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
               </a>
                 <p class = "cast-character inline">A Character</p>
           </li>      

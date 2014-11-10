@@ -45,6 +45,7 @@
                 Year:{{year}}<br>
                 Duration:{{duration}}<br>
                 Director:{% for d in director %} <a href="{% url 'admin_add_person' d.person_id %}">{{d}}</a>; &nbsp; {% endfor %}<br>
+                Producer:{% for pd in producer %} <a href="{% url 'admin_add_person' pd.person_id %}">{{pd}}</a>; &nbsp; {% endfor %}<br>
                 Writer:{% for w in writer %} <a href="{% url 'admin_add_person' w.person_id %}">{{w}}</a>; &nbsp; {% endfor %}<br>
                 Genres:{% for g in genres %} {{g}}; &nbsp;{% endfor %}<br>
                 Cast:{% for s in cast %} <a href="{% url 'admin_add_person' s.person_id %}">{{s}}</a>; &nbsp; {% endfor %}<br>

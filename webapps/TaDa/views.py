@@ -4,7 +4,6 @@ from django.contrib.auth import login as auto_login
 from django.contrib.auth.views import logout, login
 from django.contrib.auth.decorators import login_required
 
-
 import imdb
 
 from models import *
@@ -37,8 +36,11 @@ def get_in_theater_movies():
 			'1872194', 
 			'2262227']
 	for m_id in id_list:
-		m = Movie.objects.get(imdb_id = m_id)
-		movies.append(m)
+		try:
+			m = Movie.objects.get(imdb_id = m_id)
+			movies.append(m)
+		except Movie.DoesNotExist:
+			pass
 
 	movie_combos = []
 	for m in movies:
@@ -69,7 +71,7 @@ def search(request):
 	search_type = request.GET['search_type']
 	if search_type == 'all':
 		movies = Movie.objects.filter(title__contains = keywords)
-		names = Person.objects.filter(name__contains = keywords, has_full_info = True)
+		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
 
 		context['movie_combos'] = []
 		for m in movies:
@@ -87,7 +89,7 @@ def search(request):
 					'certificate' : m.certificate}
 			context['movie_combos'].append(movie_combo)
 
-		context['name_combos'] = names
+		context['person_combos'] = persons
 
 	elif search_type == 'movies':
 		movies = Movie.objects.filter(title__contains = keywords)
@@ -107,8 +109,8 @@ def search(request):
 					'certificate' : m.certificate}
 			context['movie_combos'].append(movie_combo)
 	elif search_type == 'names':
-		names = Person.objects.filter(name__contains = keywords, has_full_info = True)
-		context['name_combos'] = names
+		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
+		context['person_combos'] = persons
 
 	return render(request, 'search.html', context)
 

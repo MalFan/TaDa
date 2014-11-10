@@ -21,21 +21,21 @@
   </div>
 
   <div class = "search-result-wrapper">
-    {% if name_combos or movie_combos %}
+    {% if person_combos or movie_combos %}
       <p class = "font-Georgia font-lg font-bold">Search results for "{{request.GET.search_content}}"</p>
-      {% if name_combos %}
+      {% if person_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Names</p>
       <ul class = "person-list">
 
-        {% for n in name_combos %}
+        {% for p in person_combos %}
         <div class = "divider-line"></div>
         <li class = "search-person row">
           <div class ="search-person-photo col-md-2">
-            <img class="person-pic-md" src="{{n.photo}}"/>
+            <img class="person-pic-md" src="{{p.photo}}"/>
           </div>
           <div class ="search-person-name col-md-6">                        
-            <a href="/person">
-              <p class="font-black font-Calson font-md inline">{{n.name}}</p>
+            <a href="/person/{{p.person_id}}">
+              <p class="font-black font-Calson font-md inline">{{p.name}}</p>
             </a>
           </div>
         </li>
@@ -77,13 +77,13 @@
               <div id ="director">
                 <b>Director: </b>
                 {% for d in m.director_list %}
-                  <a>{{d}}</a>, 
+                  <a href="/person/{{d.person_id}}">{{d}}</a>, 
                 {% endfor %}
               </div>
               <div id ="stars">
                 <b>Stars: </b>
                 {% for s in m.cast_list %}
-                <a>{{s}}</a>
+                <a href="/person/{{s.person_id}}">{{s}}</a>
                 , {% endfor %}</div>
             </div>
           </div>
