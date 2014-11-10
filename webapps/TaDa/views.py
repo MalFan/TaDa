@@ -120,10 +120,16 @@ def get_in_theater_movies():
 
 	movie_combos = []
 	for m in movies:
-		movie_combo = {
-				'imdb_id' : m.imdb_id,
-				'title' : m.title,
-				'cover' : m.cover,}
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
 		movie_combos.append(movie_combo)
 
 	return movie_combos
