@@ -106,9 +106,10 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'
 
 # Configures Django to merely print emails rather than sending them.
 # Comment out this line to enable real email-sending.

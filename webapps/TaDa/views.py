@@ -223,6 +223,10 @@ def movie(request, movie_id):
 	context['like_num'] = like_count
 	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
 	return render(request, 'movie.html', context)
 
 def person(request, person_id):
@@ -256,25 +260,12 @@ def write_review(request,movie_id):
 	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
 
 	if request.method == 'GET':
-		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
-		context['reviews'] = reviews
-		like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-		context['like_num'] = like_count
-		dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-		context['dislike_num'] = dislike_count
-		return render(request, 'movie.html', context)
-
-	
+		return redirect('/movie/' + movie_id);
+		
 	review_form = ReviewForm(request.POST, instance = review_new)
 
 	if not review_form.is_valid():
-		reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
-		context['reviews'] = reviews
-		like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-		context['like_num'] = like_count
-		dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-		context['dislike_num'] = dislike_count
-		return render(request, 'movie.html', context)
+		return redirect('/movie/' + movie_id);
 
 	review_form.save()
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
@@ -430,8 +421,7 @@ def log_in(request):
 	# 	return redirect('/')
 	# # context['login_form'] = login_form
 
-	# new_user = authenticate(username=login_form.cleaned_data['username'],
-	# 									password=login_form.cleaned_data['password'])
+	# 
 	# login(request, new_user)
 
 	# next = ''
@@ -446,10 +436,16 @@ def log_in(request):
 	if request.method == 'GET':
 		return redirect('/')
 
+	# loginform = LoginForm(request.POST)
+	# if not loginform.is_valid():
+	# 	print 334
+	# 	return redirect('/')
+
 	return login(request,redirect_field_name='/',
 							template_name='home.html',
 							authentication_form=LoginForm,
 							extra_context={'login_form':LoginForm,'regis_form':RegistrationForm})
+
 
 @login_required
 def log_out(request):
