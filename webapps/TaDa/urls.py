@@ -13,11 +13,12 @@ urlpatterns = patterns('',
 	url(r'^search$','TaDa.views.search'),
 	url(r'^movie/(?P<movie_id>\d+)$','TaDa.views.movie'),
 	url(r'^person/(?P<person_id>\d+)$','TaDa.views.person'),
-	url(r'^review$','TaDa.views.review'),
+	url(r'^review/(?P<review_id>\d+)$','TaDa.views.review',name='review'),
 	url(r'^write-review/(?P<movie_id>\d+)$','TaDa.views.write_review',name='write_review'),
 	url(r'^new_review/(?P<movie_id>\d+)$','TaDa.views.new_review',name='new_review'),
 	url(r'^like/(?P<movie_id>\d+)$','TaDa.views.like',name='like'),
 	url(r'^dislike/(?P<movie_id>\d+)$','TaDa.views.dislike',name='dislike'),
+	url(r'^write-comment/(?P<review_id>\d+)$','TaDa.views.write_comment',name='write-comment'),
 
 	url(r'^profile$','TaDa.views.profile'),
 

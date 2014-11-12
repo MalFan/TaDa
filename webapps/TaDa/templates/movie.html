@@ -60,44 +60,16 @@
               </div>
               <div class = "review-detail col-md-11">
                 <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
-                <p class = "review-time inline">{{review.time}}</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
+                <p class = "review-time inline">{{review.pub_time}}</p>
+                <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
                 <p class = ""> {{review.text}}</p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
+                <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
               </div>
             </div>
           </li>
           {% endfor %}
 
-          <!-- <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-photo col-md-1">
-                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
-              </div>
-              <div class = "review-detail col-md-11">
-                <a href="#"><p class = "font-black bold inline"> username</p></a>
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
-              </div>
-            </div>
-          </li>
-
-          <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-photo col-md-1">
-                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
-              </div>
-              <div class = "review-detail col-md-11">
-                <a href="#"><p class = "font-black bold inline"> username</p></a>
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
-              </div>
-            </div>
-          </li> -->
+          
 
 
           <a href="#"><p class = "font-md font-Calson">more ...</p></a>

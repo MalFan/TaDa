@@ -9,64 +9,54 @@
               <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
             </div>
             <div class = "review-detail col-md-11">
-              <a href="#"><p class = "font-black bold inline"> username</p></a>
-              <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-              <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-              <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content.</p>                 
+              <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
+              <p class = "review-time inline">{{review.pub_time}}</p>
+              <p class = "review-subject font-md bold font-black"> {{review.title}}</p>
+              <p class = ""> {{review.text}}</p>                 
             </div>
           </div>
     </div>
 
     <div class = "review-comment-wrapper white-block shadow">
         <p class = "font-Georgia font-lg font-bold inline">Comment</p>
-        <form>
-          <div class="input-group">
-            
-              <input name = "content" type = "text" class="form-control"> 
+          
+              <form class="review-form" id = "review-form" action = "{% url 'write-comment' review.id %}" method= "post">
+                <div class="input-group">
+                  <table>
+                    {% for field in comment_form.visible_fields %}
+                      {{field}}
+                      {{field.errors}}<br>
+                    {% endfor %}
+                  </table>
+                  <span class="input-group-btn">
+                  <input type="submit" class = "btn btn-info new_comment_btn" name ="submit" value="Comment">
+                  </span>
+                </div>
+                {% csrf_token %} 
+              </form>
+
+              <!-- <input name = "content" type = "text" class="form-control"> 
               <span class="input-group-btn">
                   <button type="submit" class="btn btn-info new_comment_btn" post_id = "{{post.id}}">Comment</button>
-              </span>
+              </span> -->
             
-        </div>
-      </form>
 
       <ul class="comment-list">
+        {% for comment in comments %}
         <li class="comment-item row">
           <div class = "comment">
               <div class="comment-photo col-md-3">
-                  <a href="/profile" class = "no-underline"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">username</p></a>
+                  <a href="/profile" class = "no-underline"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">{{comment.publisher}}</p></a>
                 </div>
                 <div class="comment-text col-md-6">
-                   <p class = "font-black inline">This is a comment.</p>
+                   <p class = "font-black inline">{{comment.text}}</p>
                 </div>
                 <div class="comment-time  col-md-3">
-                  <p class = "font-black inline">4:44 pm 11/08/2014</p>                  
+                  <p class = "font-black inline">{{comment.pub_time}}</p>                  
                 </div>
             </div>
         </li>
-        <li class="comment-item row">
-              <div class="comment-photo col-md-3">
-                  <a href="/profile" class = "no-underline"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">username</p></a>
-                </div>
-                <div class="comment-text col-md-6">
-                   <p class = "font-black inline">This is a comment.</p>
-                </div>
-                <div class="comment-time  col-md-3">
-                  <p class = "font-black inline">4:44 pm 11/08/2014</p>                  
-                </div>
-        </li>
-        
-        <li class="comment-item row">
-              <div class="comment-photo col-md-3">
-                  <a href="/profile" class = "no-underline"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">username</p></a>
-                </div>
-                <div class="comment-text col-md-6">
-                   <p class = "font-black inline">This is a comment.</p>
-                </div>
-                <div class="comment-time  col-md-3">
-                  <p class = "font-black inline">4:44 pm 11/08/2014</p>                  
-                </div>
-        </li>
+        {% endfor %}
      </ul>
     </div>
   </div>
@@ -75,9 +65,9 @@
   
   <div class = "correspond-movie col-md-3">
     <div class = "correspond-movie-inner  shadow white-block">
-      <a href = "/movie" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">Fury</p>
-      <img class="movie-pic-md correspond-movie-pic" src="static/img/fury.jpg"/><br>
-        <p class="font-black">Liked by 1,024 users</p></a>
+      <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
+      <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
+        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
         <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
           <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
           </a>

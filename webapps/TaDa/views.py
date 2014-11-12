@@ -377,9 +377,69 @@ def dislike(request, movie_id):
 	context['dislike_num'] = dislike_count
 	return render(request, 'movie.html', context)
 
-def review(request):
+def review(request,review_id):
 	context = {}
-	context['search_form'] = SearchForm() 
+	comment_form = CommentForm()
+	context['comment_form'] = comment_form 
+	context['search_form'] = SearchForm()
+	review_be_checked = Review.objects.get(id = review_id)
+	context['review'] = review_be_checked
+	comments = Comment.objects.filter(review = review_be_checked).order_by('id').reverse()
+	context['comments'] = comments
+	m = get_object_or_404(Movie, reviews_included  = review_be_checked)
+	print m.title
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	context['m'] = movie_combo
+	return render(request, 'review.html', context)
+
+@login_required
+def write_comment(request,review_id):
+	context = {}
+	review_be_comment = Review.objects.get(id = review_id)
+	print review_be_comment.id
+	comment_new = Comment(review = review_be_comment, publisher = request.user)
+
+	if request.method == 'GET':
+		return redirect('/review/' + review_id);
+		
+	comment_form = CommentForm(request.POST, instance = comment_new)
+
+	if not comment_form.is_valid():
+		return redirect('/review/' + review_id);
+
+	comment_form.save()
+	comments = Comment.objects.filter(review = review_be_comment).order_by('id').reverse()
+	comments_num = Comment.objects.filter(review = review_be_comment)
+	context['comments'] = comments
+	context['review'] = review_be_comment
+	context['comments_num'] = comments_num
+	# m = Movie.objects.get(reviews_included  = review_be_comment)
+	m = get_object_or_404(Movie, reviews_included  = review_be_comment)
+	print m.title
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	context['m'] = movie_combo
 	return render(request, 'review.html', context)
 
 def profile(request):

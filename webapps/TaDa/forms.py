@@ -106,7 +106,7 @@ class CommentForm(forms.ModelForm):
 		model = Comment
 		fields = ('text',)
 		widgets = {
-			'text': forms.TextInput(attrs={'placeholder': 'add comment to this review'}),
+			'text': forms.TextInput(attrs={'class': 'form-control'}),
 		}
 
 
