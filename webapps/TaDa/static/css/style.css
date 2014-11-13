@@ -644,3 +644,26 @@ li.following-item{
 .liked-movie-wrapper,.posted-review-wrapper{
     padding: 30px;
 }
+
+.edit-form{
+    display: none;
+}
+
+.btn-follow{
+    width:100px;
+    margin-top:10px; 
+}
+
+.btn-change{
+    width:100px;
+    display: none;
+}
+
+.change-photo-wrapper{
+    text-align: center;
+}
+
+.photo-preview{
+    margin-left: auto;
+    margin-right: auto;
+}

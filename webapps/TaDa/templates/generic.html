@@ -81,10 +81,7 @@
                             {{field.errors}}
                           {% endfor %}
                         </table><br>
-                          <!-- <input type="text" class = "form-control" name ="username" placeholder = "Username">
-                          <input type="password" class = "form-control" name ="password" placeholder = "Password"><br> -->
                           <input type="submit" class = "form-control btn btn-info" name ="submit" value="Log In">
-                          <!-- <input type="hidden" name="next" value="{{ next }}" > -->
                        {% csrf_token %}   
                       </form>
                       Don't have an account? <a data-toggle="modal" href=".popup">Sign Up</a>
@@ -105,10 +102,6 @@
                                 {{field.errors}}
                              {% endfor %}
                             </table><br>
-                            <!-- <input type="text" class = "form-control" name ="email" placeholder = "Email">
-                            <input type="text" class = "form-control" name ="username" placeholder = "Username">
-                            <input type="password" class = "form-control" name ="password1" placeholder = "Password">
-                            <input type="password" class = "form-control" name ="password2" placeholder = "Confirm Password"><br> -->
                             <input type="submit" class = "form-control btn btn-info" name ="submit" value="Sign Up">
                             <input type="hidden" name="next" value="{{ next }}" >
                         {% csrf_token %}  

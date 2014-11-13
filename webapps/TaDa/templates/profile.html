@@ -5,16 +5,54 @@
   <div class ="col-md-9">
     <div class = "person-info-wrapper shadow white-block row">
       <div class ="col-md-2">
-        <img class="photo-lg" src="/static/img/profile_default.jpg"/>
+        <img class="photo-lg user-profile-photo" src="/static/img/profile_default.jpg"/>
+        <!-- display only when view user's own profile -->
+        <a class="btn btn-info btn-xs btn-change" data-toggle="modal" href=".change-photo-popup">Change Photo</a>
+        <!--  -->
+        <!-- display only when view other's profile -->
+        <button class="btn btn-info btn-xs btn-follow">follow</button>
+        <!--  -->
       </div>
       <div class ="user-wrapper col-md-8">   
         <div class = "user-brief">                     
-          <a href="/person"><p class="font-black font-Calson font-lg inline">Username</p></a>&nbsp;<br>
-        </div>
+          <p class="font-black font-Calson font-lg inline">Username</p>&nbsp;
+          <div class = "profile-intro" >
+            <!-- display only when view user's own profile -->
+            <button class="btn btn-default btn-xs btn-edit"><i class = "glyphicon glyphicon-pencil"></i></button>&nbsp;
+            <!--  -->
+            <p class="inline" >This is the introduction. This is the introduction. This is the introduction. </p>
+          </div>
+          <!-- display only when view user's own profile -->
+          <div class = "edit-form profile-intro">
+            <div class = "input-group">
+              <input type="text" class="form-control " placeholder = "Please introduce yourself." value = "This is the introduction.">
+              <span class="input-group-btn">
+                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button>
+                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button>
+            </span>
+            </div>
+          </div>
+          <!--  -->
+        </div>                     
       </div>
-
     </div>
-
+    <!-- display only when view user's own profile -->
+    <div class="modal fade bs-example-modal-sm change-photo-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class = "popup-wrapper change-photo-wrapper">
+              <p class = "font-Calson font-lg text-center">Upload Your Profile Photo<p>
+              <img class = "photo-lg photo-preview" id="photo-preview" src="" alt="preview" />
+              <form class="change-photo-form" action = " " method= "post" enctype="multipart/form-data">
+                <input type="file" class = "form-control btn btn-sm btn-info choose-photo">
+                <input type="submit" class = "form-control btn btn-info" name ="submit" value="Confirm">
+               {% csrf_token %}   
+              </form>
+          </div>
+      </div>
+      </div>
+    </div>
+    <!--  -->
     <div class = "liked-movie-wrapper row shadow white-block">
       <p class = "font-Georgia font-lg font-bold">Movie I Liked</p>
       <div class = "liked-movie inline col-md-3">
@@ -116,4 +154,5 @@
 {% endblock content %} 
 {% block additional_js %}
 <script src="/static/js/script.js"></script>
+<script src="/static/js/profile.js"></script>
 {% endblock additional_js %}
