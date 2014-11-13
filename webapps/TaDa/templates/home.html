@@ -41,10 +41,10 @@
     <div class = "upcoming-date-wrapper">
       <p class="divider font-Georgia font-md font-bold text-center">Nov 14, 2014</p>
     </div>
-    <div class = "upcoming-movie-wrapper">
+    <div class = "upcoming-movie-wrapper" id="1">
       <ul class = "upcoming-movie-list">
         {% for m in upcoming_movies_combo1 %}
-        <li class = "upcoming-movie col-md-12" id="">
+        <li class = "upcoming-movie col-md-12">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
               <img class="movie-pic-sm" src="{{m.cover}}"/>
@@ -72,7 +72,7 @@
     <div class = "upcoming-movie-wrapper">
       <ul class = "upcoming-movie-list">
         {% for m in upcoming_movies_combo2 %}
-        <li class = "upcoming-movie col-md-12" id="">
+        <li class = "upcoming-movie col-md-12">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
               <img class="movie-pic-sm" src="{{m.cover}}"/>
@@ -101,7 +101,7 @@
       <ul class = "upcoming-movie-list">
         
         {% for m in upcoming_movies_combo3 %}
-        <li class = "upcoming-movie col-md-12" id="">
+        <li class = "upcoming-movie col-md-12">
           <div class ="upcoming-movie-inner">
             <div class ="col-md-2">
               <img class="movie-pic-sm" src="{{m.cover}}"/>
