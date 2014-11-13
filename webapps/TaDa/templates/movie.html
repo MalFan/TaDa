@@ -63,7 +63,12 @@
                 <p class = "review-time inline">{{review.pub_time}}</p>
                 <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
                 <p class = ""> {{review.text}}</p> 
-                <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
+                <div class ="review-stat">
+
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
+                </div>
               </div>
             </div>
           </li>

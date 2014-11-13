@@ -5,14 +5,17 @@
   <div class ="col-md-9">
     <div class = "person-info-wrapper shadow white-block row">
          <div class = "review-inner">
-            <div class = "review-photo col-md-1">
-              <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+            <div class = "review-photo col-md-2">
+              <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-lg"></a> 
+              <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useful <span class="badge pull-right">123</span></a>
+      <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useless <span class="badge pull-right">123</span></a>             
             </div>
-            <div class = "review-detail col-md-11">
-              <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
+            <div class = "review-detail col-md-10">
+              <a href="#"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>
               <p class = "review-time inline">{{review.pub_time}}</p>
               <p class = "review-subject font-md bold font-black"> {{review.title}}</p>
-              <p class = ""> {{review.text}}</p>                 
+              <p class = ""> {{review.text}}</p>      
+
             </div>
           </div>
     </div>
@@ -34,11 +37,6 @@
                 </div>
                 {% csrf_token %} 
               </form>
-
-              <!-- <input name = "content" type = "text" class="form-control"> 
-              <span class="input-group-btn">
-                  <button type="submit" class="btn btn-info new_comment_btn" post_id = "{{post.id}}">Comment</button>
-              </span> -->
             
 
       <ul class="comment-list">

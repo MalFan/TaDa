@@ -509,7 +509,7 @@ li.review-item{
     padding-top:10px;
 }
 
-.comment-link{
+.review-stat{
     float: right;
 }
 
@@ -620,6 +620,11 @@ li.comment-item:nth-child(odd){
 }
 li.comment-item:nth-child(even){    
     background-color: #e8e8e8;
+}
+
+.help-btn{
+    margin-top: 10px;
+    width:100px;
 }
 
 /*profile*/
