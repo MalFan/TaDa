@@ -5,6 +5,8 @@ from django.contrib.auth.views import logout, login
 from django.contrib.auth.decorators import login_required
 
 import imdb
+import collections
+from operator import itemgetter
 
 from models import *
 from forms import *
@@ -227,7 +229,49 @@ def movie(request, movie_id):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
+	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
+	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
 	return render(request, 'movie.html', context)
+
+
+def get_people_also_liked_movies(movie_id, current_user):
+
+	m = Movie.objects.get(imdb_id = movie_id)
+	u_list = m.like_list.exclude(username = current_user.username)
+
+	m_list = []
+	for u in u_list:
+		m_list.extend(u.m_like.exclude(imdb_id = movie_id))
+
+	counter=collections.Counter(m_list)
+	print counter
+	sorted_m_list = sorted(counter.items(), key=itemgetter(1))[::-1]
+	print sorted_m_list
+
+	movie_combos = []
+	for m_tuple in sorted_m_list:
+		m = m_tuple[0]
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		movie_combos.append(movie_combo)
+
+	return movie_combos
+
+def get_people_who_liked_this(movie_id, current_user):
+
+	m = Movie.objects.get(imdb_id = movie_id)
+	users = m.like_list.exclude(username = current_user.username)
+
+	return users
+
 
 def person(request, person_id):
 	context = {}
@@ -338,7 +382,9 @@ def like(request, movie_id):
 	context['like_num'] = like_count
 	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
 	context['dislike_num'] = dislike_count
-	return render(request, 'movie.html', context)
+
+	return redirect('/movie/' + movie_id)
+
 
 @login_required
 def dislike(request, movie_id):

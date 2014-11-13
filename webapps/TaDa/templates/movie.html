@@ -80,35 +80,13 @@
       <div class = "people-also-like-wrapper white-block  shadow">
         <p class = "font-Georgia font-md font-bold inline text-center">People also liked</p>
         <ul class = "relevant-movie">
-          <!-- <li class = "relevant-movie-item">
-            <a href="/movie" class = "no-underline">
-            <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">Fury</p></a>
-          </li>
+          {% for m in m_also %}
           <li class = "relevant-movie-item">
-            <a href="/movie" class = "no-underline">
-            <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">Fury</p></a>
+            <a href="/movie/{{m.imdb_id}}" class = "no-underline">
+            <img class="movie-pic-sm" src="{{m.cover}}"/>
+            <p class="relevant-movie-name font-black font-Calson font-md inline">{{m.title}}</p></a>
           </li>
-          <li class = "relevant-movie-item">
-            <a href="/movie" class = "no-underline">
-            <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">Fury</p></a>
-          </li>
-          <li class = "relevant-movie-item">
-            <a href="/movie" class = "no-underline">
-            <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">Fury</p>
-          </a>
-          </li>
-
-          <li class = "relevant-movie-item">
-            <a href="/movie" class = "no-underline">
-            <img class="movie-pic-sm" src="static/img/fury.jpg"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">Fury</p>
-          </a>
-          </li> -->
-
+          {% endfor %}
         </ul>
 
         <a href="#"><p class = "font-md font-Calson">more ...</p></a>
@@ -116,26 +94,12 @@
       <div class = "people-who-liked-this-wrapper white-block  shadow">
         <p class = "font-Georgia font-md font-bold inline text-center">People who liked this</p>
         <ul class = "relevant-movie">
-          <!-- <li class = "relevant-movie-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
+          {% for u in u_like %}
           <li class = "relevant-movie-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
+            <a href="/profile/{{u.id}}"><img src="/static/img/profile_default.jpg" alt="{{u.username}}" class="photo-md">
+            <p class = "relevant-user-name font-black bold inline"> {{u.username}}</p></a>
           </li>
-          <li class = "relevant-movie-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "relevant-movie-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "relevant-movie-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li> -->
+          {% endfor %}
         </ul>
         <a href="#"><p class = "font-md font-Calson">more ...</p></a>
       </div>
