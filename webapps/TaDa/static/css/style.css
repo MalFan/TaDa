@@ -672,3 +672,18 @@ li.following-item{
     margin-left: auto;
     margin-right: auto;
 }
+
+/*list*/
+.list-wrapper{
+    padding:20px;
+    margin-right: -10px;
+}
+
+.people-liked{
+    text-align: center;
+}
+
+.people-liked-photo{
+    margin-right: auto;
+    margin-left: auto;
+}

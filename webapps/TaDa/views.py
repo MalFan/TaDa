@@ -233,6 +233,21 @@ def movie(request, movie_id):
 	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
 	return render(request, 'movie.html', context)
 
+def cast_list(request):
+	context = {}
+	return render(request, 'cast_list.html', context)
+
+def review_list(request):
+	context = {}
+	return render(request, 'review_list.html', context)
+
+def people_also_liked_list(request):
+	context = {}
+	return render(request, 'people_also_liked_list.html', context)
+
+def people_who_liked_list(request):
+	context = {}
+	return render(request, 'people_who_liked_list.html', context)
 
 def get_people_also_liked_movies(movie_id, current_user):
 

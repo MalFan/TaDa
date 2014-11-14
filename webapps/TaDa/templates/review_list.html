@@ -1,0 +1,124 @@
+{% extends "generic.html" %}
+
+{% block content %}
+<div class = "person-page-wrapper row">
+  <div class ="col-md-9">
+    <div class = "list-wrapper white-block shadow">
+        <p class = "review-title font-Georgia font-lg font-bold inline">Review</p>
+        <button data-toggle="modal" href=".review-popup" class = "review-btn btn btn-info">Write a Review</button>
+        <ul class = "review-list">
+          {% for review in reviews %}
+          <li class = "review-item row">
+            <div class = "review-inner">
+              <div class = "review-photo col-md-1">
+                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+              </div>
+              <div class = "review-detail col-md-11">
+                <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
+                <p class = "review-time inline">{{review.pub_time}}</p>
+                <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
+                <p class = ""> {{review.text}}</p> 
+                <div class ="review-stat">
+
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+
+          <li class = "review-item row">
+            <div class = "review-inner">
+              <div class = "review-photo col-md-1">
+                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+              </div>
+              <div class = "review-detail col-md-11">
+                <a href="#"><p class = "font-black bold inline">username</p></a>
+                <p class = "review-time inline">19:26 11/13/2014</p>
+                <a href="" class = "no-underline"><p class = "review-subject font-md bold font-black"> review title</p></a>
+                <p class = ""> this is review content this is review content this is review content this is review content this is review content this is review content this is review content this is review content</p> 
+                <div class ="review-stat">
+
+                  <a href=" " class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Comment <span class="badge">123</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class = "review-item row">
+            <div class = "review-inner">
+              <div class = "review-photo col-md-1">
+                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+              </div>
+              <div class = "review-detail col-md-11">
+                <a href="#"><p class = "font-black bold inline">username</p></a>
+                <p class = "review-time inline">19:26 11/13/2014</p>
+                <a href="" class = "no-underline"><p class = "review-subject font-md bold font-black"> review title</p></a>
+                <p class = ""> this is review content this is review content this is review content this is review content this is review content this is review content this is review content this is review content</p> 
+                <div class ="review-stat">
+
+                  <a href=" " class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Comment <span class="badge">123</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class = "review-item row">
+            <div class = "review-inner">
+              <div class = "review-photo col-md-1">
+                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+              </div>
+              <div class = "review-detail col-md-11">
+                <a href="#"><p class = "font-black bold inline">username</p></a>
+                <p class = "review-time inline">19:26 11/13/2014</p>
+                <a href="" class = "no-underline"><p class = "review-subject font-md bold font-black"> review title</p></a>
+                <p class = ""> this is review content this is review content this is review content this is review content this is review content this is review content this is review content this is review content</p> 
+                <div class ="review-stat">
+
+                  <a href=" " class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href=" " class = "comment-link">Comment <span class="badge">123</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+
+
+        </ul>
+      </div>
+
+    
+  </div>
+
+
+  
+  <div class = "correspond-movie col-md-3">
+    <div class = "correspond-movie-inner  shadow white-block">
+      <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
+      <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
+        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
+        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span>
+      
+    </div>
+  </div>
+
+</div>
+<div class = "back-to-top">
+  <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
+    <p class="back-to-top-text text-center font-Calson font-md">Back to Top</p>
+  </a>
+</div>
+{% endblock content %} 
+{% block additional_js %}
+<script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
+<script src="/static/js/script.js"></script>
+{% endblock additional_js %}

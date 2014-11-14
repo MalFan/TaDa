@@ -1,0 +1,105 @@
+{% extends "generic.html" %}
+
+{% block content %}
+<div class = "person-page-wrapper row">
+  <div class ="col-md-9">
+    <div class = "list-wrapper white-block shadow">
+        <p class = "cast-title font-Georgia font-lg font-bold">Cast</p>
+        <ul class = "cast-list">
+
+          {% for s in m.cast_list %}
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li>      
+          {% endfor %}
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li>  
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li> 
+          <li class = "cast-item row">
+             <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
+               &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
+              </a>
+                <p class = "cast-character inline">A Character</p>
+          </li>  
+         
+        </ul>
+      </div>
+
+
+    
+  </div>
+
+
+  
+  <div class = "correspond-movie col-md-3">
+    <div class = "correspond-movie-inner  shadow white-block">
+      <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
+      <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
+        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
+        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+          </a>
+        </span>
+      
+    </div>
+  </div>
+
+</div>
+<div class = "back-to-top">
+  <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
+    <p class="back-to-top-text text-center font-Calson font-md">Back to Top</p>
+  </a>
+</div>
+{% endblock content %} 
+{% block additional_js %}
+<script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
+<script src="/static/js/script.js"></script>
+{% endblock additional_js %}

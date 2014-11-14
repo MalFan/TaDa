@@ -20,6 +20,11 @@ urlpatterns = patterns('',
 	url(r'^dislike/(?P<movie_id>\d+)$','TaDa.views.dislike',name='dislike'),
 	url(r'^write-comment/(?P<review_id>\d+)$','TaDa.views.write_comment',name='write-comment'),
 
+	url(r'^cast-list','TaDa.views.cast_list'),
+	url(r'^review-list','TaDa.views.review_list'),
+	url(r'^people-also-liked-list','TaDa.views.people_also_liked_list'),
+	url(r'^people-who-liked-list','TaDa.views.people_who_liked_list'),
+
 	url(r'^profile$','TaDa.views.profile'),
 
 	url(r'^register$','TaDa.views.register'),
