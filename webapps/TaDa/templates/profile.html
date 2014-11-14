@@ -5,9 +5,11 @@
   <div class ="col-md-9">
     <div class = "person-info-wrapper shadow white-block row">
       <div class ="col-md-2">
-        <img class="photo-lg user-profile-photo" src="/static/img/profile_default.jpg"/>
+        <img class="photo-lg user-profile-photo" src="{% url 'get-photo' view_user.id %}">
         <!-- display only when view user's own profile -->
+        {% if user == view_user %}
         <a class="btn btn-info btn-xs btn-change" data-toggle="modal" href=".change-photo-popup">Change Photo</a>
+        {% endif %}
         <!--  -->
         <!-- display only when view other's profile -->
         <button class="btn btn-info btn-xs btn-follow">follow</button>
@@ -15,100 +17,89 @@
       </div>
       <div class ="user-wrapper col-md-8">   
         <div class = "user-brief">                     
-          <p class="font-black font-Calson font-lg inline">Username</p>&nbsp;
+          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p>&nbsp;
           <div class = "profile-intro" >
             <!-- display only when view user's own profile -->
+            {% if user == view_user %}
             <button class="btn btn-default btn-xs btn-edit"><i class = "glyphicon glyphicon-pencil"></i></button>&nbsp;
+            {% endif %}
             <!--  -->
-            <p class="inline" >This is the introduction. This is the introduction. This is the introduction. </p>
+            <p class="inline" >{{profile.intro}}</p>
           </div>
           <!-- display only when view user's own profile -->
+          {% if user == view_user %}
           <div class = "edit-form profile-intro">
+            <form action="{% url 'intro' user.id %}" method="post">
             <div class = "input-group">
-              <input type="text" class="form-control " placeholder = "Please introduce yourself." value = "This is the introduction.">
+              
+              {% for field in intro_form.visible_fields %}
+                {{field}}
+                {{field.errors}}
+              {% endfor %}
               <span class="input-group-btn">
-                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button>
-                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button>
-            </span>
+                <input type="submit" value="save" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i>
+                <!-- <input type="submit" value="delete" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button> -->
+                <!-- <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button>
+                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button> -->
+              </span>
+            {% csrf_token %} 
+              
             </div>
+            </form>
           </div>
-          <!--  -->
+          {% endif %}
         </div>                     
       </div>
     </div>
     <!-- display only when view user's own profile -->
+    
     <div class="modal fade bs-example-modal-sm change-photo-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
-      <div class="modal-content">
+      <div class="modal-content">        
         <div class = "popup-wrapper change-photo-wrapper">
               <p class = "font-Calson font-lg text-center">Upload Your Profile Photo<p>
               <img class = "photo-lg photo-preview" id="photo-preview" src="" alt="preview" />
-              <form class="change-photo-form" action = " " method= "post" enctype="multipart/form-data">
-                <input type="file" class = "form-control btn btn-sm btn-info choose-photo">
+              <form class="change-photo-form" action = "{% url 'profile_photo' user.id %}" method= "post" enctype="multipart/form-data">
+                {% for field in photo_form.visible_fields %}
+                  {{field}}
+                  {{field.errors}}
+                {% endfor %}
+                <!-- <input type="file" class = "form-control btn btn-sm btn-info choose-photo"> -->
                 <input type="submit" class = "form-control btn btn-info" name ="submit" value="Confirm">
                {% csrf_token %}   
               </form>
-          </div>
-      </div>
+          </div>         
+        </div>       
       </div>
     </div>
+    
     <!--  -->
     <div class = "liked-movie-wrapper row shadow white-block">
       <p class = "font-Georgia font-lg font-bold">Movie I Liked</p>
+      {% for movie in view_user.m_like.all %}
       <div class = "liked-movie inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
+        <a href="/movie/{{movie.imdb_id}}"><img class="movie-pic-md" src="{{movie.cover}}"/>
+        <p class="font-black font-Calson font-md text-center">{{movie.title}}</p></a>
       </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
+      {% endfor %}
       <a href="#"><p class = "font-md font-Calson">more ...</p></a>
     </div>
 
     <div class = "posted-review-wrapper row shadow white-block">
       <p class = "font-Georgia font-lg font-bold">My Review</p>
         <ul class = "review-list">
+          {% for review in reviews %}
           <li class = "review-item row">
             <div class = "review-inner">
               <div class = "review-detail col-md-12">
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
+                <p class = "review-time inline">{{review.pub_time}}</p>
+                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black">{{review.title}}</p></a>
+                <p class = ""> {{review.text}}</p> 
+                <a href="/review/{{review.id}}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
               </div>
             </div>
           </li>
-
-          <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-detail col-md-12">
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
-              </div>
-            </div>
-          </li>
-
-          <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-detail col-md-12">
-                <p class = "review-time inline"> 4:44 pm 11/08/2014</p>
-                <a href="/review" class = "no-underline"><p class = "review-subject font-md bold font-black"> This is review subject</p></a>
-                <p class = ""> This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content. This is review content... </p> 
-                <a href="/review" class = "comment-link">Comment <span class="badge">42</span></a>
-              </div>
-            </div>
-          </li>
+          {% endfor %}
         </ul>
         <a href="#"><p class = "font-md font-Calson">more ...</p></a>
     </div>

@@ -6,7 +6,7 @@
     <div class = "person-info-wrapper shadow white-block row">
          <div class = "review-inner">
             <div class = "review-photo col-md-2">
-              <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-lg"></a> 
+              <a href="/profile"><img src="{% url 'get-photo' review.publisher.id %}" alt="{{user}}" class="photo-lg"></a> 
               <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useful <span class="badge pull-right">123</span></a>
       <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useless <span class="badge pull-right">123</span></a>             
             </div>
@@ -44,7 +44,7 @@
         <li class="comment-item row">
           <div class = "comment">
               <div class="comment-photo col-md-3">
-                  <a href="/profile" class = "no-underline"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">{{comment.publisher}}</p></a>
+                  <a href="/profile" class = "no-underline"><img src="{% url 'get-photo' comment.publisher.id %}" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">{{comment.publisher}}</p></a>
                 </div>
                 <div class="comment-text col-md-6">
                    <p class = "font-black inline">{{comment.text}}</p>
@@ -65,9 +65,9 @@
     <div class = "correspond-movie-inner  shadow white-block">
       <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
       <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
-        <p class="font-black">Liked by {{like_num}} users</p></a>
-        <span class="imdbRatingPlugin"data-title="tt{{m.imdb_id}}" data-style="p4">
-          <a href="http://www.imdb.com/title/tt{{m.imdb_id}}/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="{{m.title}} on IMDb" />
+        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
+        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
+          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
           </a>
         </span>
       

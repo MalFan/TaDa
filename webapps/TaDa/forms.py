@@ -76,13 +76,20 @@ class EmailResetPasswordConfirmForm(SetPasswordForm):
 								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
-class ProfileForm(forms.ModelForm):
+class IntroForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		exclude = ('user', 'movies_liked', 'movies_disliked', 'users_followed')
+		fields = ('intro',)
 		widgets = {
-			'photo': forms.FileInput(),
-			'intro': forms.TextInput(attrs={'class': ''}),
+			'intro': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Please introduce yourself.'}),
+		}
+
+class PhotoForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = ('photo',)
+		widgets = {
+			'photo': forms.FileInput(attrs={'class': 'form-control btn btn-sm btn-info choose-photo'}),
 		}
 
 

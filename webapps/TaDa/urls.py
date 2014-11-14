@@ -25,7 +25,10 @@ urlpatterns = patterns('',
 	url(r'^people-also-liked-list/(?P<movie_id>\d+)$','TaDa.views.people_also_liked_list'),
 	url(r'^people-who-liked-list/(?P<movie_id>\d+)$','TaDa.views.people_who_liked_list'),
 
-	url(r'^profile$','TaDa.views.profile'),
+	url(r'^profile/(?P<user_id>\d+)$','TaDa.views.profile', name='profile'),
+	url(r'^intro/(?P<user_id>\d+)$','TaDa.views.intro', name='intro'),
+	url(r'^profile_photo/(?P<user_id>\d+)$','TaDa.views.profile_photo', name='profile_photo'),
+	url(r'^get-photo/(?P<user_id>\d+)$','TaDa.views.get_photo', name='get-photo'),
 
 	url(r'^register$','TaDa.views.register'),
 	url(r'^login$', 'TaDa.views.log_in',name='login'),
