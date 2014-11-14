@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auto_login
 from django.contrib.auth.views import logout, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 import imdb
 import collections
@@ -293,7 +294,19 @@ def person(request, person_id):
 	context['search_form'] = SearchForm() 
 	p = get_object_or_404(Person, person_id = person_id)
 	context['p'] = p
+	context['recent_works'] = get_recent_works(person_id)
 	return render(request, 'person.html', context)
+
+def get_recent_works(person_id):
+	
+	p =  Person.objects.get(person_id = person_id)
+	movies = Movie.objects.filter(Q(cast_list__in=[p]) | \
+			Q(producer_list__in=[p]) | \
+			Q(writer_list__in=[p]) | \
+			Q(director_list__in=[p])).distinct().order_by('-year')
+	print movies
+	return movies
+
 
 @login_required
 def write_review(request,movie_id):
