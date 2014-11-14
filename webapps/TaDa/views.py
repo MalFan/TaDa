@@ -220,7 +220,7 @@ def movie(request, movie_id):
 	context['m'] = movie_combo
 	context['review_form'] = review_form
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()[:5]
 	context['reviews'] = reviews
 	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
@@ -230,24 +230,113 @@ def movie(request, movie_id):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
-	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
-	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
+	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)[:5]
+	context['u_like'] = get_people_who_liked_this(movie_id, request.user)[:5]
 	return render(request, 'movie.html', context)
 
-def cast_list(request):
+def cast_list(request,movie_id):
 	context = {}
+	context['search_form'] = SearchForm()	
+	context['review_form'] = ReviewForm()
+	context['regis_form'] = RegistrationForm()
+	context['login_form'] = LoginForm()
+
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all(),
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
+	
 	return render(request, 'cast_list.html', context)
 
-def review_list(request):
+def review_list(request,movie_id):
 	context = {}
+	context['search_form'] = SearchForm()	
+	context['review_form'] = ReviewForm()
+	context['regis_form'] = RegistrationForm()
+	context['login_form'] = LoginForm()
+
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
+
+	context['reviews'] = Review.objects.filter(movie = m).order_by('id').reverse()
+
 	return render(request, 'review_list.html', context)
 
-def people_also_liked_list(request):
+def people_also_liked_list(request,movie_id):
 	context = {}
+	context['search_form'] = SearchForm()	
+	context['review_form'] = ReviewForm()
+	context['regis_form'] = RegistrationForm()
+	context['login_form'] = LoginForm()
+
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
+	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
+	
 	return render(request, 'people_also_liked_list.html', context)
 
-def people_who_liked_list(request):
+def people_who_liked_list(request,movie_id):
 	context = {}
+	context['search_form'] = SearchForm()	
+	context['review_form'] = ReviewForm()
+	context['regis_form'] = RegistrationForm()
+	context['login_form'] = LoginForm()
+
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	review_form = ReviewForm()
+	context['m'] = movie_combo
+	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
+	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
+	
 	return render(request, 'people_who_liked_list.html', context)
 
 def get_people_also_liked_movies(movie_id, current_user):
@@ -304,50 +393,27 @@ def get_recent_works(person_id):
 			Q(producer_list__in=[p]) | \
 			Q(writer_list__in=[p]) | \
 			Q(director_list__in=[p])).distinct().order_by('-year')
-	print movies
 	return movies
 
 
 @login_required
 def write_review(request,movie_id):
-	context = {}
-	context['search_form'] = SearchForm() 
-	review_form = ReviewForm()
-	context['review_form'] = review_form
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	context['m'] = movie_combo
-	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
-
 	if request.method == 'GET':
 		return redirect('/movie/' + movie_id);
-		
+
+	context = {}
+	review_form = ReviewForm()
+	movie_be_reviewed = get_object_or_404(Movie, imdb_id = movie_id)
+	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
+	
 	review_form = ReviewForm(request.POST, instance = review_new)
 
 	if not review_form.is_valid():
 		return redirect('/movie/' + movie_id);
 
 	review_form.save()
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
-	context['reviews'] = reviews
 
-	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-	context['dislike_num'] = dislike_count
-	return render(request, 'movie.html', context)
+	return redirect('/movie/'+movie_id)
 
 @login_required
 def new_review(request,movie_id):
@@ -376,80 +442,26 @@ def new_review(request,movie_id):
 
 @login_required
 def like(request, movie_id):
-	context = {}
-	context['search_form'] = SearchForm()
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['review_form'] = review_form
-	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
-	context['reviews'] = reviews 
-
 	current_user = request.user
 	movie_be_like = Movie.objects.get(imdb_id = movie_id)
 	if current_user in movie_be_like.like_list.all():
 		movie_be_like.like_list.remove(request.user)
 	else:
 		movie_be_like.like_list.add(request.user)
-	
-	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-
-	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-	context['dislike_num'] = dislike_count
 
 	return redirect('/movie/' + movie_id)
 
 
 @login_required
 def dislike(request, movie_id):
-	context = {}
-	context['search_form'] = SearchForm()
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['review_form'] = review_form
-	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
-	context['reviews'] = reviews 
-
 	current_user = request.user
 	movie_be_dislike = Movie.objects.get(imdb_id = movie_id)
 	if current_user in movie_be_dislike.dislike_list.all():
 		movie_be_dislike.dislike_list.remove(request.user)
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
-	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-
-	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-	context['dislike_num'] = dislike_count
-	return render(request, 'movie.html', context)
+	
+	return redirect('/movie/' + movie_id)
 
 def review(request,review_id):
 	context = {}
@@ -475,46 +487,24 @@ def review(request,review_id):
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate}
 	context['m'] = movie_combo
+	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
+	context['like_num'] = like_count
 	return render(request, 'review.html', context)
 
 @login_required
-def write_comment(request,review_id):
-	context = {}
-	review_be_comment = Review.objects.get(id = review_id)
-	print review_be_comment.id
-	comment_new = Comment(review = review_be_comment, publisher = request.user)
-
+def write_comment(request,review_id):	
 	if request.method == 'GET':
 		return redirect('/review/' + review_id);
-		
+	review_be_comment = Review.objects.get(id = review_id)
+	comment_new = Comment(review = review_be_comment, publisher = request.user)
 	comment_form = CommentForm(request.POST, instance = comment_new)
 
 	if not comment_form.is_valid():
-		return redirect('/review/' + review_id);
+		return redirect('/review/' + review_id)
 
 	comment_form.save()
-	comments = Comment.objects.filter(review = review_be_comment).order_by('id').reverse()
-	comments_num = Comment.objects.filter(review = review_be_comment)
-	context['comments'] = comments
-	context['review'] = review_be_comment
-	context['comments_num'] = comments_num
-	# m = Movie.objects.get(reviews_included  = review_be_comment)
-	m = get_object_or_404(Movie, reviews_included  = review_be_comment)
-	print m.title
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	context['m'] = movie_combo
-	return render(request, 'review.html', context)
+	
+	return redirect('/review/' + review_id)
 
 def profile(request):
 	context = {}

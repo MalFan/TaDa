@@ -5,38 +5,12 @@
   <div class ="col-md-9">
     <div class = "list-wrapper row shadow white-block">
       <p class = "font-Georgia font-lg font-bold">People also liked</p>
+      {% for m in m_also %}
       <div class = "liked-movie inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
+        <a href="/movie/{{m.imdb_id}}"><img class="movie-pic-md" src="{{m.cover}}"/>
+        <p class="font-black font-Calson font-md text-center">{{m.title}}</p></a>
       </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
-      <div class = "liked-movie  inline col-md-3">
-        <a href="/movie"><img class="movie-pic-md" src="static/img/dracula.jpg"/>
-        <p class="font-black font-Calson font-md text-center">Dracula</p></a>
-      </div>
+      {% endfor %}
     </div>
 
     
@@ -48,9 +22,9 @@
     <div class = "correspond-movie-inner  shadow white-block">
       <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
       <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
-        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
-        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+        <p class="font-black">Liked by {{like_num}} users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt{{m.imdb_id}}" data-style="p4">
+          <a href="http://www.imdb.com/title/tt{{m.imdb_id}}/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="{{m.title}} on IMDb" />
           </a>
         </span>
       

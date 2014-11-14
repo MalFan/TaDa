@@ -677,6 +677,7 @@ li.following-item{
 .list-wrapper{
     padding:20px;
     margin-right: -10px;
+    margin-left: -15px;
 }
 
 .people-liked{
