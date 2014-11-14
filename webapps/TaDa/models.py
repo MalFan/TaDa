@@ -23,6 +23,11 @@ class Person(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class Character(models.Model):
+	name = models.CharField(max_length = 255)
+
+	def __unicode__(self):
+		return self.name
 
 class Movie(models.Model):
 	imdb_id = models.CharField(max_length = 8)
@@ -35,6 +40,7 @@ class Movie(models.Model):
 	producer_list = models.ManyToManyField(Person, related_name = 'producing', blank = True)	
 	writer_list = models.ManyToManyField(Person, related_name = 'writing', blank = True)
 	cast_list = models.ManyToManyField(Person, related_name = 'acting', blank = True) # First 14 people
+	character_list = models.ManyToManyField(Character, related_name = 'living_in', blank = True)
 	storyline = models.CharField(max_length = 1024, blank = True)
 	short_storyline = models.CharField(max_length = 255, blank = True)
 	genre_list = models.ManyToManyField(Genre, related_name = 'movies_included', blank = True)

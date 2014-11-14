@@ -97,6 +97,20 @@ def admin_add_movie(request, movie_id):
 					new_star = Person(person_id = s.personID, name = s['name'])
 					new_star.save()
 					m_to_add.cast_list.add(new_star)
+				try:
+					print s.currentRole['name']
+					new_character = Character(name = s.currentRole['name'])
+					new_character.save()
+					m_to_add.character_list.add(new_character)
+				except TypeError:
+					c_name = ''
+					for c in s.currentRole:
+						c_name += c['name']
+						c_name += ' / '
+					c_name = c_name[:-3]
+					new_character = Character(name = c_name)
+					new_character.save()
+					m_to_add.character_list.add(new_character)
 		except KeyError:
 	    		pass
 
