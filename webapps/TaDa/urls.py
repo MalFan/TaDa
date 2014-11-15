@@ -19,6 +19,8 @@ urlpatterns = patterns('',
 	url(r'^like/(?P<movie_id>\d+)$','TaDa.views.like',name='like'),
 	url(r'^dislike/(?P<movie_id>\d+)$','TaDa.views.dislike',name='dislike'),
 	url(r'^write-comment/(?P<review_id>\d+)$','TaDa.views.write_comment',name='write-comment'),
+	url(r'^review-like/(?P<review_id>\d+)$','TaDa.views.review_like',name='review-like'),
+	url(r'^review-dislike/(?P<review_id>\d+)$','TaDa.views.review_dislike',name='review-dislike'),
 
 	url(r'^cast-list/(?P<movie_id>\d+)$','TaDa.views.cast_list'),
 	url(r'^review-list/(?P<movie_id>\d+)$','TaDa.views.review_list'),

@@ -65,8 +65,8 @@
                 <p class = ""> {{review.text}}</p> 
                 <div class ="review-stat">
 
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Like <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Dislike <span class="badge">{{review.dislike_list.all|length}}</span></a>&nbsp;&nbsp;
                   <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
                 </div>
               </div>
@@ -101,7 +101,7 @@
         <ul class = "relevant-movie">
           {% for u in u_like %}
           <li class = "relevant-movie-item">
-            <a href="/profile/{{u.id}}"><img src="/static/img/profile_default.jpg" alt="{{u.username}}" class="photo-md">
+            <a href="/profile/{{u.id}}"><img src="{% url 'get-photo' u.id %}" alt="{{u.username}}" class="photo-md">
             <p class = "relevant-user-name font-black bold inline"> {{u.username}}</p></a>
           </li>
           {% endfor %}

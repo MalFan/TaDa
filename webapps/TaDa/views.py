@@ -491,6 +491,10 @@ def review(request,review_id):
 	context['m'] = movie_combo
 	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
+	review_like_count = Review.objects.filter(id = review_id, like_list__in = User.objects.all()).count()
+	context['review_like_num'] = review_like_count
+	review_dislike_count = Review.objects.filter(id = review_id, dislike_list__in = User.objects.all()).count()
+	context['review_dislike_num'] = review_dislike_count
 	return render(request, 'review.html', context)
 
 @login_required
@@ -506,6 +510,28 @@ def write_comment(request,review_id):
 
 	comment_form.save()
 	
+	return redirect('/review/' + review_id)
+
+@login_required
+def review_like(request,review_id):
+	current_user = request.user
+	review_be_like = get_object_or_404(Review, id = review_id)
+	if current_user in review_be_like.like_list.all():
+		review_be_like.like_list.remove(request.user)
+	else:
+		review_be_like.like_list.add(request.user)
+
+	return redirect('/review/' + review_id)
+
+@login_required
+def review_dislike(request,review_id):
+	current_user = request.user
+	review_be_dislike = get_object_or_404(Review, id = review_id)
+	if current_user in review_be_dislike.dislike_list.all():
+		review_be_dislike.dislike_list.remove(request.user)
+	else:
+		review_be_dislike.dislike_list.add(request.user)
+
 	return redirect('/review/' + review_id)
 
 def profile(request):
@@ -583,8 +609,6 @@ def profile_photo(request, user_id):
 
 	if not photo_form.is_valid():
 		return redirect('/profile/' + user_id)
-
-	print 334
 
 	photo_form.save()
 	

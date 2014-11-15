@@ -7,8 +7,8 @@
          <div class = "review-inner">
             <div class = "review-photo col-md-2">
               <a href="/profile"><img src="{% url 'get-photo' review.publisher.id %}" alt="{{user}}" class="photo-lg"></a> 
-              <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useful <span class="badge pull-right">123</span></a>
-      <a role="button" class = "help-btn btn btn-info btn-xs"  href=" ">Useless <span class="badge pull-right">123</span></a>             
+              <a role="button" class = "help-btn btn btn-info btn-xs"  href="{% url 'review-like' review.id %}">Useful <span class="badge pull-right">{{review_like_num}}</span></a>
+      <a role="button" class = "help-btn btn btn-info btn-xs"  href="{% url 'review-dislike' review.id %}">Useless <span class="badge pull-right">{{review_dislike_num}}</span></a>             
             </div>
             <div class = "review-detail col-md-10">
               <a href="#"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>
