@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auto_login
 from django.contrib.auth.views import logout, login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 
@@ -147,9 +147,28 @@ def recommend_movie(request):
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
 	context['search_form'] = SearchForm() 
-	context['movie_combos'] = get_in_theater_movies()
+	context['movie_combos'] = get_recommend_movies()
 	context['next_page'] = '/recommend-movie'
 	return render(request, 'recommend_movie.html', context)
+	
+def get_recommend_movies():
+	movies = []
+	movies = Movie.objects.all().annotate(num_likes=Count('like_list')).order_by('num_likes').reverse()[:15]
+	movie_combos = []
+	for m in movies:
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		movie_combos.append(movie_combo)
+
+	return movie_combos
 
 def search(request):
 	context = {}
