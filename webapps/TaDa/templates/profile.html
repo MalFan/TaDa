@@ -13,7 +13,7 @@
         <!--  -->
         <!-- display only when view other's profile -->
         {% if user != view_user %}
-        <a rolw="button" class="btn btn-info btn-xs btn-follow" >follow</a>
+        <a rolw="button" class="btn btn-info btn-xs btn-follow" href="{% url 'follow' view_user.id %}">{{follow_text}}</a>
         {% endif %}
         <!--  -->
       </div>
@@ -117,26 +117,12 @@
     <div class = "following-inner  shadow white-block">
       <p class = "font-Georgia font-lg font-bold text-center">Following</p>
       <ul class = "following-list">
-          <li class = "following-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "following-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "following-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "following-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
-          <li class = "following-item">
-            <a href="/profile"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline"> username</p></a>
-          </li>
+          {% for u in view_user.profile.users_followed.all %}
+            <li class = "following-item">
+            <a href="{% url 'profile' u.id %}"><img src="{% url 'get-photo' u.id %}" alt="{{user}}" class="photo-md">
+            <p class = "relevant-user-name font-black bold inline">{{u.username}}</p></a>
+            </li>
+          {% endfor %}
         </ul>
     </div>
   </div>

@@ -553,11 +553,6 @@ def review_dislike(request,review_id):
 
 	return redirect('/review/' + review_id)
 
-def profile(request):
-	context = {}
-	context['search_form'] = SearchForm() 
-	return render(request, 'profile.html', context)
-
 def profile(request, user_id):
 	context = {}
 
@@ -586,7 +581,13 @@ def profile(request, user_id):
 		context['profile'] = profile
 		# print profile.photo
 	# context['photo_form'] = PhotoForm()
-	context['search_form'] = SearchForm() 
+	context['search_form'] = SearchForm()
+	user_be_followed = get_object_or_404(User, id = user_id)
+	profile_of_login_user = get_object_or_404(Profile, user = request.user)
+	if user_be_followed in profile_of_login_user.users_followed.all():
+		context['follow_text'] = 'unfollow'
+	else:
+		context['follow_text'] = 'follow'
 	return render(request, 'profile.html', context)
 
 @login_required
@@ -630,11 +631,18 @@ def profile_photo(request, user_id):
 		return redirect('/profile/' + user_id)
 
 	photo_form.save()
-	
+	return redirect('/profile/' + user_id)
 
-	# context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
-	# context['profile'] = Profile.objects.get(user = request.user)
-	# context['search_form'] = SearchForm()
+@login_required
+def follow(request, user_id):
+	user_be_followed = get_object_or_404(User, id = user_id)
+	# print user_be_followed.username
+	profile_of_login_user = get_object_or_404(Profile, user = request.user)
+	if user_be_followed in profile_of_login_user.users_followed.all():
+		profile_of_login_user.users_followed.remove(user_be_followed)
+	else:
+		profile_of_login_user.users_followed.add(user_be_followed)
+
 	return redirect('/profile/' + user_id)
 
 @login_required
@@ -669,6 +677,8 @@ def register(request):
 										email=regis_form.cleaned_data['email'],
 										password=regis_form.cleaned_data['password1'])
 	
+	profile = Profile(user = new_user)
+	profile.save()
 	auto_login(request, new_user)
 	return redirect('/')
 

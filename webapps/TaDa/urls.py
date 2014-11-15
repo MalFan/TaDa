@@ -31,6 +31,7 @@ urlpatterns = patterns('',
 	url(r'^intro/(?P<user_id>\d+)$','TaDa.views.intro', name='intro'),
 	url(r'^profile_photo/(?P<user_id>\d+)$','TaDa.views.profile_photo', name='profile_photo'),
 	url(r'^get-photo/(?P<user_id>\d+)$','TaDa.views.get_photo', name='get-photo'),
+	url(r'^follow/(?P<user_id>\d+)$','TaDa.views.follow', name='follow'),
 
 	url(r'^register$','TaDa.views.register'),
 	url(r'^login$', 'TaDa.views.log_in',name='login'),
