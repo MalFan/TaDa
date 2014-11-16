@@ -205,6 +205,7 @@ li.upcoming-movie{
 .recommend-movie-wrapper{
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 @media only screen and (min-width:1200px){
     .recommend-movie-wrapper{
@@ -270,6 +271,9 @@ img.movie-pic-reverse{
 
 /*div flipping*/
 .flip-container {
+    position: absolute;
+    display: none;
+
     -webkit-perspective: 1000;
     -moz-perspective: 1000;
     -o-perspective:1000;
@@ -280,6 +284,12 @@ img.movie-pic-reverse{
     -moz-transform: perspective(1000px);
     -moz-transform-style: preserve-3d; 
     -ms-transform-style: preserve-3d; 
+
+    -ms-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    transition: 0.5s;
 
 }
 
