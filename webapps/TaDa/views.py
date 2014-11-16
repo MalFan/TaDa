@@ -468,17 +468,21 @@ def new_review(request,movie_id):
 	context['dislike_num'] = dislike_count
 	return render(request, 'write_review.html', context)
 
+
 @login_required
 def like(request, movie_id):
 	current_user = request.user
 	movie_be_like = Movie.objects.get(imdb_id = movie_id)
 	if current_user in movie_be_like.like_list.all():
 		movie_be_like.like_list.remove(request.user)
+		response_text = -1
 	else:
 		movie_be_like.like_list.add(request.user)
+		response_text = 1
 
-	return redirect('/movie/' + movie_id)
+	# return redirect('/movie/' + movie_id)
 
+	return HttpResponse(response_text)
 
 @login_required
 def dislike(request, movie_id):
@@ -486,10 +490,14 @@ def dislike(request, movie_id):
 	movie_be_dislike = Movie.objects.get(imdb_id = movie_id)
 	if current_user in movie_be_dislike.dislike_list.all():
 		movie_be_dislike.dislike_list.remove(request.user)
+		response_text = -1
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
+		response_text = 1
 	
-	return redirect('/movie/' + movie_id)
+	# return redirect('/movie/' + movie_id)
+	return HttpResponse(response_text)
+
 
 def review(request,review_id):
 	context = {}

@@ -25,8 +25,8 @@
         </a>
       </span>
       <br>      
-      <a role="button" class = "like-btn btn {% if like_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'like' m.imdb_id %}"> {% if like_status %} Unlike {% else %} Like {% endif %} <span class="badge pull-right">{{like_num}}</span></a>
-      <a role="button" class = "like-btn btn {% if dislike_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'dislike' m.imdb_id %}">{% if dislike_status %} Undislike {% else %} Disike {% endif %} <span class="badge pull-right">{{dislike_num}}</span></a>
+      <a role="button" id = "like-btn" class = "like-btn btn {% if like_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'like' m.imdb_id %}"> <span id = "like-text-span">{% if like_status %} Unlike {% else %} Like {% endif %}</span> <span id = "like-badge-span" class="badge pull-right" >{{like_num}}</span></a>
+      <a role="button" id = "dislike-btn" class = "like-btn btn {% if dislike_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'dislike' m.imdb_id %}"> <span id = "dislike-text-span">{% if dislike_status %} Undislike {% else %} Disike {% endif %}</span> <span id = "dislike-badge-span" class="badge pull-right">{{dislike_num}}</span></a>
     </div>
   </div>
   
@@ -153,4 +153,5 @@
 {% block additional_js %}
 <script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
 <script src="/static/js/script.js"></script>
+<script src="/static/js/like_dislike_movie.js"></script>
 {% endblock additional_js %}

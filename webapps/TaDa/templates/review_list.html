@@ -20,8 +20,8 @@
                 <p class = ""> {{review.text}}</p> 
                 <div class ="review-stat">
 
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Like <span class="badge">123</span></a>&nbsp;&nbsp;
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Dislike <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">123</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useless <span class="badge">123</span></a>&nbsp;&nbsp;
                   <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
                 </div>
               </div>
