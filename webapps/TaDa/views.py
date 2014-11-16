@@ -243,10 +243,17 @@ def movie(request, movie_id):
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()[:5]
 	context['reviews'] = reviews
-	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-	context['dislike_num'] = dislike_count
+	like_list = get_object_or_404(Movie, imdb_id = movie_id).like_list.all()
+	if request.user in like_list:
+		context['like_status'] = 'liked'
+	context['like_num'] = like_list.count()
+
+
+	dislike_list = get_object_or_404(Movie, imdb_id = movie_id).dislike_list.all()
+	if request.user in dislike_list:
+		context['dislike_status'] = 'disliked'
+	context['dislike_num'] = dislike_list.count()
+
 	regis_form = RegistrationForm()
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
@@ -510,10 +517,17 @@ def review(request,review_id):
 	context['m'] = movie_combo
 	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
-	review_like_count = Review.objects.filter(id = review_id, like_list__in = User.objects.all()).count()
-	context['review_like_num'] = review_like_count
-	review_dislike_count = Review.objects.filter(id = review_id, dislike_list__in = User.objects.all()).count()
-	context['review_dislike_num'] = review_dislike_count
+
+	review_like_list = get_object_or_404(Review, id = review_id).like_list.all()
+	if request.user in review_like_list:
+		context['review_like_status'] = 'liked'
+	context['review_like_num'] = review_like_list.count
+
+	review_dislike_list = get_object_or_404(Review, id = review_id).dislike_list.all()
+	if request.user in review_dislike_list:
+		context['review_dislike_status'] = 'disliked'
+	context['review_dislike_num'] = review_dislike_list.count
+
 	return render(request, 'review.html', context)
 
 @login_required
@@ -645,7 +659,6 @@ def follow(request, user_id):
 
 	return redirect('/profile/' + user_id)
 
-@login_required
 def get_photo(request, user_id):
 
 	profile = get_object_or_404(Profile, user__id = user_id)

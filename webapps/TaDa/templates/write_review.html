@@ -14,10 +14,6 @@
                 {{field.errors}}<br>
               {% endfor %}
             </table><br>
-            <!-- <p class = "font-Calson font-md">Subject:<p>
-            <input type="textarea" class = "form-control" name ="subject">
-             <p class = "font-Calson font-md">Content:<p>
-            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br> -->
             <input type="submit" class = "submit-review-btn btn btn-info" name ="submit" value="Post">
             {% csrf_token %}
         </form>

@@ -32,21 +32,21 @@
           {% if user == view_user %}
           <div class = "edit-form profile-intro">
             <form action="{% url 'intro' user.id %}" method="post">
-            <div class = "input-group">
-              
-              {% for field in intro_form.visible_fields %}
-                {{field}}
-                {{field.errors}}
-              {% endfor %}
-              <span class="input-group-btn">
-                <input type="submit" value="save" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i>
-                <!-- <input type="submit" value="delete" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button> -->
-                <!-- <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button>
-                <button class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button> -->
-              </span>
-            {% csrf_token %} 
-              
-            </div>
+              <div class = "input-group">
+                
+                {% for field in intro_form.visible_fields %}
+                  {{field}}
+                  {{field.errors}}
+                {% endfor %}
+                <span class="input-group-btn">
+                 <!--  <button type="submit" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button> -->
+                  <!-- <input type="submit" value="delete" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button> -->
+                  <button type="submit" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-floppy-disk"></i></button>
+                  <button type="button" class="btn btn-info btn-edit"><i class = "glyphicon glyphicon-remove"></i></button>
+                </span>
+              {% csrf_token %} 
+                
+              </div>
             </form>
           </div>
           {% endif %}

@@ -6,12 +6,12 @@
     <div class = "person-info-wrapper shadow white-block row">
          <div class = "review-inner">
             <div class = "review-photo col-md-2">
-              <a href="/profile"><img src="{% url 'get-photo' review.publisher.id %}" alt="{{user}}" class="photo-lg"></a> 
-              <a role="button" class = "help-btn btn btn-info btn-xs"  href="{% url 'review-like' review.id %}">Useful <span class="badge pull-right">{{review_like_num}}</span></a>
-      <a role="button" class = "help-btn btn btn-info btn-xs"  href="{% url 'review-dislike' review.id %}">Useless <span class="badge pull-right">{{review_dislike_num}}</span></a>             
+              <a href="/profile/{{review.publisher.id}}"><img src="{% url 'get-photo' review.publisher.id %}" alt="{{review.publisher}}" class="photo-lg"></a> 
+              <a role="button" class = "help-btn btn {% if review_like_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-like' review.id %}">Useful <span class="badge pull-right">{{review_like_num}}</span></a>
+      <a role="button" class = "help-btn btn {% if review_dislike_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-dislike' review.id %}">Useless <span class="badge pull-right">{{review_dislike_num}}</span></a>             
             </div>
             <div class = "review-detail col-md-10">
-              <a href="#"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>
+              <a href="/profile/{{review.publisher.id}}"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>
               <p class = "review-time inline">{{review.pub_time}}</p>
               <p class = "review-subject font-md bold font-black"> {{review.title}}</p>
               <p class = ""> {{review.text}}</p>      
@@ -65,9 +65,9 @@
     <div class = "correspond-movie-inner  shadow white-block">
       <a href = "/movie/{{m.imdb_id}}" class = "no-underline"><p class = "font-black font-Georgia font-md font-bold text-center">{{m.title}}</p>
       <img class="movie-pic-md correspond-movie-pic" src="{{m.cover}}}"/><br>
-        <!-- <p class="font-black">Liked by 1,024 users</p> --></a>
-        <span class="imdbRatingPlugin"data-title="tt2713180" data-style="p4">
-          <a href="http://www.imdb.com/title/tt2713180/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="Fury (2014) on IMDb" />
+        <p class="font-black">Liked by {{like_num}} users</p></a>
+        <span class="imdbRatingPlugin"data-title="tt{{m.imdb_id}}" data-style="p4">
+          <a href="http://www.imdb.com/title/tt{{m.imdb_id}}/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="{{m.title}} on IMDb" />
           </a>
         </span>
       
