@@ -44,7 +44,7 @@
         <li class="comment-item row">
           <div class = "comment">
               <div class="comment-photo col-md-3">
-                  <a href="/profile" class = "no-underline"><img src="{% url 'get-photo' comment.publisher.id %}" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">{{comment.publisher}}</p></a>
+                  <a href="{% url 'profile' comment.publisher.id %}" class = "no-underline"><img src="{% url 'get-photo' comment.publisher.id %}" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username">{{comment.publisher}}</p></a>
                 </div>
                 <div class="comment-text col-md-6">
                    <p class = "font-black inline">{{comment.text}}</p>

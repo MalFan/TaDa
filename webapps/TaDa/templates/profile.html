@@ -57,7 +57,8 @@
     
     <div class="modal fade bs-example-modal-sm change-photo-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
-      <div class="modal-content">        
+      <div class="modal-content">
+      {% if user == view_user %}     
         <div class = "popup-wrapper change-photo-wrapper">
               <p class = "font-Calson font-lg text-center">Upload Your Profile Photo<p>
               <img class = "photo-lg photo-preview" id="photo-preview" src="" alt="preview" />
@@ -70,7 +71,8 @@
                 <input type="submit" class = "form-control btn btn-info" name ="submit" value="Confirm">
                {% csrf_token %}   
               </form>
-          </div>         
+          </div> 
+        {% endif %}       
         </div>       
       </div>
     </div>
@@ -92,7 +94,7 @@
     </div>
 
     <div class = "posted-review-wrapper row shadow white-block">
-      <p class = "font-Georgia font-lg font-bold">My Review</p>
+      <p class = "font-Georgia font-lg font-bold">{{view_user.username}}'s Review</p>
         <ul class = "review-list">
           {% for review in reviews %}
           <li class = "review-item row">

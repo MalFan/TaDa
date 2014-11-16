@@ -597,9 +597,12 @@ def profile(request, user_id):
 	# context['photo_form'] = PhotoForm()
 	context['search_form'] = SearchForm()
 	user_be_followed = get_object_or_404(User, id = user_id)
-	profile_of_login_user = get_object_or_404(Profile, user = request.user)
-	if user_be_followed in profile_of_login_user.users_followed.all():
-		context['follow_text'] = 'unfollow'
+	if request.user.username:
+		profile_of_login_user = get_object_or_404(Profile, user = request.user)
+		if user_be_followed in profile_of_login_user.users_followed.all():
+			context['follow_text'] = 'unfollow'
+		else:
+			context['follow_text'] = 'follow'
 	else:
 		context['follow_text'] = 'follow'
 	return render(request, 'profile.html', context)
