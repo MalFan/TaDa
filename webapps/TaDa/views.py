@@ -531,9 +531,8 @@ def review(request,review_id):
 	return render(request, 'review.html', context)
 
 @login_required
-def write_comment(request,review_id):	
-	if request.method == 'GET':
-		return redirect('/review/' + review_id);
+def write_comment(request, review_id):	
+	context = {}
 	review_be_comment = Review.objects.get(id = review_id)
 	comment_new = Comment(review = review_be_comment, publisher = request.user)
 	comment_form = CommentForm(request.POST, instance = comment_new)
@@ -542,8 +541,10 @@ def write_comment(request,review_id):
 		return redirect('/review/' + review_id)
 
 	comment_form.save()
+
+	context['comment'] = comment_new
 	
-	return redirect('/review/' + review_id)
+	return render(request, 'write_comment.html', context)
 
 @login_required
 def review_like(request,review_id):
