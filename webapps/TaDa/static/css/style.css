@@ -543,9 +543,12 @@ ul.relevant-movie{
 li.relevant-movie-item{
     margin-bottom: 7px;
 }
-
-.relevant-movie-name{
-    margin-left: 20px;
+.relevant-movie-cover-wrapper{
+}
+.relevant-movie-name-wrapper{
+    padding-top: 10px;
+    height: 100px;
+    overflow: hidden;
 }
 
 .relevant-user-name{
@@ -697,4 +700,9 @@ li.following-item{
 .people-liked-photo{
     margin-right: auto;
     margin-left: auto;
+}
+
+.liked-movie-title{
+    height: 60px;
+    overflow: hidden;
 }

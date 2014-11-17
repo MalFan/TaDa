@@ -237,12 +237,20 @@ def movie(request, movie_id):
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate}
+
+	if len(m.cast_list.all()) > 15:
+		context['is_cast_full'] = 'true'
+
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['review_form'] = review_form
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()[:5]
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	if len(reviews) > 5:
+		reviews = reviews[:5]
+		context['is_review_full'] = 'true'
 	context['reviews'] = reviews
+
 	like_list = get_object_or_404(Movie, imdb_id = movie_id).like_list.all()
 	if request.user in like_list:
 		context['like_status'] = 'liked'
@@ -258,8 +266,16 @@ def movie(request, movie_id):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
-	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)[:5]
-	context['u_like'] = get_people_who_liked_this(movie_id, request.user)[:5]
+	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
+	if len(context['m_also']) > 5:
+		context['m_also'] = context['m_also'][:5]
+		context['is_m_also_full'] = 'true'
+		
+	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
+	if len(context['u_like']) > 5:
+		context['u_like'] = context['m_also'][:5]
+		context['is_u_like_full'] = 'true'
+
 	return render(request, 'movie.html', context)
 
 def cast_list(request,movie_id):

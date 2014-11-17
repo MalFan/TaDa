@@ -7,8 +7,9 @@
       <p class = "font-Georgia font-lg font-bold">People also liked</p>
       {% for m in m_also %}
       <div class = "liked-movie inline col-md-3">
-        <a href="/movie/{{m.imdb_id}}"><img class="movie-pic-md" src="{{m.cover}}"/>
-        <p class="font-black font-Calson font-md text-center">{{m.title}}</p></a>
+        <a href="/movie/{{m.imdb_id}}"><img class="movie-pic-md" src="{{m.cover}}"/></a>
+        <a href="/movie/{{m.imdb_id}}">
+        <p class="liked-movie-title  font-black font-Calson font-md text-center">{{m.title}}</p></a>
       </div>
       {% endfor %}
     </div>
@@ -41,4 +42,5 @@
 {% block additional_js %}
 <script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
 <script src="/static/js/script.js"></script>
+<script src="/static/js/movie_list.js"></script>
 {% endblock additional_js %}

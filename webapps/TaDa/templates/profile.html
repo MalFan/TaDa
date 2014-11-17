@@ -67,7 +67,6 @@
                   {{field}}
                   {{field.errors}}
                 {% endfor %}
-                <!-- <input type="file" class = "form-control btn btn-sm btn-info choose-photo"> -->
                 <input type="submit" class = "form-control btn btn-info" name ="submit" value="Confirm">
                {% csrf_token %}   
               </form>
@@ -89,8 +88,8 @@
         <a href="/movie/{{movie.imdb_id}}"><img class="movie-pic-md" src="{{movie.cover}}"/>
         <p class="font-black font-Calson font-md text-center">{{movie.title}}</p></a>
       </div>
-      {% endfor %}
-      <a href="#"><p class = "font-md font-Calson">more ...</p></a>
+      {% endfor %}<!-- 
+      <a href="#"><p class = "font-md font-Calson">more ...</p></a> -->
     </div>
 
     <div class = "posted-review-wrapper row shadow white-block">
@@ -108,8 +107,8 @@
             </div>
           </li>
           {% endfor %}
-        </ul>
-        <a href="#"><p class = "font-md font-Calson">more ...</p></a>
+        </ul><!-- 
+        <a href="#"><p class = "font-md font-Calson">more ...</p></a> -->
     </div>
   </div>
 

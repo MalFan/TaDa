@@ -44,8 +44,9 @@
                 <p class = "cast-character inline">{{c}}</p>
           </li>      
           {% endfor %}
-
+          {% if is_cast_full %}
           <a href="/cast-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+          {% endif %}
         </ul>
       </div>
       <div class = "movie-review-wrapper white-block shadow">
@@ -73,11 +74,9 @@
             </div>
           </li>
           {% endfor %}
-
-          
-
-
+          {% if is_review_full %}
           <a href="/review-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -86,15 +85,20 @@
         <p class = "font-Georgia font-md font-bold inline text-center">People also liked</p>
         <ul class = "relevant-movie">
           {% for m in m_also %}
-          <li class = "relevant-movie-item">
-            <a href="/movie/{{m.imdb_id}}" class = "no-underline">
-            <img class="movie-pic-sm" src="{{m.cover}}"/>
-            <p class="relevant-movie-name font-black font-Calson font-md inline">{{m.title}}</p></a>
+          <li class = "relevant-movie-item row">
+            <div class = "relevant-movie-cover-wrapper col-md-5">
+              <a href="/movie/{{m.imdb_id}}" class = "no-underline">
+              <img class="movie-pic-sm" src="{{m.cover}}"/></a>
+            </div>
+            <div class = "relevant-movie-name-wrapper inline col-md-7">
+              <a href="/movie/{{m.imdb_id}}" class = "no-underline"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>
+            </div>
           </li>
           {% endfor %}
         </ul>
-
+        {% if is_m_also_full %}
         <a href="/people-also-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+        {% endif %}
       </div>
       <div class = "people-who-liked-this-wrapper white-block  shadow">
         <p class = "font-Georgia font-md font-bold inline text-center">People who liked this</p>
@@ -106,7 +110,9 @@
           </li>
           {% endfor %}
         </ul>
+        {% if is_u_like_full %}
         <a href="/people-who-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -127,10 +133,6 @@
               {{field.errors}}<br>
             {% endfor %}
           </table><br>
-            <!-- <p class = "font-Calson font-md">Subject:<p>
-            <input type="textarea" class = "form-control" name ="subject">
-             <p class = "font-Calson font-md">Content:<p>
-            <textarea class = "form-control" name ="subject" rows = "5" form = "review-form"></textarea><br> -->
             <input type="submit" class = "submit-review-btn btn btn-info" name ="submit" value="Post">
             {% csrf_token %} 
         </form>
