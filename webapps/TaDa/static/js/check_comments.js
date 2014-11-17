@@ -1,7 +1,7 @@
 // Customized javascript via jQuery
-$('.notification-icon').on('mouseover', function() {
-     $(this).effect("bounce", {times:2 }, 1000);
-});
+// $('.notification-icon').on('mouseover', function() {
+//      $(this).effect("bounce", {times:2 }, 1000);
+// });
 
 $(document).ready( function() {
 
@@ -21,10 +21,15 @@ function checkAjax() {
 			success:function(reviews) 
 			{
 				// alert( "success" );
-				var ids;
+				// var ids;
+				if(reviews.length > 0){
+					$("#notification").removeClass("notification");
+				}
 				for (var i = 0; i < reviews.length; i += 1) {
-					ids += reviews[i].pk
-					ids += "; "
+					// ids += reviews[i].pk
+					// ids += "; "
+					console.log(reviews[i].pk);
+					console.log(reviews[i].fields.title);
 				}
 				// alert( ids );
 		
