@@ -62,9 +62,10 @@ class Profile(models.Model):
 	movies_disliked = models.ManyToManyField(Movie, related_name = 'disliked_by', blank = True)
 	users_followed = models.ManyToManyField(User, related_name = 'followed_by', blank = True)
 
+	last_check_time = models.DateTimeField(auto_now_add = True)
+
 	def __unicode__(self):
 		return self.user.username
-
 
 class Review(models.Model):
 	pub_time = models.DateTimeField(auto_now_add = True)

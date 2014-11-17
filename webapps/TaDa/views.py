@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
+from django.core import serializers
+from django.utils import timezone 
 
 import imdb
 import collections
@@ -698,6 +700,29 @@ def get_photo(request, user_id):
 	print content_type
 	return HttpResponse(profile.photo, content_type = content_type)
 
+
+@login_required
+def check_comments(request):
+
+	context = {}
+	current_user = request.user
+	# print current_user.profile.last_check_time
+	reviews = Review.objects.filter(publisher=current_user, 
+			comments_included__pub_time__gte=current_user.profile.last_check_time)
+	print reviews.count()
+	print current_user.profile.last_check_time
+	current_user.profile.last_check_time = timezone.now()
+	print current_user.profile.last_check_time
+	current_user.profile.save()
+
+
+	response_text = serializers.serialize('json', reviews)
+	# context['reviews'] = reviews
+	print response_text
+
+	return HttpResponse(response_text, content_type='application/json')
+
+
 def register(request):
 	context = {}
 	regis_form = RegistrationForm(request.POST)
@@ -720,6 +745,7 @@ def register(request):
 	
 	profile = Profile(user = new_user)
 	profile.save()
+
 	auto_login(request, new_user)
 	return redirect('/')
 

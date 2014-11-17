@@ -33,6 +33,8 @@ urlpatterns = patterns('',
 	url(r'^get-photo/(?P<user_id>\d+)$','TaDa.views.get_photo', name='get-photo'),
 	url(r'^follow/(?P<user_id>\d+)$','TaDa.views.follow', name='follow'),
 
+	url(r'^check-comments$', 'TaDa.views.check_comments', name='check_comments'),
+
 	url(r'^register$','TaDa.views.register'),
 	url(r'^login$', 'TaDa.views.log_in',name='login'),
 	# url(r'^login$', 'django.contrib.auth.views.login', {'template_name':'generic.html',

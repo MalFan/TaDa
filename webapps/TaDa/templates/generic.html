@@ -59,9 +59,9 @@
                           {% if user.username %}
                         <li><a href="{% url 'profile' user.id %}" class="hidden-md hidden-sm hidden-xs"><img src="{% url 'get-photo' user.id %}" alt="{{user}}" class="photo-sm"> {{user}}</a></li>
                         
-                        <li><a data-toggle="modal" href="{% url 'logout' %}">Log Out</a></li>
+                        <li><a data-toggle="modal" href="{% url 'logout' %}" id="log-btn" status="loggedin">Log Out</a></li>
                         {% else %}
-                        <li><a data-toggle="modal" href=".login-popup">Log In</a></li>
+                        <li><a data-toggle="modal" href=".login-popup" id="log-btn" status="loggedout">Log In</a></li>
                         {% endif%}
                       </ul>
                     </div>
@@ -122,6 +122,7 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
         <script src="/static/js/bootstrap.js"></script>
+        <script src="/static/js/check_comments.js"></script>
         {% block additional_js %}
         {% endblock additional_js %}
     </body>
