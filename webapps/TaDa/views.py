@@ -39,19 +39,22 @@ def get_upcoming_movies():
 	context['upcoming_movies_combo3'] = []
 
 	id_list1 = [
-			'1100089',
-			'3125324',
-			'2096672',
-			'2398231']
-	id_list2 = [
 			'1951265',
 			'3704538',
 			'2171902',
-			'2960930']
-	id_list3 = [
+			'2960930'
+
+			]
+	id_list2 = [
 			'2170439',
 			'1911658',
-			'2084970']
+			'2084970'
+			]
+	id_list3 = [
+			'2799166',
+			'2305051',
+			'2369205'
+			]
 
 	for m_id in id_list1:
 		m = Movie.objects.filter(imdb_id = m_id)
@@ -117,7 +120,11 @@ def get_in_theater_movies():
 			'2872718', 
 			'0816692', 
 			'1872194', 
-			'2262227']
+			'2262227',
+			'1100089',
+			'3125324',
+			'2096672',
+			'2398231']
 	for m_id in id_list:
 		try:
 			m = Movie.objects.get(imdb_id = m_id)
