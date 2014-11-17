@@ -1,4 +1,8 @@
 // Customized javascript via jQuery
+$('.notification-icon').on('mouseover', function() {
+     $(this).effect("bounce", {times:2 }, 1000);
+});
+
 $(document).ready( function() {
 
 	setInterval(checkAjax, 15000);
