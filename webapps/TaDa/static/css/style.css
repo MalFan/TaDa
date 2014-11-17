@@ -146,6 +146,10 @@ ul
     background-color: #ffffff;
     border-radius: 3px;
 }
+
+.input_warning{
+    border:1px solid red;
+}
 /*generic above*/
 
 /*home*/
