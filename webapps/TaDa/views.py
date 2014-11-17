@@ -716,18 +716,18 @@ def check_comments(request):
 	# print current_user.profile.last_check_time
 	reviews = Review.objects.filter(publisher=current_user, 
 			comments_included__pub_time__gte=current_user.profile.last_check_time)
-	print reviews.count()
-	print current_user.profile.last_check_time
+	# print reviews.count()
+	# print current_user.profile.last_check_time
 	current_user.profile.last_check_time = timezone.now()
-	print current_user.profile.last_check_time
+	# print current_user.profile.last_check_time
 	current_user.profile.save()
 
 
-	response_text = serializers.serialize('json', reviews)
-	# context['reviews'] = reviews
-	print response_text
-
-	return HttpResponse(response_text, content_type='application/json')
+	# response_text = serializers.serialize('json', reviews)
+	context['reviews'] = reviews
+	# print response_text
+	return render (request, 'append_notification_list.html', context)
+	# return HttpResponse(response_text, content_type='application/json')
 
 
 def register(request):

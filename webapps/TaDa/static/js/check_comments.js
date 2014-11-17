@@ -18,19 +18,21 @@ function checkAjax() {
 		{
 			url: "/check-comments",
 			type: "GET",
-			success:function(reviews) 
+			dataType: "html",
+			success:function(html) 
 			{
 				// alert( "success" );
 				// var ids;
-				if(reviews.length > 0){
+				if( html ){
 					$("#notification").removeClass("notification");
 				}
-				for (var i = 0; i < reviews.length; i += 1) {
-					// ids += reviews[i].pk
-					// ids += "; "
-					console.log(reviews[i].pk);
-					console.log(reviews[i].fields.title);
-				}
+				$('#notification-list').append(html);		    
+				// for (var i = 0; i < reviews.length; i += 1) {
+				// 	// ids += reviews[i].pk
+				// 	// ids += "; "
+				// 	console.log(reviews[i].pk);
+				// 	console.log(reviews[i].fields.title);
+				// }
 				// alert( ids );
 		
 			},
