@@ -187,6 +187,7 @@ def search(request):
 	if search_type == 'all':
 		movies = Movie.objects.filter(title__contains = keywords)
 		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
+		users = User.objects.filter(username__contains = keywords)
 
 		context['movie_combos'] = []
 		for m in movies:
@@ -205,6 +206,7 @@ def search(request):
 			context['movie_combos'].append(movie_combo)
 
 		context['person_combos'] = persons
+		context['user_combos'] = users
 
 	elif search_type == 'movies':
 		movies = Movie.objects.filter(title__contains = keywords)
@@ -226,6 +228,9 @@ def search(request):
 	elif search_type == 'names':
 		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
 		context['person_combos'] = persons
+	elif search_type == 'users':
+		users = User.objects.filter(username__contains = keywords)
+		context['user_combos'] = users
 
 	return render(request, 'search.html', context)
 

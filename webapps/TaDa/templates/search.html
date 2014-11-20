@@ -21,8 +21,28 @@
   </div>
 
   <div class = "search-result-wrapper">
-    {% if person_combos or movie_combos %}
+    {% if user_combos or person_combos or movie_combos %}
       <p class = "font-Georgia font-lg font-bold">Search results for "{{request.GET.search_content}}"</p>
+      {% if user_combos %}
+      <p class = "search-title font-Georgia font-md font-bold">Users</p>
+      <ul class = "person-list">
+
+        {% for u in user_combos %}
+        <div class = "divider-line"></div>
+        <li class = "search-person row">
+          <div class ="search-person-photo col-md-2">
+            <img class="person-pic-md" src="{% url 'get-photo' u.id %}"/>
+          </div>
+          <div class ="search-person-name col-md-6">                        
+            <a href="{{u.id}}">
+              <p class="font-black font-Calson font-md inline">{{u.username}}</p>
+            </a>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
       {% if person_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Names</p>
       <ul class = "person-list">
@@ -41,7 +61,8 @@
         </li>
         {% endfor %}
       </ul>
-       {% endif %}
+      {% endif %}
+
       {% if movie_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Movies</p>
       <ul class = "search-list">
