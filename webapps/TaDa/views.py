@@ -12,20 +12,83 @@ from django.utils import timezone
 import imdb
 import collections
 from operator import itemgetter
+import re
 
 from models import *
 from forms import *
 
 # Create your views here.
+def normalize_query(query_string,
+					findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+					normspace=re.compile(r'\s{2,}').sub):
+	''' Splits the query string in invidual keywords, getting rid of unecessary spaces
+	    and grouping quoted words together.
+	    Example:
+	    
+	    >>> normalize_query('  some random  words "with   quotes  " and   spaces')
+	    ['some', 'random', 'words', 'with quotes', 'and', 'spaces']
+
+	'''
+	return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
+
+def get_query(query_string, search_fields):
+	''' Returns a query, that is a combination of Q objects. That combination
+	    aims to search keywords within a model by testing the given search fields.
+
+	'''
+	query = None # Query to search for every search term        
+	terms = normalize_query(query_string)
+	if terms == []:
+		or_query = None
+		for field_name in search_fields:
+			q = Q(**{"%s__icontains" % field_name: terms})
+			if or_query is None:
+			    or_query = q
+			else:
+			    or_query = or_query | q
+		if query is None:
+			query = or_query
+		else:
+			query = query & or_query
+	else:
+		for term in terms:
+			or_query = None # Query to search for a given term in each field
+			for field_name in search_fields:
+				q = Q(**{"%s__icontains" % field_name: term})
+				if or_query is None:
+				    or_query = q
+				else:
+				    or_query = or_query | q
+			if query is None:
+				query = or_query
+			else:
+				query = query & or_query
+	return query
+
 def search(request):
 	context = {}
-	context['search_form'] = SearchForm(request.GET) 
-	keywords = request.GET['search_content']
-	search_type = request.GET['search_type']
+	search_form = SearchForm(request.GET) 
+	if not search_form.is_valid():
+		context['search_form'] = SearchForm()
+		regis_form = RegistrationForm()
+		login_form = LoginForm()
+		context['regis_form'] = regis_form
+		context['login_form'] = login_form
+		return  render(request, 'search.html', context)
+
+	context['search_form'] = search_form
+	keywords = search_form.cleaned_data['search_content']
+	search_type = search_form.cleaned_data['search_type']
+
 	if search_type == 'all':
-		movies = Movie.objects.filter(title__contains = keywords)
-		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
-		users = User.objects.filter(username__contains = keywords)
+		movie_query = get_query(keywords, ['title',])
+		movies = Movie.objects.filter(movie_query)
+
+		person_query = get_query(keywords, ['name',])
+		persons = Person.objects.filter(person_query, has_full_info = True)
+
+		user_query = get_query(keywords, ['username',])
+		users = User.objects.filter(user_query)
 
 		context['movie_combos'] = []
 		for m in movies:
@@ -47,7 +110,9 @@ def search(request):
 		context['user_combos'] = users
 
 	elif search_type == 'movies':
-		movies = Movie.objects.filter(title__contains = keywords)
+		movie_query = get_query(keywords, ['title',])
+		movies = Movie.objects.filter(movie_query)
+
 		context['movie_combos'] = []
 		for m in movies:
 			movie_combo = {
@@ -64,10 +129,14 @@ def search(request):
 					'certificate' : m.certificate}
 			context['movie_combos'].append(movie_combo)
 	elif search_type == 'names':
-		persons = Person.objects.filter(name__contains = keywords, has_full_info = True)
+		person_query = get_query(keywords, ['name',])
+		persons = Person.objects.filter(person_query, has_full_info = True)
+
 		context['person_combos'] = persons
 	elif search_type == 'users':
-		users = User.objects.filter(username__contains = keywords)
+		user_query = get_query(keywords, ['username',])
+		users = User.objects.filter(user_query)
+		
 		context['user_combos'] = users
 
 	return render(request, 'search.html', context)
