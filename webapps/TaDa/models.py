@@ -75,6 +75,7 @@ class Review(models.Model):
 	movie = models.ForeignKey(Movie, related_name = 'reviews_included')
 	like_list = models.ManyToManyField(User, related_name='r_like')
 	dislike_list = models.ManyToManyField(User, related_name='r_dislike')
+	score = models.FloatField(default = 0)
 
 	def __unicode__(self):
 		return self.title
