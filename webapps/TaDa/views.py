@@ -17,168 +17,6 @@ from models import *
 from forms import *
 
 # Create your views here.
-def home(request):
-	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
-	context['next'] = '/'
-	context['movie_combos'] = get_in_theater_movies()
-	context.update(get_upcoming_movies())
-	return render(request, 'home.html', context)
-
-def get_upcoming_movies():
-	context = {}
-	movies1 = []
-	movies2 = []
-	movies3 = []
-	context['upcoming_movies_combo1'] = []
-	context['upcoming_movies_combo2'] = []
-	context['upcoming_movies_combo3'] = []
-
-	id_list1 = [
-			'1951265',
-			'3704538',
-			'2171902',
-			'2960930'
-
-			]
-	id_list2 = [
-			'2170439',
-			'1911658',
-			'2084970'
-			]
-	id_list3 = [
-			'2799166',
-			'2305051',
-			'2369205'
-			]
-
-	for m_id in id_list1:
-		m = Movie.objects.filter(imdb_id = m_id)
-		if( len(m) > 0 ):
-			movies1.append(m[0])	
-	for m_id in id_list2:
-		m = Movie.objects.filter(imdb_id = m_id)
-		if( len(m) > 0 ):
-			movies2.append(m[0])
-
-	for m_id in id_list3:
-		m = Movie.objects.filter(imdb_id = m_id)
-		if( len(m) > 0 ):
-			movies3.append(m[0])
-
-	for m in movies1:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
-		context['upcoming_movies_combo1'].append(movie_combo)				
-	for m in movies2:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
-		context['upcoming_movies_combo2'].append(movie_combo)
-	for m in movies3:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
-		context['upcoming_movies_combo3'].append(movie_combo)
-	return context
-
-def get_in_theater_movies():
-	movies = []
-	id_list = [
-			'0829150', 
-			'0455944', 
-			'2713180', 
-			'2267998', 
-			'2911666', 
-			'1790864', 
-			'2872718', 
-			'0816692', 
-			'1872194', 
-			'2262227',
-			'1100089',
-			'3125324',
-			'2096672',
-			'2398231']
-	for m_id in id_list:
-		try:
-			m = Movie.objects.get(imdb_id = m_id)
-			movies.append(m)
-		except Movie.DoesNotExist:
-			pass
-
-	movie_combos = []
-	for m in movies:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
-		movie_combos.append(movie_combo)
-
-	return movie_combos
-
-
-def recommend_movie(request):
-	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
-	context['movie_combos'] = get_recommend_movies()
-	context['next_page'] = '/recommend-movie'
-	return render(request, 'recommend_movie.html', context)
-	
-def get_recommend_movies():
-	movies = []
-	movies = Movie.objects.all().annotate(num_likes=Count('like_list')).order_by('num_likes').reverse()[:15]
-	movie_combos = []
-	for m in movies:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
-		movie_combos.append(movie_combo)
-
-	return movie_combos
-
 def search(request):
 	context = {}
 	context['search_form'] = SearchForm(request.GET) 
@@ -292,111 +130,6 @@ def movie(request, movie_id):
 
 	return render(request, 'movie.html', context)
 
-def cast_list(request,movie_id):
-	context = {}
-	context['search_form'] = SearchForm()	
-	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
-
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_character_list' : zip(m.cast_list.all(), m.character_list.all()),
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	
-	return render(request, 'cast_list.html', context)
-
-def review_list(request,movie_id):
-	context = {}
-	context['search_form'] = SearchForm()	
-	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
-
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-
-	context['reviews'] = Review.objects.filter(movie = m).order_by('id').reverse()
-
-	return render(request, 'review_list.html', context)
-
-def people_also_liked_list(request,movie_id):
-	context = {}
-	context['search_form'] = SearchForm()	
-	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
-
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
-	
-	return render(request, 'people_also_liked_list.html', context)
-
-def people_who_liked_list(request,movie_id):
-	context = {}
-	context['search_form'] = SearchForm()	
-	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
-
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	review_form = ReviewForm()
-	context['m'] = movie_combo
-	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
-	
-	return render(request, 'people_who_liked_list.html', context)
-
 def get_people_also_liked_movies(movie_id, current_user):
 
 	m = Movie.objects.get(imdb_id = movie_id)
@@ -455,51 +188,6 @@ def get_recent_works(person_id):
 
 
 @login_required
-def write_review(request,movie_id):
-	if request.method == 'GET':
-		return redirect('/movie/' + movie_id);
-
-	context = {}
-	review_form = ReviewForm()
-	movie_be_reviewed = get_object_or_404(Movie, imdb_id = movie_id)
-	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
-	
-	review_form = ReviewForm(request.POST, instance = review_new)
-
-	if not review_form.is_valid():
-		return redirect('/movie/' + movie_id);
-
-	review_form.save()
-
-	return redirect('/movie/'+movie_id)
-
-@login_required
-def new_review(request,movie_id):
-	context = {}
-	review_form = ReviewForm()
-	context['review_form'] = review_form
-	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
-	context['m'] = movie_combo
-	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	context['like_num'] = like_count
-	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
-	context['dislike_num'] = dislike_count
-	return render(request, 'write_review.html', context)
-
-
-@login_required
 def like(request, movie_id):
 	current_user = request.user
 	movie_be_like = Movie.objects.get(imdb_id = movie_id)
@@ -527,6 +215,52 @@ def dislike(request, movie_id):
 	
 	# return redirect('/movie/' + movie_id)
 	return HttpResponse(response_text)
+
+
+@login_required
+def write_review(request,movie_id):
+	if request.method == 'GET':
+		return redirect('/movie/' + movie_id);
+
+	context = {}
+	review_form = ReviewForm()
+	movie_be_reviewed = get_object_or_404(Movie, imdb_id = movie_id)
+	review_new = Review(movie = movie_be_reviewed, publisher = request.user)
+	
+	review_form = ReviewForm(request.POST, instance = review_new)
+
+	if not review_form.is_valid():
+		return redirect('/movie/' + movie_id);
+
+	review_form.save()
+
+	return redirect('/movie/'+movie_id)
+
+
+@login_required
+def new_review(request,movie_id):
+	context = {}
+	review_form = ReviewForm()
+	context['review_form'] = review_form
+	m = get_object_or_404(Movie, imdb_id = movie_id)
+	movie_combo = {
+			'imdb_id' : m.imdb_id,
+			'title' : m.title,
+			'year' : m.year,
+			'duration' : m.duration,
+			'cover' : m.cover,
+			'director_list' : m.director_list.all(),
+			'writer_list' : m.writer_list.all(),
+			'cast_list' : m.cast_list.all()[:15],
+			'storyline' : m.short_storyline,
+			'genre_list' : m.genre_list.all(),
+			'certificate' : m.certificate}
+	context['m'] = movie_combo
+	like_count = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
+	context['like_num'] = like_count
+	dislike_count = Movie.objects.filter(imdb_id = movie_id, dislike_list__in = User.objects.all()).count()
+	context['dislike_num'] = dislike_count
+	return render(request, 'write_review.html', context)
 
 
 def review(request,review_id):
@@ -606,112 +340,6 @@ def review_dislike(request,review_id):
 
 	return redirect('/review/' + review_id)
 
-def profile(request, user_id):
-	context = {}
-
-	context['user'] = request.user
-	user_be_view = get_object_or_404(User,id = user_id)
-	print user_be_view.username
-
-	if Profile.objects.filter(user = user_be_view).count() == 0:
-		profile = Profile(user = user_be_view)
-		profile.save()
-
-	if request.user == user_be_view:
-		context['view_user'] = request.user
-		profile = get_object_or_404(Profile, user = user_be_view)
-		intro_form = IntroForm(instance = profile)
-		photo_form = PhotoForm(instance = profile)
-		context['intro_form'] = intro_form
-		context['photo_form'] = photo_form
-	else:
-		context['view_user'] = user_be_view
-
-	context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
-	
-	if Profile.objects.filter(user = user_be_view).count() > 0:
-		profile = Profile.objects.get(user = user_be_view)
-		context['profile'] = profile
-		# print profile.photo
-	# context['photo_form'] = PhotoForm()
-	context['search_form'] = SearchForm()
-	user_be_followed = get_object_or_404(User, id = user_id)
-	if request.user.username:
-		profile_of_login_user = get_object_or_404(Profile, user = request.user)
-		if user_be_followed in profile_of_login_user.users_followed.all():
-			context['follow_text'] = 'unfollow'
-		else:
-			context['follow_text'] = 'follow'
-	else:
-		context['follow_text'] = 'follow'
-	return render(request, 'profile.html', context)
-
-@login_required
-def intro(request, user_id):
-
-	if request.method == 'GET':
-		return redirect('/profile/' + user_id)
-
-	profile_new = Profile.objects.filter(user = request.user)
-	if profile_new.count() == 0:
-		profile_new = Profile(user = request.user)
-	else:
-		profile_new = Profile.objects.get(user = request.user)
-
-	intro_form = IntroForm(request.POST, instance = profile_new)
-
-	if not intro_form.is_valid():
-		return redirect('/profile/' + user_id)
-
-	intro_form.save()
-	return redirect('/profile/' + user_id)
-
-@login_required
-def profile_photo(request, user_id):
-
-	if request.method == 'GET':
-		return redirect('/profile/' + user_id)
-
-	profile_new = Profile.objects.filter(user = request.user)
-	
-	if profile_new.count() == 0:
-		profile_new = Profile(user = request.user)
-	else:
-		profile_new = Profile.objects.get(user = request.user)
-
-	print profile_new.user.username
-
-	photo_form = PhotoForm(request.POST, request.FILES, instance = profile_new)
-
-	if not photo_form.is_valid():
-		return redirect('/profile/' + user_id)
-
-	photo_form.save()
-	return redirect('/profile/' + user_id)
-
-@login_required
-def follow(request, user_id):
-	user_be_followed = get_object_or_404(User, id = user_id)
-	# print user_be_followed.username
-	profile_of_login_user = get_object_or_404(Profile, user = request.user)
-	if user_be_followed in profile_of_login_user.users_followed.all():
-		profile_of_login_user.users_followed.remove(user_be_followed)
-	else:
-		profile_of_login_user.users_followed.add(user_be_followed)
-
-	return redirect('/profile/' + user_id)
-
-def get_photo(request, user_id):
-
-	profile = get_object_or_404(Profile, user__id = user_id)
-	if not profile.photo:
-		raise Http404
-	
-	print profile.photo.name
-	content_type = guess_type(profile.photo.name)
-	print content_type
-	return HttpResponse(profile.photo, content_type = content_type)
-
 
 @login_required
 def check_comments(request):
@@ -733,71 +361,3 @@ def check_comments(request):
 	# print response_text
 	return render (request, 'append_notification_list.html', context)
 	# return HttpResponse(response_text, content_type='application/json')
-
-
-def register(request):
-	context = {}
-	regis_form = RegistrationForm(request.POST)
-	context['regis_form'] = regis_form
-	context['search_form'] = SearchForm() 
-
-	if request.method == 'GET':
-		return redirect('/')
-
-	if not regis_form.is_valid():
-		return redirect('/')
-
-	new_user = User.objects.create_user(username=regis_form.cleaned_data['username'],
-										email=regis_form.cleaned_data['email'],
-										password=regis_form.cleaned_data['password1'])
-	new_user.save()
-	new_user = authenticate(username=regis_form.cleaned_data['username'],
-										email=regis_form.cleaned_data['email'],
-										password=regis_form.cleaned_data['password1'])
-	
-	profile = Profile(user = new_user)
-	profile.save()
-
-	auto_login(request, new_user)
-	return redirect('/')
-
-def log_in(request):
-	# # next = next_page
-
-	# login_form = LoginForm(request.POST)
-
-	# if not login_form.is_valid():
-	# 	print 22
-	# 	return redirect('/')
-	# # context['login_form'] = login_form
-
-	# 
-	# login(request, new_user)
-
-	# next = ''
-	# if not 'next1' in request.POST:
-	# 	return redirect('/')
-	# else:
-	# 	next = request.POST['next1']
-
-	# return redirect(next)
-	# next = request.POST['next1']
-
-	if request.method == 'GET':
-		return redirect('/')
-
-	# loginform = LoginForm(request.POST)
-	# if not loginform.is_valid():
-	# 	print 334
-	# 	return redirect('/')
-
-	return login(request,redirect_field_name='/',
-							template_name='home.html',
-							authentication_form=LoginForm,
-							extra_context={'login_form':LoginForm,'regis_form':RegistrationForm})
-
-
-@login_required
-def log_out(request):
-	# next = next_page
-	return logout(request,next_page='/')
