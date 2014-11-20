@@ -166,7 +166,7 @@ def movie(request, movie_id):
 	context['m'] = movie_combo
 	context['review_form'] = review_form
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
-	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('id').reverse()
+	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('score').reverse()
 	if len(reviews) > 5:
 		reviews = reviews[:5]
 		context['is_review_full'] = 'true'
@@ -362,14 +362,25 @@ def review(request,review_id):
 	review_like_list = get_object_or_404(Review, id = review_id).like_list.all()
 	if request.user in review_like_list:
 		context['review_like_status'] = 'liked'
-	context['review_like_num'] = review_like_list.count
+	context['review_like_num'] = review_like_list.count()
 
 	review_dislike_list = get_object_or_404(Review, id = review_id).dislike_list.all()
 	if request.user in review_dislike_list:
 		context['review_dislike_status'] = 'disliked'
-	context['review_dislike_num'] = review_dislike_list.count
+	context['review_dislike_num'] = review_dislike_list.count()
 
 	return render(request, 'review.html', context)
+
+def update_review_score(review_id):
+	review_be_scored = get_object_or_404(Review, id = review_id)
+	useful_num = float(get_object_or_404(Review, id = review_id).like_list.all().count())
+	useless_num = float(get_object_or_404(Review, id = review_id).dislike_list.all().count())
+	comment_num = float(review_be_scored.comments_included.all().count()) + 1
+	score = (useful_num + 1) / (useful_num + useless_num + 1) * pow(comment_num, 0.1)
+	print score
+	review_be_scored.score = score
+	print review_be_scored.score
+	review_be_scored.save()
 
 @login_required
 def write_comment(request, review_id):	
@@ -384,6 +395,7 @@ def write_comment(request, review_id):
 	comment_form.save()
 
 	context['comment'] = comment_new
+	update_review_score(review_id)
 	
 	return render(request, 'write_comment.html', context)
 
@@ -395,6 +407,7 @@ def review_like(request,review_id):
 		review_be_like.like_list.remove(request.user)
 	else:
 		review_be_like.like_list.add(request.user)
+	update_review_score(review_id)
 
 	return redirect('/review/' + review_id)
 
@@ -406,6 +419,7 @@ def review_dislike(request,review_id):
 		review_be_dislike.dislike_list.remove(request.user)
 	else:
 		review_be_dislike.dislike_list.add(request.user)
+	update_review_score(review_id)
 
 	return redirect('/review/' + review_id)
 
