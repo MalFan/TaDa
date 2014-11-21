@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from forms import *
+from django.conf import settings
 
 urlpatterns = patterns('',
 	url(r'^admin$', 'TaDa.views_admin.admin_homepage', name='admin_homepage'),
@@ -42,5 +43,6 @@ urlpatterns = patterns('',
  #        'authentication_form':LoginForm,'extra_context':{'regis_form':RegistrationForm}}),
 	url(r'^logout$', 'TaDa.views_account.log_out', name='logout'),
 
+	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 )

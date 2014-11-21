@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from django.conf import settings
 import imdb
 
 from models import *
 # from forms import *
+import urllib
+import os
 
 # Create your views here.
 def admin_homepage(request):
@@ -38,7 +41,14 @@ def admin_add_movie(request, movie_id):
 	    		pass
 
 		try:
-			m_to_add.cover = movie['full-size cover url']
+		    	os.chdir(settings.MEDIA_ROOT + '/movie-covers/')  # set where files download to
+
+			fileName=str('tt' + movie_id + ".jpg")  # string containing the file name
+			url = movie['full-size cover url']
+			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
+			# print url
+
+			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
 		except KeyError:
 	    		pass
 		
@@ -98,7 +108,7 @@ def admin_add_movie(request, movie_id):
 					new_star.save()
 					m_to_add.cast_list.add(new_star)
 				try:
-					print s.currentRole['name']
+					# print s.currentRole['name']
 					new_character = Character(name = s.currentRole['name'])
 					new_character.save()
 					m_to_add.character_list.add(new_character)
@@ -184,9 +194,16 @@ def admin_add_person(request, person_id):
 			p_to_add.bio = person['mini biography'][0]
 		except KeyError:
 	    		pass
-		
+
 		try:
-			p_to_add.photo = person['headshot']
+		    	os.chdir(settings.MEDIA_ROOT + '/person-photos/')  # set where files download to
+
+			fileName=str('nm' + person_id + ".jpg")  # string containing the file name
+			url = person['headshot']
+			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
+			# print url
+
+			p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
 		except KeyError:
 	    		pass
 
