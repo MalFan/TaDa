@@ -15,6 +15,7 @@ from operator import itemgetter
 
 from models import *
 from forms import *
+from views_home import *
 
 # Create your views here.
 def register(request):
@@ -76,7 +77,8 @@ def log_in(request):
 	return login(request,redirect_field_name='/',
 							template_name='home.html',
 							authentication_form=LoginForm,
-							extra_context={'login_form':LoginForm,'regis_form':RegistrationForm})
+							extra_context={'login_form':LoginForm,'regis_form':RegistrationForm,'search_form':SearchForm,
+							'next':'/','movie_combos':get_in_theater_movies()})
 
 
 @login_required

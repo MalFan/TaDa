@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
+from django.db import transaction
 
 import imdb
 import collections
@@ -255,7 +256,7 @@ def get_recent_works(person_id):
 			Q(director_list__in=[p])).distinct().order_by('-year')
 	return movies
 
-
+@transaction.atomic
 @login_required
 def like(request, movie_id):
 	current_user = request.user
@@ -271,6 +272,7 @@ def like(request, movie_id):
 
 	return HttpResponse(response_text)
 
+@transaction.atomic
 @login_required
 def dislike(request, movie_id):
 	current_user = request.user
@@ -285,7 +287,7 @@ def dislike(request, movie_id):
 	# return redirect('/movie/' + movie_id)
 	return HttpResponse(response_text)
 
-
+@transaction.atomic
 @login_required
 def write_review(request,movie_id):
 	if request.method == 'GET':
@@ -399,6 +401,7 @@ def write_comment(request, review_id):
 	
 	return render(request, 'write_comment.html', context)
 
+@transaction.atomic
 @login_required
 def review_like(request,review_id):
 	current_user = request.user
@@ -411,6 +414,7 @@ def review_like(request,review_id):
 
 	return redirect('/review/' + review_id)
 
+@transaction.atomic
 @login_required
 def review_dislike(request,review_id):
 	current_user = request.user
