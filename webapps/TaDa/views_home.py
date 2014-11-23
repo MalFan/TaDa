@@ -178,3 +178,14 @@ def get_recommend_movies():
 		movie_combos.append(movie_combo)
 
 	return movie_combos
+
+def recommend_user(request):
+	context = {}
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
+	context['search_form'] = SearchForm() 
+	context['next'] = '/'
+	context['user_combos'] = User.objects.all()[:20];
+	return render(request, 'recommend_user.html', context)
