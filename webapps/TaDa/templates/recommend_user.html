@@ -1,0 +1,34 @@
+{% extends "generic.html" %}
+
+
+{% block active-status %}
+<li><a href="/">Home</a></li>
+<li class="dropdown active">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recommendation <span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="/recommend-movie">Movies</a></li>
+    <li><a href="/recommend-user">Users</a></li>
+  </ul>
+</li>
+{% endblock active-status %}
+                      
+{% block content %}
+  <div class="recommend-user-wrapper ">
+    {% for u in user_combos %}    
+    <div class = "recommend-user-item row white-block shadow">
+      <div class ="col-md-2">
+        <a href="{% url 'profile' u.id %}" class="hidden-md hidden-sm hidden-xs"><img src="{% url 'get-photo' u.id %}" alt="{{u}}" class="photo-lg"></a> 
+      </div>
+      <div class ="col-md-10">
+      <a href="{% url 'profile' u.id %}" class="hidden-md hidden-sm hidden-xs"><p class = "font-black font-Calson font-lg inline">{{u}}</p></a>
+      <p class = "">{{u.profile.intro}}</p>
+      <p class = "font-bold inline">Shared interests:</p>&nbsp;{% for m in u.m_like.all%}<a href = "/movie/{{m.imdb_id}}">{{m.title}}</a>, {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %} 
+{% block additional_js %}
+<script src="/static/js/recommend_user.js"></script>
+{% endblock additional_js %}

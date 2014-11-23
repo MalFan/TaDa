@@ -10,7 +10,8 @@ urlpatterns = patterns('',
 	url(r'^admin-add-person/(?P<person_id>\d+)$', 'TaDa.views_admin.admin_add_person', name='admin_add_person'),
 	
 	url(r'^$','TaDa.views_home.home'),
-	url(r'^recommend-movie$','TaDa.views_home.recommend_movie'),
+	url(r'^recommend-movie$','TaDa.views_home.recommend_movie'),	
+	url(r'^recommend-user$','TaDa.views_home.recommend_user'),
 
 	url(r'^search$','TaDa.views.search'),
 	url(r'^check-comments$', 'TaDa.views.check_comments', name='check_comments'),
