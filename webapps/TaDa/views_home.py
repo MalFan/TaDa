@@ -143,7 +143,8 @@ def get_in_theater_movies():
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'like_num' : m.like_list.all().count()}
 		movie_combos.append(movie_combo)
 
 	return movie_combos
