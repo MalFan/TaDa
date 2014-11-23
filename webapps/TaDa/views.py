@@ -19,6 +19,7 @@ from models import *
 from forms import *
 
 # Create your views here.
+# Used for searching action
 def normalize_query(query_string,
 					findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
 					normspace=re.compile(r'\s{2,}').sub):
@@ -32,6 +33,7 @@ def normalize_query(query_string,
 	'''
 	return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)] 
 
+# Used for searching action
 def get_query(query_string, search_fields):
 	''' Returns a query, that is a combination of Q objects. That combination
 	    aims to search keywords within a model by testing the given search fields.
@@ -145,7 +147,6 @@ def search(request):
 
 def movie(request, movie_id):
 	context = {}
-	context['search_form'] = SearchForm()
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 	movie_combo = {
 			'imdb_id' : m.imdb_id,
@@ -188,6 +189,7 @@ def movie(request, movie_id):
 	login_form = LoginForm()
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
+	context['search_form'] = SearchForm()
 	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
 	if len(context['m_also']) > 5:
 		context['m_also'] = context['m_also'][:5]
@@ -241,6 +243,10 @@ def get_people_who_liked_this(movie_id, current_user):
 
 def person(request, person_id):
 	context = {}
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
 	context['search_form'] = SearchForm() 
 	p = get_object_or_404(Person, person_id = person_id)
 	context['p'] = p
@@ -255,6 +261,7 @@ def get_recent_works(person_id):
 			Q(writer_list__in=[p]) | \
 			Q(director_list__in=[p])).distinct().order_by('-year')
 	return movies
+
 
 @transaction.atomic
 @login_required
@@ -311,6 +318,11 @@ def write_review(request,movie_id):
 @login_required
 def new_review(request,movie_id):
 	context = {}
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
+	context['search_form'] = SearchForm() 
 	review_form = ReviewForm()
 	context['review_form'] = review_form
 	m = get_object_or_404(Movie, imdb_id = movie_id)
@@ -338,6 +350,10 @@ def review(request,review_id):
 	context = {}
 	comment_form = CommentForm()
 	context['comment_form'] = comment_form 
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
 	context['search_form'] = SearchForm()
 	review_be_checked = Review.objects.get(id = review_id)
 	context['review'] = review_be_checked
@@ -430,7 +446,6 @@ def review_dislike(request,review_id):
 
 @login_required
 def check_comments(request):
-
 	context = {}
 	current_user = request.user
 	# print current_user.profile.last_check_time

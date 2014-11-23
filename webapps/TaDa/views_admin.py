@@ -45,8 +45,9 @@ def admin_add_movie(request, movie_id):
 
 			fileName=str('tt' + movie_id + ".jpg")  # string containing the file name
 			url = movie['full-size cover url']
+			url = url[:-3] + '_V1_SX214_AL_.jpg'
+			print url
 			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
-			# print url
 
 			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
 		except KeyError:
