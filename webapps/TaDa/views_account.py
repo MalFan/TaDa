@@ -15,7 +15,6 @@ from operator import itemgetter
 
 from models import *
 from forms import *
-from views import *
 
 # Create your views here.
 def register(request):

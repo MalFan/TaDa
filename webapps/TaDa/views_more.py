@@ -15,6 +15,7 @@ from operator import itemgetter
 
 from models import *
 from forms import *
+from views import *
 
 # Create your views here.
 def cast_list(request,movie_id):
