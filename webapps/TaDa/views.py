@@ -275,8 +275,6 @@ def like(request, movie_id):
 		movie_be_like.like_list.add(request.user)
 		response_text = 1
 
-	# return redirect('/movie/' + movie_id)
-
 	return HttpResponse(response_text)
 
 @transaction.atomic
@@ -290,8 +288,7 @@ def dislike(request, movie_id):
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
 		response_text = 1
-	
-	# return redirect('/movie/' + movie_id)
+
 	return HttpResponse(response_text)
 
 @transaction.atomic
@@ -417,6 +414,7 @@ def write_comment(request, review_id):
 	
 	return render(request, 'write_comment.html', context)
 
+
 @transaction.atomic
 @login_required
 def review_like(request,review_id):
@@ -424,11 +422,13 @@ def review_like(request,review_id):
 	review_be_like = get_object_or_404(Review, id = review_id)
 	if current_user in review_be_like.like_list.all():
 		review_be_like.like_list.remove(request.user)
+		response_text = -1
 	else:
 		review_be_like.like_list.add(request.user)
+		response_text = 1
 	update_review_score(review_id)
 
-	return redirect('/review/' + review_id)
+	return HttpResponse(response_text)
 
 @transaction.atomic
 @login_required
@@ -437,11 +437,13 @@ def review_dislike(request,review_id):
 	review_be_dislike = get_object_or_404(Review, id = review_id)
 	if current_user in review_be_dislike.dislike_list.all():
 		review_be_dislike.dislike_list.remove(request.user)
+		response_text = -1
 	else:
 		review_be_dislike.dislike_list.add(request.user)
+		response_text = 1
 	update_review_score(review_id)
 
-	return redirect('/review/' + review_id)
+	return HttpResponse(response_text)
 
 
 @login_required
