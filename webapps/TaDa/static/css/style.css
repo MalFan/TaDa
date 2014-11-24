@@ -157,6 +157,11 @@ ul
 /*generic above*/
 
 /*home*/
+.coverflow-wrapper{    
+}
+.invisible{    
+    visibility: hidden;
+}
 .coverflow, .upcoming-wrapper{
     width:100%;
 }

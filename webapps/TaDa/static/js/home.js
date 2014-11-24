@@ -1,5 +1,6 @@
 $(function() {
-	$('.coverflow').coverflow();	
+	$('.coverflow').coverflow();
+	$('.coverflow-wrapper').removeClass("invisible");
 });
 
 $('.upcoming-date-wrapper').on('click', function() {
