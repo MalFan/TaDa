@@ -26,6 +26,7 @@
       </span>
       <br>      
       <a role="button" id = "like-btn" class = "like-btn btn {% if like_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'like' m.imdb_id %}"> <span id = "like-text-span">{% if like_status %} Unlike {% else %} Like {% endif %}</span> <span id = "like-badge-span" class="badge pull-right" >{{like_num}}</span></a>
+
       <a role="button" id = "dislike-btn" class = "like-btn btn {% if dislike_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'dislike' m.imdb_id %}"> <span id = "dislike-text-span">{% if dislike_status %} Undislike {% else %} Disike {% endif %}</span> <span id = "dislike-badge-span" class="badge pull-right">{{dislike_num}}</span></a>
     </div>
   </div>
@@ -51,7 +52,7 @@
       </div>
       <div class = "movie-review-wrapper white-block shadow">
         <p class = "review-title font-Georgia font-lg font-bold inline">Review</p>
-        <button data-toggle="modal" href=".review-popup" class = "review-btn btn btn-info">Write a Review</button>
+        <button data-toggle="modal" {% if user.username %}href=".review-popup"{% else %} href=".login-popup" {% endif %} class = "review-btn btn btn-info">Write a Review</button>
         <ul class = "review-list">
           {% for review in reviews %}
           <li class = "review-item row">
@@ -122,7 +123,6 @@
   <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class = "popup-wrapper">
-        {% if user.username %}
         <p class = "font-Calson font-lg text-center">Write Your Review<p>
             
          <form class="review-form" id = "review-form" action = "{% url 'write_review' m.imdb_id %}" method= "post">
@@ -137,9 +137,6 @@
             {% csrf_token %} 
         </form>
         <a href="{% url 'new_review' m.imdb_id %}">Open in a new page.</a>
-        {% else %}  
-        <p class = "font-Calson font-lg text-center">Please <a data-toggle="modal" href=".popup2">log in</a> before write your post.<p>
-        {% endif %}  
       </div>
   </div>
   </div>

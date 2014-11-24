@@ -55,8 +55,8 @@
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
-              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
-              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
             </div>
           </div>
         </li>
@@ -83,8 +83,8 @@
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
-              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
-              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
             </div>
           </div>
         </li>
@@ -112,8 +112,8 @@
               <div id = "time" class="inline">{{m.duration}}</div>
               <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list %}<a>{{genre}}</a> {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
-              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a>director.name</a> {% endfor %}</div>
-              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a>cast.name</a> {% endfor %}</div>
+              <div id ="director"><b>Director: </b>{% for director in m.director_list %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
+              <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
             </div>
           </div>
         </li>

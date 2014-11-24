@@ -57,6 +57,11 @@ p.font-black{
     color:#000000;
 }
 
+p.multiline{
+    width:100%;
+    word-wrap:break-word;
+}
+
 img.logo{
     height:41px;
     width:100px;
@@ -743,3 +748,4 @@ li.following-item{
     -ms-transition: 0.7s;
     transition: 0.7s;
 }
+
