@@ -15,6 +15,8 @@ urlpatterns = patterns('',
 	
 	url(r'^search$','TaDa.views.search'),
 	url(r'^check-comments$', 'TaDa.views.check_comments', name='check_comments'),
+	url(r'^delete-notification/(?P<review_id>\d+)$','TaDa.views.delete_notification', name='delete_notification'),
+
 	url(r'^movie/(?P<movie_id>\d+)$','TaDa.views.movie'),
 	url(r'^person/(?P<person_id>\d+)$','TaDa.views.person'),
 	url(r'^review/(?P<review_id>\d+)$','TaDa.views.review',name='review'),

@@ -50,8 +50,7 @@ class Movie(models.Model):
 
 	def __unicode__(self):
 		return self.title
-
-
+	
 class Profile(models.Model):
 	user = models.OneToOneField(User, primary_key = True)
 	intro = models.CharField(max_length = 255, blank = True)
@@ -80,7 +79,6 @@ class Review(models.Model):
 	def __unicode__(self):
 		return self.title
 
-
 class Comment(models.Model):
 	pub_time = models.DateTimeField(auto_now_add = True)
 	text = models.CharField(max_length = 4096)
@@ -89,3 +87,10 @@ class Comment(models.Model):
 
 	def __unicode__(self):
 		return self.text
+
+class Notification(models.Model):
+	comment = models.OneToOneField(Comment)
+	review = models.ForeignKey(Review, related_name='notifications_included')
+
+	def __unicode__(self):
+		return self.review.title

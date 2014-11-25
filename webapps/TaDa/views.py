@@ -295,7 +295,7 @@ def dislike(request, movie_id):
 @login_required
 def write_review(request,movie_id):
 	if request.method == 'GET':
-		return redirect('/movie/' + movie_id);
+		return redirect('/movie/' + movie_id)
 
 	context = {}
 	review_form = ReviewForm()
@@ -305,7 +305,7 @@ def write_review(request,movie_id):
 	review_form = ReviewForm(request.POST, instance = review_new)
 
 	if not review_form.is_valid():
-		return redirect('/movie/' + movie_id);
+		return redirect('/movie/' + movie_id)
 
 	review_form.save()
 
@@ -411,6 +411,9 @@ def write_comment(request, review_id):
 
 	context['comment'] = comment_new
 	update_review_score(review_id)
+
+	notification = Notification(comment = comment_new, review = review_be_comment)
+	notification.save()
 	
 	return render(request, 'write_comment.html', context)
 
@@ -450,18 +453,23 @@ def review_dislike(request,review_id):
 def check_comments(request):
 	context = {}
 	current_user = request.user
-	# print current_user.profile.last_check_time
-	reviews = Review.objects.filter(publisher=current_user, 
-			comments_included__pub_time__gte=current_user.profile.last_check_time)
-	# print reviews.count()
-	# print current_user.profile.last_check_time
+
+	notifications = Notification.objects.filter(review__publisher=current_user)
+
+	reviews = Review.objects.filter(notifications_included__in=notifications).distinct()
+	print reviews.count()
 	current_user.profile.last_check_time = timezone.now()
-	# print current_user.profile.last_check_time
+
 	current_user.profile.save()
 
-
-	# response_text = serializers.serialize('json', reviews)
 	context['reviews'] = reviews
-	# print response_text
-	return render (request, 'append_notification_list.html', context)
-	# return HttpResponse(response_text, content_type='application/json')
+
+	return render(request, 'append_notification_list.html', context)
+
+@login_required
+def delete_notification(request, review_id):
+	current_user = request.user
+	notifications = Notification.objects.filter(review__publisher=current_user, review__id=review_id)
+	notifications.delete()
+
+	return redirect('/review/' + review_id + '#comment-list')

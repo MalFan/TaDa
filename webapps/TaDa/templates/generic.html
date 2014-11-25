@@ -57,13 +57,9 @@
                           </li>
                           <li><a href="/search" class="hidden-md hidden-sm hidden-lg">Search</a></li>
                           {% if user.username %}
-						              <li id = "notification" class="notification dropdown hidden-md hidden-sm hidden-xs">
+		              <li id = "notification" class="notification dropdown hidden-md hidden-sm hidden-xs">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-exclamation-sign notification-icon"></span></a>
                             <ul id= "notification-list" class="dropdown-menu" role="menu">
-                             <!--  <li><a href="#">1</a></li>
-                              <li><a href="#">2</a></li>
-                              <li><a href="#">3</a></li>
-                              <li><a href="#">4</a></li> -->
                             </ul>
                           </li>
                         <li><a href="{% url 'profile' user.id %}" class="hidden-md hidden-sm hidden-xs"><img src="{% url 'get-photo' user.id %}" alt="{{user}}" class="photo-sm"> {{user}}</a></li>
