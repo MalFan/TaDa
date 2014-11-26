@@ -19,7 +19,12 @@ from forms import *
 # Create your views here.
 def profile(request, user_id):
 	context = {}
-
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
+	context['search_form'] = SearchForm()
+	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = user_id)
 	print user_be_view.username

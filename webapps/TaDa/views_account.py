@@ -45,6 +45,16 @@ def register(request):
 	return redirect('/')
 
 def log_in(request):
+	if request.method == 'GET':
+		return redirect('/')
+
+	login_form = LoginForm(request, data= request.POST)
+
+	if login_form.is_valid():
+		auto_login(request, login_form.get_user())
+		return redirect(request.POST['next'])
+	else:
+		return redirect(request.POST['next'])
 	# # next = next_page
 
 	# login_form = LoginForm(request.POST)
@@ -66,19 +76,19 @@ def log_in(request):
 	# return redirect(next)
 	# next = request.POST['next1']
 
-	if request.method == 'GET':
-		return redirect('/')
-
-	# loginform = LoginForm(request.POST)
-	# if not loginform.is_valid():
-	# 	print 334
+	# if request.method == 'GET':
 	# 	return redirect('/')
 
-	return login(request,redirect_field_name='/',
-							template_name='home.html',
-							authentication_form=LoginForm,
-							extra_context={'login_form':LoginForm,'regis_form':RegistrationForm,'search_form':SearchForm,
-							'next':'/','movie_combos':get_in_theater_movies()})
+	# # loginform = LoginForm(request.POST)
+	# # if not loginform.is_valid():
+	# # 	print 334
+	# # 	return redirect('/')
+
+	# return login(request,redirect_field_name='/',
+	# 						template_name='home.html',
+	# 						authentication_form=LoginForm,
+	# 						extra_context={'login_form':LoginForm,'regis_form':RegistrationForm,'search_form':SearchForm,
+	# 						'next':'/','movie_combos':get_in_theater_movies()})
 
 
 @login_required

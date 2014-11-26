@@ -41,7 +41,7 @@ def cast_list(request,movie_id):
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
-	
+	context['request'] = request
 	return render(request, 'cast_list.html', context)
 
 
@@ -69,7 +69,7 @@ def review_list(request,movie_id):
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 
 	context['reviews'] = Review.objects.filter(movie = m).order_by('id').reverse()
-
+	context['request'] = request
 	return render(request, 'review_list.html', context)
 
 def people_also_liked_list(request, movie_id):
@@ -95,7 +95,7 @@ def people_also_liked_list(request, movie_id):
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
-	
+	context['request'] = request
 	return render(request, 'people_also_liked_list.html', context)
 
 def people_who_liked_list(request,movie_id):
@@ -121,5 +121,5 @@ def people_who_liked_list(request,movie_id):
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
 	context['u_like'] = get_people_who_liked_this(movie_id, request.user)
-	
+	context['request'] = request
 	return render(request, 'people_who_liked_list.html', context)

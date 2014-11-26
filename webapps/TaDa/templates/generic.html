@@ -86,6 +86,7 @@
                             {{field.errors}}
                           {% endfor %}
                         </table><br>
+                          <input type="hidden" name="next" value="{{ request.get_full_path }}" >
                           <input type="submit" class = "form-control btn btn-info" name ="submit" value="Log In">
                        {% csrf_token %}   
                       </form>

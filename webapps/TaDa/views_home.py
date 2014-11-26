@@ -26,6 +26,7 @@ def home(request):
 	context['search_form'] = SearchForm() 
 	context['next'] = '/'
 	context['movie_combos'] = get_in_theater_movies()
+	context['request'] = request
 	context.update(get_upcoming_movies())
 	return render(request, 'home.html', context)
 
@@ -159,6 +160,7 @@ def recommend_movie(request):
 	context['search_form'] = SearchForm() 
 	context['movie_combos'] = get_recommend_movies()
 	context['next_page'] = '/recommend-movie'
+	context['request'] = request
 	return render(request, 'recommend_movie.html', context)
 	
 def get_recommend_movies():
@@ -189,4 +191,5 @@ def recommend_user(request):
 	context['search_form'] = SearchForm() 
 	context['next'] = '/'
 	context['user_combos'] = User.objects.all()[:20];
+	context['request'] = request
 	return render(request, 'recommend_user.html', context)
