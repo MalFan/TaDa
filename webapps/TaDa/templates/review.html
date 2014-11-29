@@ -7,8 +7,8 @@
          <div class = "review-inner">
             <div class = "review-photo col-md-2">
               <a href="/profile/{{review.publisher.id}}"><img src="{% url 'get-photo' review.publisher.id %}" alt="{{review.publisher}}" class="photo-lg"></a> 
-              <a role="button" id="like-btn" class = "help-btn btn {% if review_like_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-like' review.id %}"><span id="like-text-span">Useful</span> <span id="like-badge-span" class="badge pull-right">{{review_like_num}}</span></a>
-              <a role="button" id="dislike-btn" class = "help-btn btn {% if review_dislike_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-dislike' review.id %}"><span id="dislike-text-span">Useless</span> <span id="dislike-badge-span" class="badge pull-right">{{review_dislike_num}}</span></a>             
+              <a role="button" id="like-btn" class = "help-btn btn {% if review_like_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-like' review.id %}" {% if review_like_status %} status = "{{ review_like_status }}" {% endif %}><span id="like-text-span">Useful</span> <span id="like-badge-span" class="badge pull-right">{{review_like_num}}</span></a>
+              <a role="button" id="dislike-btn" class = "help-btn btn {% if review_dislike_status %} btn-info {% else %} btn-default {% endif %} btn-xs"  href="{% url 'review-dislike' review.id %}" {% if review_dislike_status %} status = "{{ review_dislike_status }}" {% endif %}><span id="dislike-text-span">Useless</span> <span id="dislike-badge-span" class="badge pull-right">{{review_dislike_num}}</span></a>             
             </div>
             <div class = "review-detail col-md-10">
               <a href="/profile/{{review.publisher.id}}"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>

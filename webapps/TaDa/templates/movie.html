@@ -25,9 +25,9 @@
         </a>
       </span>
       <br>      
-      <a role="button" id = "like-btn" class = "like-btn btn {% if like_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'like' m.imdb_id %}"> <span id = "like-text-span">{% if like_status %} Unlike {% else %} Like {% endif %}</span> <span id = "like-badge-span" class="badge pull-right" >{{like_num}}</span></a>
+      <a role="button" id = "like-btn" class = "like-btn btn {% if like_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'like' m.imdb_id %}" {% if like_status %} status = "{{ like_status }}" {% endif %}> <span id = "like-text-span">{% if like_status %} Unlike {% else %} Like {% endif %}</span> <span id = "like-badge-span" class="badge pull-right" >{{like_num}}</span></a>
 
-      <a role="button" id = "dislike-btn" class = "like-btn btn {% if dislike_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'dislike' m.imdb_id %}"> <span id = "dislike-text-span">{% if dislike_status %} Undislike {% else %} Disike {% endif %}</span> <span id = "dislike-badge-span" class="badge pull-right">{{dislike_num}}</span></a>
+      <a role="button" id = "dislike-btn" class = "like-btn btn {% if dislike_status %} btn-info {% else %} btn-default {% endif %}"  href="{% url 'dislike' m.imdb_id %}" {% if dislike_status %} status = "{{ dislike_status }}" {% endif %}> <span id = "dislike-text-span">{% if dislike_status %} Undislike {% else %} Disike {% endif %}</span> <span id = "dislike-badge-span" class="badge pull-right">{{dislike_num}}</span></a>
     </div>
   </div>
   

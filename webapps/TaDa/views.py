@@ -271,9 +271,13 @@ def like(request, movie_id):
 	if current_user in movie_be_like.like_list.all():
 		movie_be_like.like_list.remove(request.user)
 		response_text = -1
-	else:
+	else:		
 		movie_be_like.like_list.add(request.user)
 		response_text = 1
+
+		if current_user in movie_be_like.dislike_list.all():
+			movie_be_like.dislike_list.remove(request.user)
+
 
 	return HttpResponse(response_text)
 
@@ -288,6 +292,9 @@ def dislike(request, movie_id):
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
 		response_text = 1
+
+		if current_user in movie_be_dislike.like_list.all():
+			movie_be_dislike.like_list.remove(request.user)
 
 	return HttpResponse(response_text)
 
@@ -429,6 +436,9 @@ def review_like(request,review_id):
 	else:
 		review_be_like.like_list.add(request.user)
 		response_text = 1
+		if current_user in review_be_like.dislike_list.all():
+			review_be_like.dislike_list.remove(request.user)
+
 	update_review_score(review_id)
 
 	return HttpResponse(response_text)
@@ -444,6 +454,9 @@ def review_dislike(request,review_id):
 	else:
 		review_be_dislike.dislike_list.add(request.user)
 		response_text = 1
+		if current_user in review_be_dislike.like_list.all():
+			review_be_dislike.like_list.remove(request.user)
+
 	update_review_score(review_id)
 
 	return HttpResponse(response_text)
