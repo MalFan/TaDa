@@ -15,7 +15,9 @@
               <p class = "review-time inline">{{review.pub_time}}</p>
               <p class = "review-subject font-md bold font-black"> {{review.title}}</p>
               <p class = ""> {{review.text}}</p>      
-
+              {% if review.publisher == user %}
+                <a role ="button"href="{% url 'delete_review_page' review.id %}" class = "help-btn btn btn-info btn-xs">delete</a>
+              {% endif %} 
             </div>
           </div>
     </div>

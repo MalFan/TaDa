@@ -212,9 +212,7 @@ def get_people_also_liked_movies(movie_id, current_user):
 		m_list.extend(u.m_like.exclude(imdb_id = movie_id))
 
 	counter=collections.Counter(m_list)
-	print counter
 	sorted_m_list = sorted(counter.items(), key=itemgetter(1))[::-1]
-	print sorted_m_list
 
 	movie_combos = []
 	for m_tuple in sorted_m_list:
@@ -357,6 +355,14 @@ def delete_review(request,review_id):
 	review_be_delete.delete()
 	return HttpResponse()
 
+@login_required
+def delete_review_page(request,review_id):
+	review_be_delete = get_object_or_404(Review, id = review_id)
+	movie_be_reviewed = get_object_or_404(Movie, reviews_included = review_be_delete)
+	movie_id = movie_be_reviewed.imdb_id
+	review_be_delete.delete()
+	return redirect('/movie/' + movie_id)
+
 def review(request,review_id):
 	context = {}
 	comment_form = CommentForm()
@@ -371,7 +377,7 @@ def review(request,review_id):
 	comments = Comment.objects.filter(review = review_be_checked).order_by('id').reverse()
 	context['comments'] = comments
 	m = get_object_or_404(Movie, reviews_included  = review_be_checked)
-	print m.title
+
 	movie_combo = {
 			'imdb_id' : m.imdb_id,
 			'title' : m.title,
@@ -406,9 +412,9 @@ def update_review_score(review_id):
 	useless_num = float(get_object_or_404(Review, id = review_id).dislike_list.all().count())
 	comment_num = float(review_be_scored.comments_included.all().count()) + 1
 	score = (useful_num + 1) / (useful_num + useless_num + 1) * pow(comment_num, 0.1)
-	print score
+
 	review_be_scored.score = score
-	print review_be_scored.score
+
 	review_be_scored.save()
 
 @login_required
@@ -433,7 +439,6 @@ def write_comment(request, review_id):
 
 @login_required
 def delete_comment(request,comment_id):
-	print 33344456
 	comment_be_delete = get_object_or_404(Comment, id = comment_id)
 	review_be_commented = get_object_or_404(Review, comments_included = comment_be_delete)
 	
@@ -485,7 +490,6 @@ def check_comments(request):
 	notifications = Notification.objects.filter(review__publisher=current_user)
 
 	reviews = Review.objects.filter(notifications_included__in=notifications).distinct()
-	print reviews.count()
 	current_user.profile.last_check_time = timezone.now()
 
 	current_user.profile.save()
