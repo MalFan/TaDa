@@ -31,10 +31,12 @@
         <div class = "divider-line"></div>
         <li class = "search-person row">
           <div class ="search-person-photo col-md-2">
-            <img class="photo-lg" src="{% url 'get-photo' u.id %}"/>
+            <a href="/profile/{{u.id}}">
+              <img class="photo-lg" src="{% url 'get-photo' u.id %}"/>
+            </a>
           </div>
           <div class ="search-person-name col-md-6">                        
-            <a href="{{u.id}}">
+            <a href="/profile/{{u.id}}">
               <p class="font-black font-Calson font-md inline">{{u.username}}</p>
             </a>
           </div>

@@ -1,11 +1,12 @@
 {% extends "generic.html" %}
 
 {% block content %}
-<div class = "person-page-wrapper row">
-  <div class ="col-md-9">
-    <div class = "person-info-wrapper shadow white-block row">
+<div class = "profile-more-wrapper">
+    <div class = "profile-more-info-wrapper shadow white-block row">
       <div class ="col-md-2">
-        <img class="photo-lg user-profile-photo" src="{% url 'get-photo' view_user.id %}">
+        <a href = "/profile/{{view_user.id}}">  
+          <img class="photo-lg user-profile-photo" src="{% url 'get-photo' view_user.id %}">
+        </a>
         <!-- display only when view user's own profile -->
         {% if user == view_user %}
         <a class="btn btn-info btn-xs btn-change" data-toggle="modal" href=".change-photo-popup">Change Photo</a>
@@ -18,8 +19,9 @@
         <!--  -->
       </div>
       <div class ="user-wrapper col-md-8">   
-        <div class = "user-brief">                     
-          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p>&nbsp;
+        <div class = "user-brief">
+          <a href = "/profile/{{view_user.id}}">                
+          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p></a>&nbsp;
           <div class = "profile-intro" >
             <!-- display only when view user's own profile -->
             {% if user == view_user %}
@@ -76,69 +78,27 @@
       </div>
     </div>
     
-    <!--  -->
-    <div class = "liked-movie-wrapper row shadow white-block">
-      <p class = "font-Georgia font-lg font-bold">Movie 
-      {% if user == view_user %}
-       I
-      {% else %}
-      {{view_user.username}}
-      {% endif %} Liked</p>
-      {% for movie in view_user.m_like.all %}
-      <div class = "liked-movie inline col-md-3">
-        <a href="/movie/{{movie.imdb_id}}"><img class="movie-pic-md" src="{{movie.cover}}"/>
-        <p class="liked-movie-title font-black font-Calson font-md text-center">{{movie.title}}</p></a>
-      </div>
-      {% endfor %}<!-- 
-      <a href="#"><p class = "font-md font-Calson">more ...</p></a> -->
-    </div>
-
-    <div class = "posted-review-wrapper row shadow white-block">
-      <p class = "font-Georgia font-lg font-bold">{% if user == view_user %}
-       My
-      {% else %}
-      {{view_user.username}}'s
-      {% endif %} Review</p>
-        <ul class = "review-list">
-          {% for review in reviews %}
-          <li class = "review-item row">
-            <div class = "review-inner">
-              <div class = "review-detail col-md-12">
-                <p class = "review-time inline">{{review.pub_time}}</p>
-                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black">{{review.title}}</p></a>
-                <p> {{review.text}}</p> 
-                {% if review.publisher == user %}
-                <button href="{% url 'delete_review' review.id %}" class = "comment-link delete" title = "deleteReview" review-id = "{{review.id}}">delete</button>
-                {% endif %}
-                <div class ="review-stat">
-
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useless <span class="badge">{{review.dislike_list.all|length}}</span></a>&nbsp;&nbsp;
-                  <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
-                </div>
-              </div>
-            </div>
-          </li>
-          {% endfor %}
-        </ul><!-- 
-        <a href="#"><p class = "font-md font-Calson">more ...</p></a> -->
-    </div>
-  </div>
-
-
-  
-  <div class = "following-wrapper col-md-3 ">
-    <div class = "following-inner  shadow white-block">
-      <p class = "font-Georgia font-lg font-bold text-center">Following</p>
+    <!--  -->  
+  <div class = "profile-more-list-wrapper row shadow white-block">
+    <p class = "font-Georgia font-lg font-bold">Following</p>
+      
       <ul class = "following-list">
-          {% for u in view_user.profile.users_followed.all %}
-            <li class = "following-item">
-            <a href="{% url 'profile' u.id %}"><img src="{% url 'get-photo' u.id %}" alt="{{user}}" class="photo-md">
-            <p class = "relevant-user-name font-black bold inline">{{u.username}}</p></a>
+          {% for u in view_user.profile.users_followed.all %}            
+            <li class = "search-person row">
+              <div class ="search-person-photo col-md-2">
+                <a href="/profile/{{u.id}}">
+                  <img class="photo-lg" src="{% url 'get-photo' u.id %}"/>
+                </a>
+              </div>
+              <div class ="search-person-name col-md-6">                        
+                <a href="/profile/{{u.id}}">
+                  <p class="font-black font-Calson font-md inline">{{u.username}}</p>
+                </a>
+              </div>
             </li>
+            <div class = "divider-line"></div>
           {% endfor %}
         </ul>
-    </div>
   </div>
 
 </div>

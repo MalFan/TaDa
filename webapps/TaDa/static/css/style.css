@@ -758,3 +758,23 @@ li.following-item{
     -ms-transition: 0.7s;
     transition: 0.7s;
 }
+
+/*profile more*/
+.profile-more-wrapper{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.profile-more-info-wrapper{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+}
+
+.profile-more-list-wrapper{
+    margin-top: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px; 
+}
