@@ -11,14 +11,14 @@
           <li class = "review-item row" li-id = "{{review.id}}">
             <div class = "review-inner">
               <div class = "review-photo col-md-1">
-                <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
+                <a href="/profile/{{review.publisher.id}}" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
               </div>
               <div class = "review-detail col-md-11">
-                <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
+                <a href="/profile/{{review.publisher.id}}"><p class = "font-black bold inline">{{review.publisher}}</p></a>
                 <p class = "review-time inline">{{review.pub_time}}</p>
                 <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
-                <p class = ""> {{review.text}}</p>
-                {% if review.publisher == request.user %}
+                <p> {{review.text}}</p>
+                {% if review.publisher == user %}
                 <button href="{% url 'delete_review' review.id %}" class = "comment-link delete" title = "deleteReview" review-id = "{{review.id}}">delete</button>
                 {% endif %}
                 <div class ="review-stat">

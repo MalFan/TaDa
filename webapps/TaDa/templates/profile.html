@@ -106,8 +106,16 @@
               <div class = "review-detail col-md-12">
                 <p class = "review-time inline">{{review.pub_time}}</p>
                 <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black">{{review.title}}</p></a>
-                <p class = ""> {{review.text}}</p> 
-                <a href="/review/{{review.id}}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
+                <p> {{review.text}}</p> 
+                {% if review.publisher == user %}
+                <button href="{% url 'delete_review' review.id %}" class = "comment-link delete" title = "deleteReview" review-id = "{{review.id}}">delete</button>
+                {% endif %}
+                <div class ="review-stat">
+
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Useless <span class="badge">{{review.dislike_list.all|length}}</span></a>&nbsp;&nbsp;
+                  <a href="{% url 'review'  review.id %}" class = "comment-link">Comment <span class="badge">{{review.comments_included.all|length}}</span></a>
+                </div>
               </div>
             </div>
           </li>
@@ -144,4 +152,5 @@
 {% block additional_js %}
 <script src="/static/js/script.js"></script>
 <script src="/static/js/profile.js"></script>
+<script src="/static/js/delete_comment.js"></script>
 {% endblock additional_js %}

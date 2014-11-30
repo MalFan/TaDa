@@ -64,8 +64,8 @@
                 <a href="/profile/{{review.publisher.id}}"><p class = "font-black bold inline">{{review.publisher}}</p></a>
                 <p class = "review-time inline">{{review.pub_time}}</p>
                 <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
-                <p class = ""> {{review.text}}</p>
-                {% if review.publisher == request.user %}
+                <p > {{review.text}}</p>
+                {% if review.publisher == user %}
                 <button href="{% url 'delete_review' review.id %}" class = "comment-link" title = "deleteReview" review-id = "{{review.id}}">delete</button>
                 {% endif %}
                 <div class ="review-stat">

@@ -52,7 +52,7 @@
                 <div class="comment-time  col-md-3">
                   <p class = "font-black inline">{{comment.pub_time}}</p>                  
                 </div>
-                {% if comment.publisher == request.user %}
+                {% if comment.publisher == user %}
                 <button href="{% url 'delete_comment' comment.id %}" class = "comment-link" title = "deleteComment" comment-id = "{{comment.id}}">delete</button>
                 {% endif %}
             </div>
