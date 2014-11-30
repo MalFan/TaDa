@@ -46,7 +46,7 @@
           </li>      
           {% endfor %}
           {% if is_cast_full %}
-          <a href="/cast-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+          <a href="/movie-cast-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
           {% endif %}
         </ul>
       </div>
@@ -79,7 +79,7 @@
           </li>
           {% endfor %}
           {% if is_review_full %}
-          <a href="/review-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+          <a href="/movie-review-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
           {% endif %}
         </ul>
       </div>
@@ -101,7 +101,7 @@
           {% endfor %}
         </ul>
         {% if is_m_also_full %}
-        <a href="/people-also-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+        <a href="/movie-people-also-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
         {% endif %}
       </div>
       <div class = "people-who-liked-this-wrapper white-block  shadow">
@@ -115,7 +115,7 @@
           {% endfor %}
         </ul>
         {% if is_u_like_full %}
-        <a href="/people-who-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
+        <a href="/movie-people-who-liked-list/{{m.imdb_id}}"><p class = "font-md font-Calson">more ...</p></a>
         {% endif %}
       </div>
     </div>
