@@ -41,7 +41,7 @@
 
       <ul id="comment-list" class="comment-list">
         {% for comment in comments %}
-        <li class="comment-item row">
+        <li class="comment-item row" li-id = "{{comment.id}}">
           <div class = "comment">
               <div class="comment-photo col-md-2">
                   <a href="{% url 'profile' comment.publisher.id %}" class = "no-underline"><img src="{% url 'get-photo' comment.publisher.id %}" alt="{{user}}" class="photo-md"><p class = "font-black inline comment-username ">{{comment.publisher}}</p></a>
@@ -52,6 +52,9 @@
                 <div class="comment-time  col-md-3">
                   <p class = "font-black inline">{{comment.pub_time}}</p>                  
                 </div>
+                {% if comment.publisher == request.user %}
+                <button href="{% url 'delete_comment' comment.id %}" class = "comment-link" title = "deleteComment" comment-id = "{{comment.id}}">delete</button>
+                {% endif %}
             </div>
         </li>
         {% endfor %}
@@ -85,5 +88,6 @@
 <script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
 <script src="/static/js/script.js"></script>
 <script src="/static/js/write_comment.js"></script>
+<script src="/static/js/delete_comment.js"></script>
 <script src="/static/js/like_dislike_review.js"></script>
 {% endblock additional_js %}

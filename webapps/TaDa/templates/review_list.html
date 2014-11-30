@@ -8,7 +8,7 @@
         <button data-toggle="modal" href=".review-popup" class = "review-btn btn btn-info">Write a Review</button>
         <ul class = "review-list">
           {% for review in reviews %}
-          <li class = "review-item row">
+          <li class = "review-item row" li-id = "{{review.id}}">
             <div class = "review-inner">
               <div class = "review-photo col-md-1">
                 <a href="/profile" class="hidden-md hidden-sm hidden-xs"><img src="/static/img/profile_default.jpg" alt="{{user}}" class="photo-md"></a>
@@ -17,7 +17,10 @@
                 <a href="#"><p class = "font-black bold inline">{{review.publisher}}</p></a>
                 <p class = "review-time inline">{{review.pub_time}}</p>
                 <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
-                <p class = ""> {{review.text}}</p> 
+                <p class = ""> {{review.text}}</p>
+                {% if review.publisher == request.user %}
+                <button href="{% url 'delete_review' review.id %}" class = "comment-link delete" title = "deleteReview" review-id = "{{review.id}}">delete</button>
+                {% endif %}
                 <div class ="review-stat">
 
                   <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
@@ -91,4 +94,6 @@
 {% block additional_js %}
 <script id="imdb-rating-api" src="http://g-ec2.images-amazon.com/images/G/01/imdb/plugins/rating/js/rating.min.js"></script>
 <script src="/static/js/script.js"></script>
+<script src="/static/js/write_review.js"></script>
+<script src="/static/js/delete_review.js"></script>
 {% endblock additional_js %}

@@ -349,6 +349,13 @@ def new_review(request,movie_id):
 	context['dislike_num'] = dislike_count
 	return render(request, 'write_review.html', context)
 
+@login_required
+def delete_review(request,review_id):
+	review_be_delete = get_object_or_404(Review, id = review_id)
+	movie_be_reviewed = get_object_or_404(Movie, reviews_included = review_be_delete)
+	
+	review_be_delete.delete()
+	return HttpResponse()
 
 def review(request,review_id):
 	context = {}
@@ -424,6 +431,14 @@ def write_comment(request, review_id):
 	
 	return render(request, 'write_comment.html', context)
 
+@login_required
+def delete_comment(request,comment_id):
+	print 33344456
+	comment_be_delete = get_object_or_404(Comment, id = comment_id)
+	review_be_commented = get_object_or_404(Review, comments_included = comment_be_delete)
+	
+	comment_be_delete.delete()
+	return HttpResponse()
 
 @transaction.atomic
 @login_required
