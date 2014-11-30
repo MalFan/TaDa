@@ -14,8 +14,8 @@
       <div id ="genre"><b>Genre: </b>{% for g in m.genre_list %} <a>{{g}}</a> {% endfor %}</div>
       
       <div id ="director"><b>Director: </b>{% for d in m.director_list %}<a href="/person/{{d.person_id}}">{{d}}</a>, {% endfor %}</div>
-      <div id ="director"><b>Writer: </b>{% for w in m.writer_list %}<a href="/person/{{w.person_id}}">{{w}}</a>, {% endfor %}</div>
-      <div id ="director"><b>Producer: </b><a>David Ayer</a></div>
+      <div id ="writer"><b>Writer: </b>{% for w in m.writer_list %}<a href="/person/{{w.person_id}}">{{w}}</a>, {% endfor %}</div>
+      <div id ="producer"><b>Producer: </b>{% for p in m.producer_list %}<a href="/person/{{p.person_id}}">{{p}}</a>, {% endfor %}</div>
       <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
     </div>
 

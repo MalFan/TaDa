@@ -159,7 +159,8 @@ def movie(request, movie_id):
 			'cast_character_list' : zip(m.cast_list.all()[:15], m.character_list.all()[:15]),
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'producer_list' : m.producer_list.all()}
 
 	if len(m.cast_list.all()) > 15:
 		context['is_cast_full'] = 'true'
