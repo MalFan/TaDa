@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
+from django.db import transaction
 
 import imdb
 import collections
@@ -105,6 +106,7 @@ def profile_photo(request, user_id):
 	photo_form.save()
 	return redirect('/profile/' + user_id)
 
+@transaction.atomic
 @login_required
 def follow(request, user_id):
 	user_be_followed = get_object_or_404(User, id = user_id)
@@ -112,10 +114,12 @@ def follow(request, user_id):
 	profile_of_login_user = get_object_or_404(Profile, user = request.user)
 	if user_be_followed in profile_of_login_user.users_followed.all():
 		profile_of_login_user.users_followed.remove(user_be_followed)
+		response_text = 'follow'
 	else:
 		profile_of_login_user.users_followed.add(user_be_followed)
+		response_text = 'unfollow'
 
-	return redirect('/profile/' + user_id)
+	return HttpResponse(response_text)
 
 def get_photo(request, user_id):
 

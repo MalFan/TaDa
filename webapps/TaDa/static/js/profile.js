@@ -3,15 +3,30 @@ $(document).ready(function() {
         $('.profile-intro').toggle();
     });
 
-     $('.btn-follow').click( function(){
-
-        var status = $(this).text();
-        if(status == 'follow'){
-            $(this).text('unfollow');
+     $(".btn-follow").click(function(e){
+        if(isLogin()){
+            console.log("1");
+            var btnHref = $(".btn-follow").attr( "href" );
+            $.ajax(
+            {
+                url: btnHref,
+                success:function(response) 
+                {
+                    // alert( "success" );
+                    $(".btn-follow").html(response);
+                        
+                },
+                error: function() 
+                {
+                    //if fails 
+                    // alert( "error" );     
+                }
+            });         
         }else{
-            $(this).text('follow');
+            $('.login-popup').modal();
         }
-     });
+        e.preventDefault(); //STOP default action
+    });
 
      $('.user-profile-photo').mouseover(function(){
         $('.btn-change').slideDown();
@@ -27,7 +42,9 @@ $(document).ready(function() {
 
 }); 
 
- function readURL(input) {
+
+
+function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         
@@ -39,3 +56,11 @@ $(document).ready(function() {
     }
 }
   
+function isLogin(){
+    var status = $("#log-btn").attr("status");
+    if(status == "loggedin"){
+        return true;
+    }else{
+        return false;
+    }
+}
