@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 import imdb
 
@@ -34,12 +34,11 @@ def update_vector_all(movie):
 		vector[user.id - 1] = -1
 
 	vector_str = ','.join(str(e) for e in vector)
-	print vector_str
+	# print vector_str
 	movie.vector = vector_str
 	movie.save()
 
-def admin_add_movie(request, movie_id):
-	context = {}
+def admin_save_movie(movie_id):
 	# Fetch an existing movie or create a new object
 	try:
 		m_to_add = Movie.objects.get(imdb_id = movie_id)
@@ -61,7 +60,7 @@ def admin_add_movie(request, movie_id):
 			fileName=str('tt' + movie_id + ".jpg")  # string containing the file name
 			url = movie['full-size cover url']
 			url = url[:-3] + '_V1_SX214_AL_.jpg'
-			print url
+
 			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
 
 			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
@@ -124,7 +123,6 @@ def admin_add_movie(request, movie_id):
 					new_star.save()
 					m_to_add.cast_list.add(new_star)
 				try:
-					# print s.currentRole['name']
 					new_character = Character(name = s.currentRole['name'])
 					new_character.save()
 					m_to_add.character_list.add(new_character)
@@ -164,9 +162,16 @@ def admin_add_movie(request, movie_id):
 	    		pass
 
 	    	m_to_add.save()
+    		print 'Movie ' + movie_id + ': ' + m_to_add.title + ' is added.'
 
 	# Update the vector
 	update_vector_all(m_to_add)
+
+	return m_to_add
+
+def admin_add_movie(request, movie_id):
+	context = {}
+	m_to_add = admin_save_movie(movie_id)
 	# Fill in the context
 	context['imdb_id'] = m_to_add.imdb_id
 	context['title'] = m_to_add.title
@@ -184,9 +189,7 @@ def admin_add_movie(request, movie_id):
 
 	return render(request, 'admin_movie.html', context)
 
-
-def admin_add_person(request, person_id):
-	context = {}
+def admin_save_person(person_id):
 	# Fetch an existing person or create a new person object
 	try:
 		p_to_add = Person.objects.get(person_id = person_id)
@@ -227,7 +230,13 @@ def admin_add_person(request, person_id):
 
 	    	p_to_add.has_full_info = True
 	    	p_to_add.save()
+	    	print 'Person ' + person_id + ': ' + p_to_add.name + ' is fully added.'
+	
+	return p_to_add
 
+def admin_add_person(request, person_id):
+	context = {}
+	p_to_add = admin_save_person(person_id)
 	# Fill in the context
 	context['person_id'] = p_to_add.person_id
 	context['name'] = p_to_add.name
@@ -237,3 +246,39 @@ def admin_add_person(request, person_id):
 	context['photo'] = p_to_add.photo
 
 	return render(request, 'admin_person.html', context)
+
+
+def admin_one_touch(request):
+	movie_list = [		
+			'0829150', # In theater
+			'0455944', 
+			'2713180', 
+			'2267998', 
+			'2911666', 
+			'1790864', 
+			'2872718', 
+			'0816692', 
+			'1872194', 
+			'2262227',
+			'1100089',
+			'3125324',
+			'2096672',
+			'2398231',
+
+			'1951265', # Upcoming 1
+			'3704538',
+			'2171902',
+			'2960930',
+
+			'2170439', # Upcoming 2
+			'1911658',
+			'2084970',
+
+			'2799166', # Upcoming 3
+			'2305051',
+			'2369205',
+			]
+	for movie_id in movie_list:
+		admin_save_movie(movie_id)
+	print '--------------------One-touch is wonderful--------------------'
+	return redirect('admin_homepage')

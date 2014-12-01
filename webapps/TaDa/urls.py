@@ -8,6 +8,7 @@ urlpatterns = patterns('',
 	url(r'^admin-search$', 'TaDa.views_admin.admin_search', name='admin_search'),
 	url(r'^admin-add-movie/(?P<movie_id>\d+)$', 'TaDa.views_admin.admin_add_movie', name='admin_add_movie'),
 	url(r'^admin-add-person/(?P<person_id>\d+)$', 'TaDa.views_admin.admin_add_person', name='admin_add_person'),
+	url(r'^admin-one-touch$', 'TaDa.views_admin.admin_one_touch', name='admin_one_touch'),
 	
 	url(r'^$','TaDa.views_home.home'),
 	url(r'^recommend-movie$','TaDa.views_home.recommend_movie'),
