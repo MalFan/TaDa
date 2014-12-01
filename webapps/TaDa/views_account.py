@@ -29,7 +29,7 @@ def register(request):
 		return redirect('/')
 
 	if not regis_form.is_valid():
-		return redirect('/')
+		return HttpResponse(regis_form.errors)
 
 	new_user = User.objects.create_user(username=regis_form.cleaned_data['username'],
 										email=regis_form.cleaned_data['email'],
@@ -62,8 +62,8 @@ def log_in(request):
 	if login_form.is_valid():
 		auto_login(request, login_form.get_user())
 		return redirect(request.POST['next'])
-	else:
-		return redirect(request.POST['next'])
+	else:		
+		return HttpResponse("error")
 	# # next = next_page
 
 	# login_form = LoginForm(request.POST)

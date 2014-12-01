@@ -79,7 +79,7 @@
       				<div class="modal-content">
       					<div class = "popup-wrapper">
                       <p class = "font-Calson font-lg text-center">Log in to TaDa<p>
-                      <form class="login-form" action = "{% url 'login' %}" method= "post">
+                      <form id = "login-form" class="login-form" action = "{% url 'login' %}" method= "post">
                         <table>
                           {% for field in login_form.visible_fields %}
                             {{field}}
@@ -101,7 +101,7 @@
                 <div class="modal-content">
                     <div class = "popup-wrapper">
                         <p class = "font-Calson font-lg text-center">Create Your TaDa Account<p>
-                        <form class="login-form" action = "/register" method= "post">
+                        <form id = "register-form" class="login-form" action = "/register" method= "post">
                             <table>
                               {% for field in regis_form.visible_fields %}
                                 {{field}}
@@ -129,6 +129,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
         <script src="/static/js/bootstrap.js"></script>
         <script src="/static/js/check_comments.js"></script>
+		<script src="/static/js/log_authentication.js"></script>
         {% block additional_js %}
         {% endblock additional_js %}
     </body>
