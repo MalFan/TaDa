@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
+from django.utils.encoding import smart_bytes
 from django.db import transaction
 
 import imdb
@@ -267,16 +268,26 @@ def get_recent_works(person_id):
 def like(request, movie_id):
 	current_user = request.user
 	movie_be_like = Movie.objects.get(imdb_id = movie_id)
+
+	vector_str = smart_bytes(movie_be_like.vector, encoding='utf-8', strings_only=False, errors='strict')
+	vector = vector_str.split(',')
+
 	if current_user in movie_be_like.like_list.all():
 		movie_be_like.like_list.remove(request.user)
 		response_text = -1
+		vector[current_user.id - 1] = '0'
 	else:		
 		movie_be_like.like_list.add(request.user)
 		response_text = 1
+		vector[current_user.id - 1] = '1'
 
 		if current_user in movie_be_like.dislike_list.all():
 			movie_be_like.dislike_list.remove(request.user)
 
+	vector_str = ','.join(vector)
+	movie_be_like.vector = vector_str
+	print movie_be_like.vector
+	movie_be_like.save()
 
 	return HttpResponse(response_text)
 
@@ -285,15 +296,26 @@ def like(request, movie_id):
 def dislike(request, movie_id):
 	current_user = request.user
 	movie_be_dislike = Movie.objects.get(imdb_id = movie_id)
+
+	vector_str = smart_bytes(movie_be_dislike.vector, encoding='utf-8', strings_only=False, errors='strict')
+	vector = vector_str.split(',')
+
 	if current_user in movie_be_dislike.dislike_list.all():
 		movie_be_dislike.dislike_list.remove(request.user)
 		response_text = -1
+		vector[current_user.id - 1] = '0'
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
 		response_text = 1
+		vector[current_user.id - 1] = '-1'
 
 		if current_user in movie_be_dislike.like_list.all():
 			movie_be_dislike.like_list.remove(request.user)
+
+	vector_str = ','.join(vector)
+	movie_be_dislike.vector = vector_str
+	print movie_be_dislike.vector
+	movie_be_dislike.save()
 
 	return HttpResponse(response_text)
 

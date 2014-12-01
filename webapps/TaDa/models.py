@@ -47,6 +47,7 @@ class Movie(models.Model):
 	certificate = models.CharField(max_length = 10, blank = True)
 	like_list = models.ManyToManyField(User, related_name='m_like')
 	dislike_list = models.ManyToManyField(User, related_name='m_dislike')
+	vector = models.CharField(max_length = 1024, blank = True)
 
 	def __unicode__(self):
 		return self.title

@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
+from django.utils.encoding import smart_bytes
 
 import imdb
 import collections
@@ -40,6 +41,14 @@ def register(request):
 	
 	profile = Profile(user = new_user)
 	profile.save()
+
+	movies_all = Movie.objects.all()
+	for m in movies_all:
+		s = smart_bytes(m.vector, encoding='utf-8', strings_only=False, errors='strict')
+		s += ',0'
+		m.vector = s
+		print m.vector
+		m.save()
 
 	auto_login(request, new_user)
 	return redirect('/')

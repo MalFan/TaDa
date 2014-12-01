@@ -22,6 +22,21 @@ def admin_search(request):
 
 	return render(request, 'admin_homepage.html', context)
 
+def update_vector_all(movie):
+	user_num = User.objects.all().count()
+	vector = [0] * user_num
+
+	like_list = movie.like_list.all()
+	dislike_list = movie.dislike_list.all()
+	for user in like_list:
+		vector[user.id - 1] = 1
+	for user in dislike_list:
+		vector[user.id - 1] = -1
+
+	vector_str = ','.join(str(e) for e in vector)
+	print vector_str
+	movie.vector = vector_str
+	movie.save()
 
 def admin_add_movie(request, movie_id):
 	context = {}
@@ -150,6 +165,8 @@ def admin_add_movie(request, movie_id):
 
 	    	m_to_add.save()
 
+	# Update the vector
+	update_vector_all(m_to_add)
 	# Fill in the context
 	context['imdb_id'] = m_to_add.imdb_id
 	context['title'] = m_to_add.title
