@@ -50,7 +50,7 @@ def register(request):
 		m.save()
 
 	auto_login(request, new_user)
-	return eturn redirect(request.POST['next'])
+	return redirect(request.POST['next'])
 
 def log_in(request):
 	if request.method == 'GET':
@@ -63,43 +63,17 @@ def log_in(request):
 		return redirect(request.POST['next'])
 	else:		
 		return HttpResponse("error")
-	# # next = next_page
-
-	# login_form = LoginForm(request.POST)
-
-	# if not login_form.is_valid():
-	# 	print 22
-	# 	return redirect('/')
-	# # context['login_form'] = login_form
-
-	# 
-	# login(request, new_user)
-
-	# next = ''
-	# if not 'next1' in request.POST:
-	# 	return redirect('/')
-	# else:
-	# 	next = request.POST['next1']
-
-	# return redirect(next)
-	# next = request.POST['next1']
-
-	# if request.method == 'GET':
-	# 	return redirect('/')
-
-	# # loginform = LoginForm(request.POST)
-	# # if not loginform.is_valid():
-	# # 	print 334
-	# # 	return redirect('/')
-
-	# return login(request,redirect_field_name='/',
-	# 						template_name='home.html',
-	# 						authentication_form=LoginForm,
-	# 						extra_context={'login_form':LoginForm,'regis_form':RegistrationForm,'search_form':SearchForm,
-	# 						'next':'/','movie_combos':get_in_theater_movies()})
 
 
 @login_required
 def log_out(request):
 	# next = next_page
 	return logout(request,next_page='/')
+
+def send_reset_email(request):
+
+	#if email not exist
+		#reutrn HttpResponse("failed")
+	if(True):
+		return HttpResponse("successful")
+

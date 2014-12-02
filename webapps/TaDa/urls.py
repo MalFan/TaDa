@@ -53,6 +53,7 @@ urlpatterns = patterns('',
 	# 	'redirect_field_name':'/',
  #        'authentication_form':LoginForm,'extra_context':{'regis_form':RegistrationForm}}),
 	url(r'^logout$', 'TaDa.views_account.log_out', name='logout'),
+	url(r'^send-reset-email$', 'TaDa.views_account.send_reset_email'),
 
 	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 

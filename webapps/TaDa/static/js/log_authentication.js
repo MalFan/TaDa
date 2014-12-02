@@ -1,5 +1,4 @@
 $(document).ready( function() {
-	$('#id_username').tooltip({'trigger':'hover', 'title': 'Password tooltip'}, 'show');
 	$("#login-form").submit( function( e ) {
 				
 		e.preventDefault();
@@ -57,8 +56,6 @@ $(document).ready( function() {
 					alert( "error" );      
 				}
 			});
-		}else{
-			$("#login-form").find("#login-error").remove();
 		}
 
 
@@ -159,8 +156,58 @@ $(document).ready( function() {
 					alert( "error" );      
 				}
 			});
+		}
+
+
+	});
+
+	$("#email-form").submit( function( e ) {
+				
+		e.preventDefault();
+		$(this).find("#email-error").remove();
+
+		var input_email = $(this).find('#id_email');
+		content_email = input_email.val();
+		var isValid = true;
+		if (!content_email.trim()) {
+        // is empty or whitespace
+		  input_email.attr("placeholder","Email can't be empty.");
+		  input_email.attr("class","form-control input_warning");
+		  isValid = false;
 		}else{
-			$("#register-form").find("#register-error").remove();
+			input_email.removeAttr("placeholder");
+			input_email.attr("class","form-control");
+		}
+
+		if(isValid){
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+			$.ajax(
+			{
+				url : formURL,
+				type: "POST",
+				data : postData,
+				dataType: "html",
+				success:function(html) 
+				{
+					// alert( "success" );
+
+					if(html == "failed"){
+		  				input_email.attr("class","form-control input_warning");
+						$("#email-form").prepend("<p id = 'email-error'>Email doesn't exist.</p>")
+					}		 
+					else{
+						$("#email-modal").modal('hide');
+						$("#email-confirm-modal").modal();
+						$(".confirm-email").html("An email has been sent to "+content_email.trim()+", please click the link in the email to reset your password.");
+					}   
+				},
+				error: function() 
+				{
+					//if fails
+					alert( "error" );      
+				}
+			});
 		}
 
 
