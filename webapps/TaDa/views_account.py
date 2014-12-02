@@ -77,3 +77,22 @@ def send_reset_email(request):
 	if(True):
 		return HttpResponse("successful")
 
+def password_reset(request):
+	context = {}
+	return render(request, "password_reset.html", context);
+
+def password_reset_complete(request):
+	context = {}	
+	return render(request, "password_reset_complete.html", context);
+
+@login_required
+def password_change(request,user_id):
+	context = {}
+	if(int(user_id) != request.user.id):
+		return redirect("/")
+
+	return render(request, "password_change.html", context);
+
+def password_change_complete(request):
+	context = {}
+	return render(request, "password_change_complete.html", context);

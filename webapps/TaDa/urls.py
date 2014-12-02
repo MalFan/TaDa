@@ -54,6 +54,11 @@ urlpatterns = patterns('',
  #        'authentication_form':LoginForm,'extra_context':{'regis_form':RegistrationForm}}),
 	url(r'^logout$', 'TaDa.views_account.log_out', name='logout'),
 	url(r'^send-reset-email$', 'TaDa.views_account.send_reset_email'),
+	url(r'^password-reset$', 'TaDa.views_account.password_reset'),	
+	url(r'^password-reset-complete$', 'TaDa.views_account.password_reset_complete'),
+	url(r'^password-change/(?P<user_id>\d+)$', 'TaDa.views_account.password_change'),
+	url(r'^password-change-complete$', 'TaDa.views_account.password_change_complete'),
+	
 
 	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 

@@ -780,3 +780,17 @@ li.following-item{
     margin-right: auto;
     padding: 30px; 
 }
+
+/*password*/
+.password-page-wrapper{
+    margin-right: auto;
+    margin-left: auto;
+    padding: 30px;
+}
+
+.password-form-wrapper{
+    width :250px;    
+    margin-right: auto;
+    margin-left: auto;
+}
+

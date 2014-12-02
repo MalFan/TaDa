@@ -19,7 +19,10 @@
       </div>
       <div class ="user-wrapper col-md-8">   
         <div class = "user-brief">                     
-          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p>&nbsp;
+          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p>&nbsp; 
+          {% if user == view_user %}
+            <a href ="/password-change/{{user.id}}">Change Password</a>
+          {% endif %}
           <div class = "profile-intro" >
             <!-- display only when view user's own profile -->
             {% if user == view_user %}
