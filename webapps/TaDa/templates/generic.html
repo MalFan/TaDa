@@ -87,7 +87,7 @@
                           {% endfor %}
                         </table><br>
                           <input type="hidden" name="next" value="{{ request.get_full_path }}" >
-                          <input type="submit" class = "form-control btn btn-info" name ="submit" value="Log In">
+                          <input type="submit" class = "form-control btn btn-info" name ="submit" value="Log In" >
                        {% csrf_token %}   
                       </form>
                       Don't have an account? <a data-toggle="modal" href=".popup">Sign Up</a>
