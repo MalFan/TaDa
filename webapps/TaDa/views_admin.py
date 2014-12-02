@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 import imdb
+import numpy as np
 
 from models import *
 # from forms import *
@@ -24,7 +25,7 @@ def admin_search(request):
 
 def update_vector_all(movie):
 	user_num = User.objects.all().count()
-	vector = [0] * user_num
+	vector = np.asarray([0] * user_num)
 
 	like_list = movie.like_list.all()
 	dislike_list = movie.dislike_list.all()
@@ -33,7 +34,8 @@ def update_vector_all(movie):
 	for user in dislike_list:
 		vector[user.id - 1] = -1
 
-	vector_str = ','.join(str(e) for e in vector)
+	vector_str = ','.join(['%d' % num for num in vector])
+
 	# print vector_str
 	movie.vector = vector_str
 	movie.save()

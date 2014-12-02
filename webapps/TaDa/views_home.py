@@ -10,6 +10,7 @@ from django.core import serializers
 from django.utils import timezone 
 
 import imdb
+import numpy as np
 import collections
 from operator import itemgetter
 
@@ -158,7 +159,7 @@ def recommend_movie(request):
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
 	context['search_form'] = SearchForm() 
-	context['movie_combos'] = get_recommend_movies()
+	context['movie_combos'] = get_advanced_recommend_movies(request.user)
 	context['next_page'] = '/recommend-movie'
 	context['request'] = request
 	return render(request, 'recommend_movie.html', context)
@@ -168,6 +169,59 @@ def get_recommend_movies():
 	movies = Movie.objects.all().annotate(num_likes=Count('like_list')).order_by('num_likes').reverse()[:15]
 	movie_combos = []
 	for m in movies:
+		movie_combo = {'imdb_id' : m.imdb_id,
+						'title' : m.title,
+						'year' : m.year,
+						'duration' : m.duration,
+						'cover' : m.cover,
+						'director_list' : m.director_list.all(),
+						'cast_list' : m.cast_list.all()[:4],
+						'storyline' : m.short_storyline,
+						'genre_list' : m.genre_list.all(),
+						'certificate' : m.certificate}
+		movie_combos.append(movie_combo)
+
+	return movie_combos
+
+# http://stackoverflow.com/questions/8559217/python-update-a-value-in-a-list-of-tuples
+def update_in_alist(alist, key, value):
+    	return [(k,v) if (k != key) else (key, value) for (k, v) in alist]
+
+def get_advanced_recommend_movies(user):
+	if not user.username:
+		return get_recommend_movies()
+		
+	current_user = user
+	m_liked = current_user.m_like.all()
+	m_disliked = current_user.m_dislike.all()
+
+	if not m_liked:
+		return get_recommend_movies()
+	m_other = Movie.objects.exclude(like_list__in=[current_user]). \
+							exclude(dislike_list__in=[current_user])
+
+	m_recom_list = []
+	m_recom_dict = {}
+	for m in m_liked:
+		m_array = np.fromstring(m.vector, dtype=int, sep=',')
+		for m2 in m_other:
+			m2_array = np.fromstring(m2.vector, dtype=int, sep=',')
+			dist = np.linalg.norm(m_array - m2_array)
+			similarity = 1 / ( 1 + dist )
+			if not m2.imdb_id in m_recom_dict:
+				m_recom_list.append((m2, similarity))
+				m_recom_dict[m2.imdb_id] = similarity
+			elif similarity > m_recom_dict[m2.imdb_id]:
+				m_recom_list = update_in_alist(m_recom_list, m2, similarity)
+				m_recom_dict[m2.imdb_id] = similarity
+
+	# print m_recom_list
+	sorted_m_recom = sorted(m_recom_list, key=itemgetter(1))[::-1]
+	# print sorted_m_recom
+
+	movie_combos = []
+	for m_tuple in sorted_m_recom[:15]:
+		m = m_tuple[0]
 		movie_combo = {'imdb_id' : m.imdb_id,
 						'title' : m.title,
 						'year' : m.year,
