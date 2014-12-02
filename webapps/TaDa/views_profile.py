@@ -28,7 +28,7 @@ def profile(request, user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = user_id)
-	print user_be_view.username
+	# print user_be_view.username
 
 	if Profile.objects.filter(user = user_be_view).count() == 0:
 		profile = Profile(user = user_be_view)
@@ -96,7 +96,7 @@ def profile_photo(request, user_id):
 	else:
 		profile_new = Profile.objects.get(user = request.user)
 
-	print profile_new.user.username
+	# print profile_new.user.username
 
 	photo_form = PhotoForm(request.POST, request.FILES, instance = profile_new)
 
@@ -127,7 +127,7 @@ def get_photo(request, user_id):
 	if not profile.photo:
 		raise Http404
 	
-	print profile.photo.name
+	# print profile.photo.name
 	content_type = guess_type(profile.photo.name)
-	print content_type
+	# print content_type
 	return HttpResponse(profile.photo, content_type = content_type)

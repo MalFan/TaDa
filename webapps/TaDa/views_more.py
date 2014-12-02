@@ -134,7 +134,7 @@ def profile_movie_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	print user_be_view.username
+	# print user_be_view.username
 
 	if Profile.objects.filter(user = user_be_view).count() == 0:
 		profile = Profile(user = user_be_view)
@@ -179,7 +179,7 @@ def profile_review_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	print user_be_view.username
+	# print user_be_view.username
 
 	if Profile.objects.filter(user = user_be_view).count() == 0:
 		profile = Profile(user = user_be_view)
@@ -224,7 +224,7 @@ def profile_following_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	print user_be_view.username
+	# print user_be_view.username
 
 	if Profile.objects.filter(user = user_be_view).count() == 0:
 		profile = Profile(user = user_be_view)

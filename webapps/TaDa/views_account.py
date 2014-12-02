@@ -26,7 +26,7 @@ def register(request):
 	context['search_form'] = SearchForm() 
 
 	if request.method == 'GET':
-		return redirect('/')
+		return redirect(request.POST['next'])
 
 	if not regis_form.is_valid():
 		return HttpResponse(regis_form.errors)
@@ -47,11 +47,10 @@ def register(request):
 		s = smart_bytes(m.vector, encoding='utf-8', strings_only=False, errors='strict')
 		s += ',0'
 		m.vector = s
-		print m.vector
 		m.save()
 
 	auto_login(request, new_user)
-	return redirect('/')
+	return eturn redirect(request.POST['next'])
 
 def log_in(request):
 	if request.method == 'GET':

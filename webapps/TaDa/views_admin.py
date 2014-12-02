@@ -162,7 +162,7 @@ def admin_save_movie(movie_id):
 	    		pass
 
 	    	m_to_add.save()
-    		print 'Movie ' + movie_id + ': ' + m_to_add.title + ' is added.'
+    		# print 'Movie ' + movie_id + ': ' + m_to_add.title + ' is added.'
 
 	# Update the vector
 	update_vector_all(m_to_add)
