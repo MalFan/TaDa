@@ -49,7 +49,6 @@ class Movie(models.Model):
 	dislike_list = models.ManyToManyField(User, related_name='m_dislike')
 	vector = models.CharField(max_length = 1024, blank = True)
 	ticket_url = models.CharField(max_length = 1024, blank = True)
-	is_in_theater = models.CharField(max_length = 1, blank = True)
 
 	def __unicode__(self):
 		return self.title
@@ -60,8 +59,6 @@ class Profile(models.Model):
 	photo = models.ImageField(
 			upload_to = 'profile-photos', 
 			default = 'profile-photos/user_default.png')
-	movies_liked = models.ManyToManyField(Movie, related_name = 'liked_by', blank = True)
-	movies_disliked = models.ManyToManyField(Movie, related_name = 'disliked_by', blank = True)
 	users_followed = models.ManyToManyField(User, related_name = 'followed_by', blank = True)
 
 	last_check_time = models.DateTimeField(auto_now_add = True)
