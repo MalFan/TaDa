@@ -58,9 +58,9 @@ urlpatterns = patterns('',
 	url(r'^email-password-send$', 'TaDa.views_account.email_receive_confirm',name='email-password-send'),
 	url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$','TaDa.views_account.email_password_reset_confirm',
         name='password_reset_confirm'),
-	url(r'^email-password-reset-complete$', 'django.contrib.auth.views.password_reset_complete',{'template_name':'password_reset_complete.html'}, name='email-password-reset-complete'),	
+	url(r'^email-password-reset-complete$', 'django.contrib.auth.views.password_reset_complete',{'template_name':'password_reset_complete.html','extra_context':{'regis_form':RegistrationForm,'login_form':LoginForm}}, name='email-password-reset-complete'),	
 	url(r'^password-change$', 'TaDa.views_account.my_password_change'),
-	url(r'^login-save-password-done$', 'TaDa.views_account.login_password_change_done',name="login-save-password-done"),
+	url(r'^password-change-complete$', 'TaDa.views_account.password_change_complete',name="login-save-password-done"),
 	
 
 	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

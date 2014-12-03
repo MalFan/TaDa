@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auto_login
 from django.contrib.auth.views import logout, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import *
 from django.db.models import Q, Count
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
@@ -14,6 +15,7 @@ from django.contrib.auth.views import password_reset, password_reset_done, passw
 import imdb
 import collections
 from operator import itemgetter
+from django.db import transaction
 
 from models import *
 from forms import *
@@ -72,7 +74,6 @@ def log_out(request):
 	return logout(request,next_page='/')
 
 def send_reset_email(request):
-	print 111
 	email_form = EmailEnterForm(request.POST)
 	if not email_form.is_valid():
 		return HttpResponse("failed")	
@@ -83,7 +84,6 @@ def send_reset_email(request):
 
 		# return HttpResponse("successful")
 
-	print 222
 	return password_reset(request,
 							post_reset_redirect='email-password-send',
 							password_reset_form=EmailEnterForm)
@@ -93,34 +93,53 @@ def send_reset_email(request):
 	# if(True):
 		
 def email_receive_confirm(request):
-	print 666
 	return password_reset_done(request,
 								template_name='home.html',
-								extra_context={'regis_form':RegistrationForm,'search_form':SearchForm,'login_in':LoginForm,
+								extra_context={'regis_form':RegistrationForm,'search_form':SearchForm,'login_form':LoginForm,
 								'request':request,'email_from':EmailEnterForm,'movie_combos':get_in_theater_movies()})
 
 def email_password_reset_confirm(request,uidb64=None, token=None):
 	context = {}
-	# email_reset_confirm_form = EmailResetPasswordConfirmForm()
-	# context['email_reset_confirm_form'] =  EmailResetPasswordConfirmForm()
-	print 2333
-
-	# return render(request, 'email_resetpass_confirm.html', context)
 	return password_reset_confirm(request,uidb64=uidb64, token = token,
 									template_name='password_reset.html',
 									set_password_form= EmailResetPasswordForm,
-									post_reset_redirect= 'email-password-reset-complete')
+									post_reset_redirect= 'email-password-reset-complete',
+									extra_context = {'regis_form':RegistrationForm,'login_form':LoginForm})
 
-
+@transaction.atomic
 @login_required
-def my_password_change(request, *args, **kwargs):
-	return password_change(request,
-							template_name='password_change.html',
-							post_change_redirect='login-save-password-done',
-							password_change_form=LoginChangePasswordForm)
+def my_password_change(request):
+	context = {}
+	context['change_password_form'] = ChangePasswordForm()
+	# if not change_password_form.is_valid():		
+	# 	return HttpResponse("error")
 
+	return render(request,'password_change.html',context);
+	# return password_change(request,
+	# 						template_name='password_change.html',
+	# 						post_change_redirect='login-save-password-done',
+	# 						password_change_form=LoginChangePasswordForm)
 
+@transaction.atomic
 @login_required
-def login_password_change_done(request, *args, **kwargs):
-	return password_change_done(request,
-								template_name='password_change_complete.html')
+def password_change_complete(request):
+	context = {}
+	if request.method == 'GET':
+		return redirect('/profile/'+str(request.user.id))
+
+	change_password_form = ChangePasswordForm(request.POST)
+
+	if not change_password_form.is_valid():
+		return redirect('not valid')
+
+	user_to_edit = authenticate(username= request.user.username, password=change_password_form.cleaned_data['old_password'])
+
+	if user_to_edit is None:	
+		return HttpResponse('error')
+
+	user_to_edit.password = make_password(change_password_form.cleaned_data['new_password1'])		
+	user_to_edit.save()
+	
+	user_editted = authenticate(username= user_to_edit.username, password=change_password_form.cleaned_data['new_password1'])
+	auto_login(request, user_editted)
+	return render(request, 'password_change_complete.html', context)

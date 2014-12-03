@@ -54,14 +54,30 @@ class LoginForm(AuthenticationForm):
 		return cleaned_data
 		
 # log in user change password
-class LoginChangePasswordForm(PasswordChangeForm):
+class ChangePasswordForm(forms.Form):
 	old_password = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter old password'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Original Password'}))
 	new_password1 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter new password'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'New Password'}))
 	new_password2 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'confirm new password'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Confirm New Password'}))
+	def clean(self):
+		# Calls our parent (forms.Form) .clean function, gets a dictionary
+		# of cleaned data as a result
+		cleaned_data = super(ChangePasswordForm, self).clean()
 
+		# Confirms that the two password fields match		
+		old_password = cleaned_data.get('old_password')
+		new_password1 = cleaned_data.get('new_password1')
+		new_password2 = cleaned_data.get('new_password2')
+		if old_password and new_password1 and new_password2 and old_password == new_password1:
+		    raise forms.ValidationError("New passwords must be different from original password.")
+
+		if old_password and new_password1 and new_password2 and new_password1 != new_password2:
+		    raise forms.ValidationError("New passwords did not match.")
+
+		# Generally return the cleaned data we got from our parent.
+		return cleaned_data
 # enter the email for setting password
 class EmailEnterForm(PasswordResetForm):
 	email = forms.EmailField(max_length = 200, 
@@ -82,9 +98,9 @@ class EmailEnterForm(PasswordResetForm):
 # reset password by the email link
 class EmailResetPasswordForm(SetPasswordForm):
 	new_password1 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter new password'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'New Password'}))
 	new_password2 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'confirm password'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Confirm Password'}))
 
 
 class IntroForm(forms.ModelForm):
