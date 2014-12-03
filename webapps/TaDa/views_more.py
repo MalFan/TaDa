@@ -18,6 +18,7 @@ from models import *
 from forms import *
 from views import *
 
+max_id = 9223372036854775807
 # Create your views here.
 def movie_cast_list(request,movie_id):
 	context = {}
@@ -85,6 +86,8 @@ def movie_people_who_liked_list(request,movie_id):
 	return render(request, 'movie_people_who_liked_list.html', context)
 
 def profile_movie_list(request, view_user_id):
+	if int(view_user_id) > max_id:
+		raise Http404
 	context = {}
 	regis_form = RegistrationForm()
 	login_form = LoginForm()
@@ -124,6 +127,8 @@ def profile_movie_list(request, view_user_id):
 	return render(request, 'profile_movie_list.html', context)
 
 def profile_review_list(request, view_user_id):
+	if int(view_user_id) > max_id:
+		raise Http404
 	context = {}
 	regis_form = RegistrationForm()
 	login_form = LoginForm()
@@ -163,6 +168,8 @@ def profile_review_list(request, view_user_id):
 	return render(request, 'profile_review_list.html', context)
 
 def profile_following_list(request, view_user_id):
+	if int(view_user_id) > max_id:
+		raise Http404
 	context = {}
 	regis_form = RegistrationForm()
 	login_form = LoginForm()

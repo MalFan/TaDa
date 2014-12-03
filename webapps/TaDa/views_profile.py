@@ -17,13 +17,12 @@ from operator import itemgetter
 from models import *
 from forms import *
 
-
+max_id = 9223372036854775807
 # Create your views here.
 def profile(request, user_id):
-	global max_id
-	max_id = 9223372036854775807
-	if int(user_id) >= max_id:
+	if int(user_id) > max_id:
 		raise Http404
+	
 	context = {}
 	regis_form = RegistrationForm()
 	login_form = LoginForm()
@@ -65,7 +64,8 @@ def profile(request, user_id):
 @transaction.atomic
 @login_required
 def intro(request, user_id):
-
+	if int(user_id) > max_id:
+		raise Http404
 	if request.method == 'GET':
 		return redirect('/profile/' + user_id)
 
@@ -86,7 +86,8 @@ def intro(request, user_id):
 @transaction.atomic
 @login_required
 def profile_photo(request, user_id):
-
+	if int(user_id) > max_id:
+		raise Http404
 	if request.method == 'GET':
 		return redirect('/profile/' + user_id)
 
@@ -108,6 +109,8 @@ def profile_photo(request, user_id):
 @transaction.atomic
 @login_required
 def follow(request, user_id):
+	if int(user_id) > max_id:
+		raise Http404
 	user_be_followed = get_object_or_404(User, id = user_id)
 
 	profile_of_login_user = get_object_or_404(Profile, user = request.user)
@@ -122,7 +125,8 @@ def follow(request, user_id):
 
 
 def get_photo(request, user_id):
-
+	if int(user_id) > max_id:
+		raise Http404
 	profile = get_object_or_404(Profile, user__id = user_id)
 	if not profile.photo:
 		raise Http404

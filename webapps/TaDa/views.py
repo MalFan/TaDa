@@ -19,6 +19,7 @@ import re
 from models import *
 from forms import *
 
+max_id = 9223372036854775807
 # Create your views here.
 # Used for searching action
 def normalize_query(query_string,
@@ -320,8 +321,7 @@ def new_review(request,movie_id):
 @transaction.atomic
 @login_required
 def delete_review(request,review_id):
-	global max_id
-	max_id = 9223372036854775807
+
 	if int(review_id) >= max_id:
 		raise Http404
 	review_be_delete = get_object_or_404(Review, id = review_id)
