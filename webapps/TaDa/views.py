@@ -94,22 +94,22 @@ def search(request):
 		user_query = get_query(keywords, ['username',])
 		users = User.objects.filter(user_query)
 
-		context['movie_combos'] = []
-		for m in movies:
-			movie_combo = {
-					'imdb_id' : m.imdb_id,
-					'title' : m.title,
-					'year' : m.year,
-					'duration' : m.duration,
-					'cover' : m.cover,
-					'director_list' : m.director_list.all(),
-					'writer_list' : m.writer_list.all(),
-					'cast_list' : m.cast_list.all()[:15],
-					'storyline' : m.short_storyline,
-					'genre_list' : m.genre_list.all(),
-					'certificate' : m.certificate,
-					'ticket_url' : m.ticket_url}
-			context['movie_combos'].append(movie_combo)
+		context['movie_combos'] = movies
+		# for m in movies:
+		# 	movie_combo = {
+		# 			'imdb_id' : m.imdb_id,
+		# 			'title' : m.title,
+		# 			'year' : m.year,
+		# 			'duration' : m.duration,
+		# 			'cover' : m.cover,
+		# 			'director_list' : m.director_list.all(),
+		# 			'writer_list' : m.writer_list.all(),
+		# 			'cast_list' : m.cast_list.all()[:15],
+		# 			'storyline' : m.short_storyline,
+		# 			'genre_list' : m.genre_list.all(),
+		# 			'certificate' : m.certificate,
+		# 			'ticket_url' : m.ticket_url}
+		# 	context['movie_combos'].append(movie_combo)
 
 		context['person_combos'] = persons
 		context['user_combos'] = users
@@ -118,22 +118,22 @@ def search(request):
 		movie_query = get_query(keywords, ['title',])
 		movies = Movie.objects.filter(movie_query)
 
-		context['movie_combos'] = []
-		for m in movies:
-			movie_combo = {
-					'imdb_id' : m.imdb_id,
-					'title' : m.title,
-					'year' : m.year,
-					'duration' : m.duration,
-					'cover' : m.cover,
-					'director_list' : m.director_list.all(),
-					'writer_list' : m.writer_list.all(),
-					'cast_list' : m.cast_list.all()[:15],
-					'storyline' : m.short_storyline,
-					'genre_list' : m.genre_list.all(),
-					'certificate' : m.certificate,
-					'ticket_url' : m.ticket_url}
-			context['movie_combos'].append(movie_combo)
+		context['movie_combos'] = movies
+		# for m in movies:
+		# 	movie_combo = {
+		# 			'imdb_id' : m.imdb_id,
+		# 			'title' : m.title,
+		# 			'year' : m.year,
+		# 			'duration' : m.duration,
+		# 			'cover' : m.cover,
+		# 			'director_list' : m.director_list.all(),
+		# 			'writer_list' : m.writer_list.all(),
+		# 			'cast_list' : m.cast_list.all()[:15],
+		# 			'storyline' : m.short_storyline,
+		# 			'genre_list' : m.genre_list.all(),
+		# 			'certificate' : m.certificate,
+		# 			'ticket_url' : m.ticket_url}
+		# 	context['movie_combos'].append(movie_combo)
 	elif search_type == 'names':
 		person_query = get_query(keywords, ['name',])
 		persons = Person.objects.filter(person_query, has_full_info = True)
@@ -151,26 +151,27 @@ def search(request):
 def movie(request, movie_id):
 	context = {}
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_character_list' : zip(m.cast_list.all()[:15], m.character_list.all()[:15]),
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate,
-			'ticket_url' : m.ticket_url,
-			'producer_list' : m.producer_list.all()}
+	# movie_combo = {
+	# 		'imdb_id' : m.imdb_id,
+	# 		'title' : m.title,
+	# 		'year' : m.year,
+	# 		'duration' : m.duration,
+	# 		'cover' : m.cover,
+	# 		'director_list' : m.director_list.all(),
+	# 		'writer_list' : m.writer_list.all(),
+	# 		'cast_character_list' : zip(m.cast_list.all()[:15], m.character_list.all()[:15]), # unusual combo
+	# 		'storyline' : m.short_storyline,
+	# 		'genre_list' : m.genre_list.all(),
+	# 		'certificate' : m.certificate,
+	# 		'ticket_url' : m.ticket_url,
+	# 		'producer_list' : m.producer_list.all()}
 
 	if len(m.cast_list.all()) > 15:
 		context['is_cast_full'] = 'true'
 
 	review_form = ReviewForm()
-	context['m'] = movie_combo
+	context['m'] = m
+	context['m_cast_character_list'] = zip(m.cast_list.all()[:15], m.character_list.all()[:15])
 	context['review_form'] = review_form
 	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('score').reverse()
@@ -355,20 +356,20 @@ def new_review(request,movie_id):
 	review_form = ReviewForm()
 	context['review_form'] = review_form
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate,
-			'ticket_url' : m.ticket_url}
-	context['m'] = movie_combo
+	# movie_combo = {
+	# 		'imdb_id' : m.imdb_id,
+	# 		'title' : m.title,
+	# 		'year' : m.year,
+	# 		'duration' : m.duration,
+	# 		'cover' : m.cover,
+	# 		'director_list' : m.director_list.all(),
+	# 		'writer_list' : m.writer_list.all(),
+	# 		'cast_list' : m.cast_list.all()[:15],
+	# 		'storyline' : m.short_storyline,
+	# 		'genre_list' : m.genre_list.all(),
+	# 		'certificate' : m.certificate,
+	# 		'ticket_url' : m.ticket_url}
+	context['m'] = m
 	like_count = m.like_list.all().count()
 	context['like_num'] = like_count
 	dislike_count = m.dislike_list.all().count()
@@ -406,20 +407,20 @@ def review(request,review_id):
 	context['comments'] = comments
 	m = get_object_or_404(Movie, reviews_included  = review_be_checked)
 
-	movie_combo = {
-			'imdb_id' : m.imdb_id,
-			'title' : m.title,
-			'year' : m.year,
-			'duration' : m.duration,
-			'cover' : m.cover,
-			'director_list' : m.director_list.all(),
-			'writer_list' : m.writer_list.all(),
-			'cast_list' : m.cast_list.all()[:15],
-			'storyline' : m.short_storyline,
-			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate,
-			'ticket_url' : m.ticket_url}
-	context['m'] = movie_combo
+	# movie_combo = {
+	# 		'imdb_id' : m.imdb_id,
+	# 		'title' : m.title,
+	# 		'year' : m.year,
+	# 		'duration' : m.duration,
+	# 		'cover' : m.cover,
+	# 		'director_list' : m.director_list.all(),
+	# 		'writer_list' : m.writer_list.all(),
+	# 		'cast_list' : m.cast_list.all()[:15],
+	# 		'storyline' : m.short_storyline,
+	# 		'genre_list' : m.genre_list.all(),
+	# 		'certificate' : m.certificate,
+	# 		'ticket_url' : m.ticket_url}
+	context['m'] = m
 	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
 

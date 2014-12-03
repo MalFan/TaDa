@@ -7,7 +7,7 @@
         <p class = "cast-title font-Georgia font-lg font-bold">Cast</p>
         <ul class = "cast-list">
 
-          {% for s, c in m.cast_character_list %}
+          {% for s, c in m_cast_character_list %}
           <li class = "cast-item row">
              <a href="/person/{{s.person_id}}"><img src="{{s.photo}}" alt="{{s.name}}" class="person-pic-sm"></a>
                &nbsp; <a href="/person/{{s.person_id}}"><p class = "font-black inline">{{s}}</p>
