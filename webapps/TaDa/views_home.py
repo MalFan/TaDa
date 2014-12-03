@@ -72,45 +72,48 @@ def get_upcoming_movies():
 		if( len(m) > 0 ):
 			movies3.append(m[0])
 
-	for m in movies1:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate,
-						'ticket_url' : m.ticket_url}
-		context['upcoming_movies_combo1'].append(movie_combo)				
-	for m in movies2:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate,
-						'ticket_url' : m.ticket_url}
-		context['upcoming_movies_combo2'].append(movie_combo)
-	for m in movies3:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate,
-						'ticket_url' : m.ticket_url}
-		context['upcoming_movies_combo3'].append(movie_combo)
+	# for m in movies1:
+	# 	movie_combo = {'imdb_id' : m.imdb_id,
+	# 					'title' : m.title,
+	# 					'year' : m.year,
+	# 					'duration' : m.duration,
+	# 					'cover' : m.cover,
+	# 					'director_list' : m.director_list.all(),
+	# 					'cast_list' : m.cast_list.all()[:4],
+	# 					'storyline' : m.short_storyline,
+	# 					'genre_list' : m.genre_list.all(),
+	# 					'certificate' : m.certificate,
+	# 					'ticket_url' : m.ticket_url}
+	# 	context['upcoming_movies_combo1'].append(movie_combo)	
+	context['upcoming_movies_combo1'] = movies1		
+	# for m in movies2:
+	# 	movie_combo = {'imdb_id' : m.imdb_id,
+	# 					'title' : m.title,
+	# 					'year' : m.year,
+	# 					'duration' : m.duration,
+	# 					'cover' : m.cover,
+	# 					'director_list' : m.director_list.all(),
+	# 					'cast_list' : m.cast_list.all()[:4],
+	# 					'storyline' : m.short_storyline,
+	# 					'genre_list' : m.genre_list.all(),
+	# 					'certificate' : m.certificate,
+	# 					'ticket_url' : m.ticket_url}
+	# 	context['upcoming_movies_combo2'].append(movie_combo)
+	context['upcoming_movies_combo2'] = movies2
+	# for m in movies3:
+	# 	movie_combo = {'imdb_id' : m.imdb_id,
+	# 					'title' : m.title,
+	# 					'year' : m.year,
+	# 					'duration' : m.duration,
+	# 					'cover' : m.cover,
+	# 					'director_list' : m.director_list.all(),
+	# 					'cast_list' : m.cast_list.all()[:4],
+	# 					'storyline' : m.short_storyline,
+	# 					'genre_list' : m.genre_list.all(),
+	# 					'certificate' : m.certificate,
+	# 					'ticket_url' : m.ticket_url}
+	# 	context['upcoming_movies_combo3'].append(movie_combo)
+	context['upcoming_movies_combo3'] = movies3
 	return context
 
 def get_in_theater_movies():
@@ -137,23 +140,23 @@ def get_in_theater_movies():
 		except Movie.DoesNotExist:
 			pass
 
-	movie_combos = []
-	for m in movies:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate,
-						'ticket_url' : m.ticket_url,
-						'like_num' : m.like_list.all().count()}
-		movie_combos.append(movie_combo)
+	# movie_combos = []
+	# for m in movies:
+	# 	movie_combo = {'imdb_id' : m.imdb_id,
+	# 					'title' : m.title,
+	# 					'year' : m.year,
+	# 					'duration' : m.duration,
+	# 					'cover' : m.cover,
+	# 					'director_list' : m.director_list.all(),
+	# 					'cast_list' : m.cast_list.all()[:4],
+	# 					'storyline' : m.short_storyline,
+	# 					'genre_list' : m.genre_list.all(),
+	# 					'certificate' : m.certificate,
+	# 					'ticket_url' : m.ticket_url,
+	# 					'like_num' : m.like_list.all().count()}
+	# 	movie_combos.append(movie_combo)
 
-	return movie_combos
+	return movies
 
 
 def recommend_movie(request):
@@ -171,22 +174,22 @@ def recommend_movie(request):
 def get_recommend_movies():
 	movies = []
 	movies = Movie.objects.all().annotate(num_likes=Count('like_list')).order_by('num_likes').reverse()[:15]
-	movie_combos = []
-	for m in movies:
-		movie_combo = {'imdb_id' : m.imdb_id,
-						'title' : m.title,
-						'year' : m.year,
-						'duration' : m.duration,
-						'cover' : m.cover,
-						'director_list' : m.director_list.all(),
-						'cast_list' : m.cast_list.all()[:4],
-						'storyline' : m.short_storyline,
-						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate,
-						'ticket_url' : m.ticket_url}
-		movie_combos.append(movie_combo)
+	# movie_combos = []
+	# for m in movies:
+	# 	movie_combo = {'imdb_id' : m.imdb_id,
+	# 					'title' : m.title,
+	# 					'year' : m.year,
+	# 					'duration' : m.duration,
+	# 					'cover' : m.cover,
+	# 					'director_list' : m.director_list.all(),
+	# 					'cast_list' : m.cast_list.all()[:4],
+	# 					'storyline' : m.short_storyline,
+	# 					'genre_list' : m.genre_list.all(),
+	# 					'certificate' : m.certificate,
+	# 					'ticket_url' : m.ticket_url}
+	# 	movie_combos.append(movie_combo)
 
-	return movie_combos
+	return movies
 
 # http://stackoverflow.com/questions/8559217/python-update-a-value-in-a-list-of-tuples
 def update_in_alist(alist, key, value):

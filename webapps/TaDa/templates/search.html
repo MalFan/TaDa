@@ -89,7 +89,7 @@
               </div>
               <div id ="genre">
                 <b>Genre: </b>
-                {% for g in m.genre_list %}
+                {% for g in m.genre_list.all %}
                   <a>{{g}}</a>
                 {% endfor %}
               </div>
@@ -99,13 +99,13 @@
               </div>
               <div id ="director">
                 <b>Director: </b>
-                {% for d in m.director_list %}
+                {% for d in m.director_list.all %}
                   <a href="/person/{{d.person_id}}">{{d}}</a>, 
                 {% endfor %}
               </div>
               <div id ="stars">
                 <b>Stars: </b>
-                {% for s in m.cast_list %}
+                {% for s in m.cast_list.all|slice:":10" %}
                 <a href="/person/{{s.person_id}}">{{s}}</a>
                 , {% endfor %}</div>
             </div>
