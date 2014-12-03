@@ -5,6 +5,7 @@ import numpy as np
 
 from models import *
 # from forms import *
+from views_tickets import *
 import urllib
 import os
 
@@ -163,8 +164,10 @@ def admin_save_movie(movie_id):
 		except KeyError:
 	    		pass
 
+	    	m_to_add.ticket_url = get_fandango_url(movie['title'], movie_id)
+
 	    	m_to_add.save()
-    		# print 'Movie ' + movie_id + ': ' + m_to_add.title + ' is added.'
+    		print 'Movie ' + movie_id + ': ' + m_to_add.title + ' is added.'
 
 	# Update the vector
 	update_vector_all(m_to_add)
@@ -224,7 +227,6 @@ def admin_save_person(person_id):
 			fileName=str('nm' + person_id + ".jpg")  # string containing the file name
 			url = person['headshot']
 			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
-			# print url
 
 			p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
 		except KeyError:

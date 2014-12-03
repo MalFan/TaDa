@@ -107,7 +107,8 @@ def search(request):
 					'cast_list' : m.cast_list.all()[:15],
 					'storyline' : m.short_storyline,
 					'genre_list' : m.genre_list.all(),
-					'certificate' : m.certificate}
+					'certificate' : m.certificate,
+					'ticket_url' : m.ticket_url}
 			context['movie_combos'].append(movie_combo)
 
 		context['person_combos'] = persons
@@ -130,7 +131,8 @@ def search(request):
 					'cast_list' : m.cast_list.all()[:15],
 					'storyline' : m.short_storyline,
 					'genre_list' : m.genre_list.all(),
-					'certificate' : m.certificate}
+					'certificate' : m.certificate,
+					'ticket_url' : m.ticket_url}
 			context['movie_combos'].append(movie_combo)
 	elif search_type == 'names':
 		person_query = get_query(keywords, ['name',])
@@ -161,6 +163,7 @@ def movie(request, movie_id):
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
 			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url,
 			'producer_list' : m.producer_list.all()}
 
 	if len(m.cast_list.all()) > 15:
@@ -228,7 +231,8 @@ def get_people_also_liked_movies(movie_id, current_user):
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		movie_combos.append(movie_combo)
 
 	return movie_combos
@@ -362,7 +366,8 @@ def new_review(request,movie_id):
 			'cast_list' : m.cast_list.all()[:15],
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	context['m'] = movie_combo
 	like_count = m.like_list.all().count()
 	context['like_num'] = like_count
@@ -412,7 +417,8 @@ def review(request,review_id):
 			'cast_list' : m.cast_list.all()[:15],
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	context['m'] = movie_combo
 	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count

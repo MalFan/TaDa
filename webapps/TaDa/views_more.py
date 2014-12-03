@@ -37,7 +37,8 @@ def movie_cast_list(request,movie_id):
 			'cast_character_list' : zip(m.cast_list.all(), m.character_list.all()),
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -63,7 +64,8 @@ def movie_review_list(request,movie_id):
 			'writer_list' : m.writer_list.all(),
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -90,7 +92,8 @@ def movie_people_also_liked_list(request, movie_id):
 			'writer_list' : m.writer_list.all(),
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -116,7 +119,8 @@ def movie_people_who_liked_list(request,movie_id):
 			'writer_list' : m.writer_list.all(),
 			'storyline' : m.short_storyline,
 			'genre_list' : m.genre_list.all(),
-			'certificate' : m.certificate}
+			'certificate' : m.certificate,
+			'ticket_url' : m.ticket_url}
 	review_form = ReviewForm()
 	context['m'] = movie_combo
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()

@@ -48,6 +48,8 @@ class Movie(models.Model):
 	like_list = models.ManyToManyField(User, related_name='m_like')
 	dislike_list = models.ManyToManyField(User, related_name='m_dislike')
 	vector = models.CharField(max_length = 1024, blank = True)
+	ticket_url = models.CharField(max_length = 1024, blank = True)
+	is_in_theater = models.CharField(max_length = 1, blank = True)
 
 	def __unicode__(self):
 		return self.title

@@ -47,16 +47,18 @@ def get_fandango_id(imdb_id):
 	end = url_fandango.find('mid') + 10
 
 	fandango_id =  url_fandango[start:end]
-	print fandango_id
+
 	return fandango_id
 
 def combine(fandango_name, fandango_id):
+	if not fandango_id:
+		return ''
 	first_part = 'http://www.fandango.com/'
 	second_part = '_'
-	third_part = '/movieoverview'
+	third_part = '/movietimes'
 	fandango_url = first_part + fandango_name + second_part + fandango_id + third_part
 	return fandango_url
 
-name = "The Hunger Games: Mockingjay - Part 1"
-theid = "1951265"
-print get_fandango_url(name, theid)
+# name = "The Hunger Games: Mockingjay - Part 1"
+# theid = "1951265"
+# print get_fandango_url(name, theid)

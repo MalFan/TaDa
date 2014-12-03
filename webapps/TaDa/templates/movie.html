@@ -5,7 +5,9 @@
   <div class = "movie-info-wrapper shadow white-block row">
     <div class ="col-md-3 row">
       <img class="movie-pic" src="{{m.cover}}"/>
-      <button class = "ticket-btn btn btn-info col-md-12"  >Get Tickets</button>
+      {% if m.ticket_url %}
+      <a href="{{m.ticket_url}}" role="button" class = "ticket-btn btn btn-info col-md-12"  >Get Tickets</a>
+      {% endif %}
     </div>
     <div class ="col-md-6">                        
       <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-lg inline">{{m.title}}</p></a>&nbsp;<br>

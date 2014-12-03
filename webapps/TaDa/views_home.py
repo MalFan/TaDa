@@ -45,7 +45,6 @@ def get_upcoming_movies():
 			'3704538',
 			'2171902',
 			'2960930'
-
 			]
 	id_list2 = [
 			'2170439',
@@ -82,7 +81,8 @@ def get_upcoming_movies():
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		context['upcoming_movies_combo1'].append(movie_combo)				
 	for m in movies2:
 		movie_combo = {'imdb_id' : m.imdb_id,
@@ -94,7 +94,8 @@ def get_upcoming_movies():
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		context['upcoming_movies_combo2'].append(movie_combo)
 	for m in movies3:
 		movie_combo = {'imdb_id' : m.imdb_id,
@@ -106,7 +107,8 @@ def get_upcoming_movies():
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		context['upcoming_movies_combo3'].append(movie_combo)
 	return context
 
@@ -146,6 +148,7 @@ def get_in_theater_movies():
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
 						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url,
 						'like_num' : m.like_list.all().count()}
 		movie_combos.append(movie_combo)
 
@@ -178,7 +181,8 @@ def get_recommend_movies():
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		movie_combos.append(movie_combo)
 
 	return movie_combos
@@ -209,9 +213,11 @@ def get_advanced_recommend_movies(user):
 			dist = np.linalg.norm(m_array - m2_array)
 			similarity = 1 / ( 1 + dist )
 			if not m2.imdb_id in m_recom_dict:
+				print m2.title + ' does not exist'
 				m_recom_list.append((m2, similarity))
 				m_recom_dict[m2.imdb_id] = similarity
 			elif similarity > m_recom_dict[m2.imdb_id]:
+				print m2.title + ' exists but needs update'
 				m_recom_list = update_in_alist(m_recom_list, m2, similarity)
 				m_recom_dict[m2.imdb_id] = similarity
 
@@ -231,7 +237,8 @@ def get_advanced_recommend_movies(user):
 						'cast_list' : m.cast_list.all()[:4],
 						'storyline' : m.short_storyline,
 						'genre_list' : m.genre_list.all(),
-						'certificate' : m.certificate}
+						'certificate' : m.certificate,
+						'ticket_url' : m.ticket_url}
 		movie_combos.append(movie_combo)
 
 	return movie_combos
