@@ -72,12 +72,13 @@ def get_query(query_string, search_fields):
 def search(request):
 	context = {}
 	search_form = SearchForm(request.GET) 
+	regis_form = RegistrationForm()
+	login_form = LoginForm()
+	context['regis_form'] = regis_form
+	context['login_form'] = login_form
+	
 	if not search_form.is_valid():
-		context['search_form'] = SearchForm()
-		regis_form = RegistrationForm()
-		login_form = LoginForm()
-		context['regis_form'] = regis_form
-		context['login_form'] = login_form
+		context['search_form'] = SearchForm()	
 		return  render(request, 'search.html', context)
 
 	context['search_form'] = search_form
@@ -319,6 +320,10 @@ def new_review(request,movie_id):
 @transaction.atomic
 @login_required
 def delete_review(request,review_id):
+	global max_id
+	max_id = 9223372036854775807
+	if int(review_id) >= max_id:
+		raise Http404
 	review_be_delete = get_object_or_404(Review, id = review_id)
 	movie_be_reviewed = get_object_or_404(Movie, reviews_included = review_be_delete)
 	
@@ -328,6 +333,8 @@ def delete_review(request,review_id):
 @transaction.atomic
 @login_required
 def delete_review_page(request,review_id):
+	if int(review_id) >= max_id:
+		raise Http404
 	review_be_delete = get_object_or_404(Review, id = review_id)
 	movie_be_reviewed = get_object_or_404(Movie, reviews_included = review_be_delete)
 	movie_id = movie_be_reviewed.imdb_id
@@ -335,6 +342,8 @@ def delete_review_page(request,review_id):
 	return redirect('/movie/' + movie_id)
 
 def review(request,review_id):
+	if int(review_id) >= max_id:
+		raise Http404
 	context = {}
 	comment_form = CommentForm()
 	context['comment_form'] = comment_form 
@@ -367,6 +376,7 @@ def review(request,review_id):
 
 @transaction.atomic
 def update_review_score(review_id):
+
 	review_be_scored = get_object_or_404(Review, id = review_id)
 	useful_num = float(get_object_or_404(Review, id = review_id).like_list.all().count())
 	useless_num = float(get_object_or_404(Review, id = review_id).dislike_list.all().count())
@@ -380,6 +390,9 @@ def update_review_score(review_id):
 @transaction.atomic
 @login_required
 def write_comment(request, review_id):
+	if int(review_id) >= max_id:
+		raise Http404
+	
 	if request.method == 'GET':
 		return redirect('/review/' + review_id)
 	
@@ -404,6 +417,8 @@ def write_comment(request, review_id):
 @transaction.atomic
 @login_required
 def delete_comment(request,comment_id):
+	if int(comment_id) >= max_id:
+		raise Http404
 	comment_be_delete = get_object_or_404(Comment, id = comment_id)
 	review_be_commented = get_object_or_404(Review, comments_included = comment_be_delete)
 	
@@ -413,6 +428,8 @@ def delete_comment(request,comment_id):
 @transaction.atomic
 @login_required
 def review_like(request,review_id):
+	if int(review_id) >= max_id:
+		raise Http404
 	current_user = request.user
 	review_be_like = get_object_or_404(Review, id = review_id)
 	if current_user in review_be_like.like_list.all():
@@ -431,6 +448,8 @@ def review_like(request,review_id):
 @transaction.atomic
 @login_required
 def review_dislike(request,review_id):
+	if int(review_id) >= max_id:
+		raise Http404
 	current_user = request.user
 	review_be_dislike = get_object_or_404(Review, id = review_id)
 	if current_user in review_be_dislike.dislike_list.all():
@@ -466,6 +485,8 @@ def check_comments(request):
 @transaction.atomic
 @login_required
 def delete_notification(request, review_id):
+	if int(review_id) >= max_id:
+		raise Http404
 	current_user = request.user
 	notifications = Notification.objects.filter(review__publisher=current_user, review__id=review_id)
 	notifications.delete()

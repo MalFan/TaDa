@@ -127,8 +127,8 @@ def get_recommend_movies():
 def update_in_alist(alist, key, value):
     	return [(k,v) if (k != key) else (key, value) for (k, v) in alist]
 
-def get_advanced_recommend_movies(urrent_user):
-	if not urrent_user.username:
+def get_advanced_recommend_movies(current_user):
+	if not current_user.username:
 		return get_recommend_movies()
 		
 	m_liked = current_user.m_like.all()

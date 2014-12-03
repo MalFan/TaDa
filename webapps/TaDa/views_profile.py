@@ -17,8 +17,13 @@ from operator import itemgetter
 from models import *
 from forms import *
 
+
 # Create your views here.
 def profile(request, user_id):
+	global max_id
+	max_id = 9223372036854775807
+	if int(user_id) >= max_id:
+		raise Http404
 	context = {}
 	regis_form = RegistrationForm()
 	login_form = LoginForm()
