@@ -22,6 +22,7 @@ from forms import *
 from views_home import *
 
 # Create your views here.
+@transaction.atomic
 def register(request):
 	context = {}
 	regis_form = RegistrationForm(request.POST)
@@ -55,6 +56,7 @@ def register(request):
 	auto_login(request, new_user)
 	return redirect(request.POST['next'])
 
+
 def log_in(request):
 	if request.method == 'GET':
 		return redirect('/')
@@ -66,7 +68,6 @@ def log_in(request):
 		return redirect(request.POST['next'])
 	else:		
 		return HttpResponse("error")
-
 
 @login_required
 def log_out(request):
@@ -91,6 +92,7 @@ def send_reset_email(request):
 	#if email not exist
 		#reutrn HttpResponse("failed")
 	# if(True):
+
 		
 def email_receive_confirm(request):
 	return password_reset_done(request,
@@ -98,6 +100,7 @@ def email_receive_confirm(request):
 								extra_context={'regis_form':RegistrationForm,'search_form':SearchForm,'login_form':LoginForm,
 								'request':request,'email_from':EmailEnterForm,'movie_combos':get_in_theater_movies()})
 
+@transaction.atomic
 def email_password_reset_confirm(request,uidb64=None, token=None):
 	context = {}
 	return password_reset_confirm(request,uidb64=uidb64, token = token,

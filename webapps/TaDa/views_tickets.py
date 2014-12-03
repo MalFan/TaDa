@@ -19,6 +19,8 @@ class MyHTMLParserForUrl(HTMLParser):
           return
 
 def get_fandango_url(imdb_name, imdb_id):
+	global url_fandango
+	url_fandango = ''
 	fandango_name = get_fandango_name(imdb_name)
 	fandango_id = get_fandango_id(imdb_id)
 	fandango_url = combine(fandango_name, fandango_id)
