@@ -28,6 +28,7 @@ def home(request):
 	context['next'] = '/'
 	context['movie_combos'] = get_in_theater_movies()
 	context['request'] = request
+	context['email_from'] = EmailEnterForm()
 	context.update(get_upcoming_movies())
 	return render(request, 'home.html', context)
 

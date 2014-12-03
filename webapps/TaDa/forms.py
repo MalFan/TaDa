@@ -56,24 +56,35 @@ class LoginForm(AuthenticationForm):
 # log in user change password
 class LoginChangePasswordForm(PasswordChangeForm):
 	old_password = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter old password'}))
 	new_password1 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter new password'}))
 	new_password2 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'confirm new password'}))
 
 # enter the email for setting password
-class EmailResetPasswordForm(PasswordResetForm):
+class EmailEnterForm(PasswordResetForm):
 	email = forms.EmailField(max_length = 200, 
 								widget = forms.TextInput(attrs={'class': 'form-control'}))
 
+	def clean_email(self):
+		# Confirms that the username is not already present in the
+		# User model database.
+		email = self.cleaned_data.get('email')
+		if User.objects.filter(email__exact=email).count() == 0:
+			raise forms.ValidationError("Email address does not exist.")
+
+		# Generally return the cleaned data we got from the cleaned_data
+		# dictionary
+		return email
+
 
 # reset password by the email link
-class EmailResetPasswordConfirmForm(SetPasswordForm):
+class EmailResetPasswordForm(SetPasswordForm):
 	new_password1 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'enter new password'}))
 	new_password2 = forms.CharField(max_length = 20, 
-								widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'confirm password'}))
 
 
 class IntroForm(forms.ModelForm):

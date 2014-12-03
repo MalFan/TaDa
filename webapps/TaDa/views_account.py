@@ -9,7 +9,8 @@ from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
 from django.utils.encoding import smart_bytes
-
+from django.contrib.auth.views import password_change, password_change_done
+from django.contrib.auth.views import password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 import imdb
 import collections
 from operator import itemgetter
@@ -71,19 +72,45 @@ def log_out(request):
 	return logout(request,next_page='/')
 
 def send_reset_email(request):
+	print 111
+	email_form = EmailEnterForm(request.POST)
+	if not email_form.is_valid():
+		return HttpResponse("failed")	
+		# print 234
+		# return password_reset(request,
+		# 	post_reset_redirect=request.POST['next'],
+		# 	password_reset_form=EmailEnterForm)
 
+		# return HttpResponse("successful")
+
+	print 222
+	return password_reset(request,
+							post_reset_redirect='email-password-send',
+							password_reset_form=EmailEnterForm)
+			
 	#if email not exist
 		#reutrn HttpResponse("failed")
-	if(True):
-		return HttpResponse("successful")
+	# if(True):
+		
+def email_receive_confirm(request):
+	print 666
+	return password_reset_done(request,
+								template_name='home.html',
+								extra_context={'regis_form':RegistrationForm,'search_form':SearchForm,'login_in':LoginForm,
+								'request':request,'email_from':EmailEnterForm,'movie_combos':get_in_theater_movies()})
 
-def password_reset(request):
+def email_password_reset_confirm(request,uidb64=None, token=None):
 	context = {}
-	return render(request, "password_reset.html", context);
+	# email_reset_confirm_form = EmailResetPasswordConfirmForm()
+	# context['email_reset_confirm_form'] =  EmailResetPasswordConfirmForm()
+	print 2333
 
-def password_reset_complete(request):
-	context = {}	
-	return render(request, "password_reset_complete.html", context);
+	# return render(request, 'email_resetpass_confirm.html', context)
+	return password_reset_confirm(request,uidb64=uidb64, token = token,
+									template_name='password_reset.html',
+									set_password_form= EmailResetPasswordForm,
+									post_reset_redirect= 'email-password-reset-complete')
+
 
 @login_required
 def password_change(request,user_id):
@@ -91,8 +118,30 @@ def password_change(request,user_id):
 	if(int(user_id) != request.user.id):
 		return redirect("/")
 
+	context = {}
+	context['user'] = request.user
+	context['pass_form'] = LoginChangePasswordForm(request.user)
 	return render(request, "password_change.html", context);
 
-def password_change_complete(request):
+@login_required
+def password_change_complete(request,user_id):
+	# context = {}
 	context = {}
-	return render(request, "password_change_complete.html", context);
+	pass_form = LoginChangePasswordForm(request.user,request.POST)
+	context['pass_form'] = pass_form
+	print pass_form
+
+	if not pass_form.is_valid():
+		return render(request, 'password_change.html', context)
+
+	return password_change(request,
+							template_name='password_change_complete.html',
+							post_change_redirect='login-save-password-done',
+							password_change_form=LoginChangePasswordForm)
+
+	# return render(request, "password_change_complete.html", context);
+
+@login_required
+def login_password_change_done(request):
+	return password_change_done(request,
+								template_name='password_change_complete.html')
