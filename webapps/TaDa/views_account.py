@@ -113,35 +113,14 @@ def email_password_reset_confirm(request,uidb64=None, token=None):
 
 
 @login_required
-def password_change(request,user_id):
-	context = {}
-	if(int(user_id) != request.user.id):
-		return redirect("/")
-
-	context = {}
-	context['user'] = request.user
-	context['pass_form'] = LoginChangePasswordForm(request.user)
-	return render(request, "password_change.html", context);
-
-@login_required
-def password_change_complete(request,user_id):
-	# context = {}
-	context = {}
-	pass_form = LoginChangePasswordForm(request.user,request.POST)
-	context['pass_form'] = pass_form
-	print pass_form
-
-	if not pass_form.is_valid():
-		return render(request, 'password_change.html', context)
-
+def my_password_change(request, *args, **kwargs):
 	return password_change(request,
-							template_name='password_change_complete.html',
+							template_name='password_change.html',
 							post_change_redirect='login-save-password-done',
 							password_change_form=LoginChangePasswordForm)
 
-	# return render(request, "password_change_complete.html", context);
 
 @login_required
-def login_password_change_done(request):
+def login_password_change_done(request, *args, **kwargs):
 	return password_change_done(request,
 								template_name='password_change_complete.html')
