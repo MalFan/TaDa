@@ -95,22 +95,6 @@ def search(request):
 		users = User.objects.filter(user_query)
 
 		context['movie_combos'] = movies
-		# for m in movies:
-		# 	movie_combo = {
-		# 			'imdb_id' : m.imdb_id,
-		# 			'title' : m.title,
-		# 			'year' : m.year,
-		# 			'duration' : m.duration,
-		# 			'cover' : m.cover,
-		# 			'director_list' : m.director_list.all(),
-		# 			'writer_list' : m.writer_list.all(),
-		# 			'cast_list' : m.cast_list.all()[:15],
-		# 			'storyline' : m.short_storyline,
-		# 			'genre_list' : m.genre_list.all(),
-		# 			'certificate' : m.certificate,
-		# 			'ticket_url' : m.ticket_url}
-		# 	context['movie_combos'].append(movie_combo)
-
 		context['person_combos'] = persons
 		context['user_combos'] = users
 
@@ -119,21 +103,6 @@ def search(request):
 		movies = Movie.objects.filter(movie_query)
 
 		context['movie_combos'] = movies
-		# for m in movies:
-		# 	movie_combo = {
-		# 			'imdb_id' : m.imdb_id,
-		# 			'title' : m.title,
-		# 			'year' : m.year,
-		# 			'duration' : m.duration,
-		# 			'cover' : m.cover,
-		# 			'director_list' : m.director_list.all(),
-		# 			'writer_list' : m.writer_list.all(),
-		# 			'cast_list' : m.cast_list.all()[:15],
-		# 			'storyline' : m.short_storyline,
-		# 			'genre_list' : m.genre_list.all(),
-		# 			'certificate' : m.certificate,
-		# 			'ticket_url' : m.ticket_url}
-		# 	context['movie_combos'].append(movie_combo)
 	elif search_type == 'names':
 		person_query = get_query(keywords, ['name',])
 		persons = Person.objects.filter(person_query, has_full_info = True)
@@ -151,20 +120,6 @@ def search(request):
 def movie(request, movie_id):
 	context = {}
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'cast_character_list' : zip(m.cast_list.all()[:15], m.character_list.all()[:15]), # unusual combo
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url,
-	# 		'producer_list' : m.producer_list.all()}
 
 	if len(m.cast_list.all()) > 15:
 		context['is_cast_full'] = 'true'
@@ -173,7 +128,7 @@ def movie(request, movie_id):
 	context['m'] = m
 	context['m_cast_character_list'] = zip(m.cast_list.all()[:15], m.character_list.all()[:15])
 	context['review_form'] = review_form
-	movie_be_reviewed = Movie.objects.get(imdb_id = movie_id)
+	movie_be_reviewed = get_object_or_404(Movie, imdb_id = movie_id)
 	reviews = Review.objects.filter(movie = movie_be_reviewed).order_by('score').reverse()
 	if len(reviews) > 5:
 		reviews = reviews[:5]
@@ -210,7 +165,7 @@ def movie(request, movie_id):
 
 def get_people_also_liked_movies(movie_id, current_user):
 
-	m = Movie.objects.get(imdb_id = movie_id)
+	m = get_object_or_404(Movie, imdb_id = movie_id)
 	u_list = m.like_list.exclude(username = current_user.username)
 
 	m_list = []
@@ -240,7 +195,7 @@ def get_people_also_liked_movies(movie_id, current_user):
 
 def get_people_who_liked_this(movie_id, current_user):
 
-	m = Movie.objects.get(imdb_id = movie_id)
+	m = get_object_or_404(Movie, imdb_id = movie_id)
 	users = m.like_list.exclude(username = current_user.username)
 
 	return users
@@ -260,7 +215,7 @@ def person(request, person_id):
 
 def get_recent_works(person_id):
 	
-	p =  Person.objects.get(person_id = person_id)
+	p =  get_object_or_404(Person, person_id = person_id)
 	movies = Movie.objects.filter(Q(cast_list__in=[p]) | \
 			Q(producer_list__in=[p]) | \
 			Q(writer_list__in=[p]) | \
@@ -272,8 +227,7 @@ def get_recent_works(person_id):
 @login_required
 def like(request, movie_id):
 	current_user = request.user
-	movie_be_like = Movie.objects.get(imdb_id = movie_id)
-
+	movie_be_like = get_object_or_404(Movie, imdb_id = movie_id)
 	vector_str = smart_bytes(movie_be_like.vector, encoding='utf-8', strings_only=False, errors='strict')
 	vector = vector_str.split(',')
 
@@ -291,7 +245,6 @@ def like(request, movie_id):
 
 	vector_str = ','.join(vector)
 	movie_be_like.vector = vector_str
-	print movie_be_like.vector
 	movie_be_like.save()
 
 	return HttpResponse(response_text)
@@ -300,7 +253,7 @@ def like(request, movie_id):
 @login_required
 def dislike(request, movie_id):
 	current_user = request.user
-	movie_be_dislike = Movie.objects.get(imdb_id = movie_id)
+	movie_be_dislike = get_object_or_404(Movie, imdb_id = movie_id)
 
 	vector_str = smart_bytes(movie_be_dislike.vector, encoding='utf-8', strings_only=False, errors='strict')
 	vector = vector_str.split(',')
@@ -319,7 +272,6 @@ def dislike(request, movie_id):
 
 	vector_str = ','.join(vector)
 	movie_be_dislike.vector = vector_str
-	print movie_be_dislike.vector
 	movie_be_dislike.save()
 
 	return HttpResponse(response_text)
@@ -344,7 +296,7 @@ def write_review(request,movie_id):
 
 	return redirect('/movie/'+movie_id)
 
-
+@transaction.atomic
 @login_required
 def new_review(request,movie_id):
 	context = {}
@@ -356,19 +308,7 @@ def new_review(request,movie_id):
 	review_form = ReviewForm()
 	context['review_form'] = review_form
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'cast_list' : m.cast_list.all()[:15],
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
+	
 	context['m'] = m
 	like_count = m.like_list.all().count()
 	context['like_num'] = like_count
@@ -376,6 +316,7 @@ def new_review(request,movie_id):
 	context['dislike_num'] = dislike_count
 	return render(request, 'write_review.html', context)
 
+@transaction.atomic
 @login_required
 def delete_review(request,review_id):
 	review_be_delete = get_object_or_404(Review, id = review_id)
@@ -384,6 +325,7 @@ def delete_review(request,review_id):
 	review_be_delete.delete()
 	return HttpResponse()
 
+@transaction.atomic
 @login_required
 def delete_review_page(request,review_id):
 	review_be_delete = get_object_or_404(Review, id = review_id)
@@ -401,25 +343,12 @@ def review(request,review_id):
 	context['regis_form'] = regis_form
 	context['login_form'] = login_form
 	context['search_form'] = SearchForm()
-	review_be_checked = Review.objects.get(id = review_id)
+	review_be_checked = get_object_or_404(Review, id = review_id)
 	context['review'] = review_be_checked
 	comments = Comment.objects.filter(review = review_be_checked).order_by('id').reverse()
 	context['comments'] = comments
 	m = get_object_or_404(Movie, reviews_included  = review_be_checked)
 
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'cast_list' : m.cast_list.all()[:15],
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
 	context['m'] = m
 	like_count = Movie.objects.filter(imdb_id = m.imdb_id, like_list__in = User.objects.all()).count()
 	context['like_num'] = like_count
@@ -436,6 +365,7 @@ def review(request,review_id):
 
 	return render(request, 'review.html', context)
 
+@transaction.atomic
 def update_review_score(review_id):
 	review_be_scored = get_object_or_404(Review, id = review_id)
 	useful_num = float(get_object_or_404(Review, id = review_id).like_list.all().count())
@@ -447,10 +377,14 @@ def update_review_score(review_id):
 
 	review_be_scored.save()
 
+@transaction.atomic
 @login_required
-def write_comment(request, review_id):	
+def write_comment(request, review_id):
+	if request.method == 'GET':
+		return redirect('/review/' + review_id)
+	
 	context = {}
-	review_be_comment = Review.objects.get(id = review_id)
+	review_be_comment = get_object_or_404(Review, id = review_id)
 	comment_new = Comment(review = review_be_comment, publisher = request.user)
 	comment_form = CommentForm(request.POST, instance = comment_new)
 
@@ -467,6 +401,7 @@ def write_comment(request, review_id):
 	
 	return render(request, 'write_comment.html', context)
 
+@transaction.atomic
 @login_required
 def delete_comment(request,comment_id):
 	comment_be_delete = get_object_or_404(Comment, id = comment_id)
@@ -511,7 +446,7 @@ def review_dislike(request,review_id):
 
 	return HttpResponse(response_text)
 
-
+@transaction.atomic
 @login_required
 def check_comments(request):
 	context = {}
@@ -528,6 +463,7 @@ def check_comments(request):
 
 	return render(request, 'append_notification_list.html', context)
 
+@transaction.atomic
 @login_required
 def delete_notification(request, review_id):
 	current_user = request.user

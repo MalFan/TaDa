@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.db import transaction
 import imdb
 import numpy as np
 
 from models import *
-# from forms import *
 from views_tickets import *
 import urllib
 import os
@@ -24,6 +24,7 @@ def admin_search(request):
 
 	return render(request, 'admin_homepage.html', context)
 
+@transaction.atomic
 def update_vector_all(movie):
 	user_num = User.objects.all().count()
 	vector = np.asarray([0] * user_num)
@@ -37,10 +38,10 @@ def update_vector_all(movie):
 
 	vector_str = ','.join(['%d' % num for num in vector])
 
-	# print vector_str
 	movie.vector = vector_str
 	movie.save()
 
+@transaction.atomic
 def admin_save_movie(movie_id):
 	# Fetch an existing movie or create a new object
 	try:
@@ -194,6 +195,7 @@ def admin_add_movie(request, movie_id):
 
 	return render(request, 'admin_movie.html', context)
 
+@transaction.atomic
 def admin_save_person(person_id):
 	# Fetch an existing person or create a new person object
 	try:
@@ -250,7 +252,6 @@ def admin_add_person(request, person_id):
 	context['photo'] = p_to_add.photo
 
 	return render(request, 'admin_person.html', context)
-
 
 def admin_one_touch(request):
 	movie_list = [		

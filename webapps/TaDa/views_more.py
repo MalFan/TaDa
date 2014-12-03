@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
 from django.utils import timezone 
+from django.db import transaction
 
 import imdb
 import collections
@@ -26,19 +27,6 @@ def movie_cast_list(request,movie_id):
 	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'cast_character_list' : zip(m.cast_list.all(), m.character_list.all()), # unusual combo
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
 	review_form = ReviewForm()
 	context['m'] = m
 	context['m_cast_character_list'] = zip(m.cast_list.all(), m.character_list.all())
@@ -55,18 +43,7 @@ def movie_review_list(request,movie_id):
 	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
+
 	review_form = ReviewForm()
 	context['m'] = m
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -83,18 +60,7 @@ def movie_people_also_liked_list(request, movie_id):
 	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
+
 	review_form = ReviewForm()
 	context['m'] = m
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -110,18 +76,7 @@ def movie_people_who_liked_list(request,movie_id):
 	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
-	# movie_combo = {
-	# 		'imdb_id' : m.imdb_id,
-	# 		'title' : m.title,
-	# 		'year' : m.year,
-	# 		'duration' : m.duration,
-	# 		'cover' : m.cover,
-	# 		'director_list' : m.director_list.all(),
-	# 		'writer_list' : m.writer_list.all(),
-	# 		'storyline' : m.short_storyline,
-	# 		'genre_list' : m.genre_list.all(),
-	# 		'certificate' : m.certificate,
-	# 		'ticket_url' : m.ticket_url}
+
 	review_form = ReviewForm()
 	context['m'] = m
 	context['like_num'] = Movie.objects.filter(imdb_id = movie_id, like_list__in = User.objects.all()).count()
@@ -139,11 +94,6 @@ def profile_movie_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	# print user_be_view.username
-
-	if Profile.objects.filter(user = user_be_view).count() == 0:
-		profile = Profile(user = user_be_view)
-		profile.save()
 
 	if request.user == user_be_view:
 		context['view_user'] = request.user
@@ -158,10 +108,9 @@ def profile_movie_list(request, view_user_id):
 	context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
 	
 	if Profile.objects.filter(user = user_be_view).count() > 0:
-		profile = Profile.objects.get(user = user_be_view)
+		profile = get_object_or_404(Profile, user = user_be_view)
 		context['profile'] = profile
-		# print profile.photo
-	# context['photo_form'] = PhotoForm()
+	
 	context['search_form'] = SearchForm()
 	user_be_followed = get_object_or_404(User, id = view_user_id)
 	if request.user.username:
@@ -184,11 +133,6 @@ def profile_review_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	# print user_be_view.username
-
-	if Profile.objects.filter(user = user_be_view).count() == 0:
-		profile = Profile(user = user_be_view)
-		profile.save()
 
 	if request.user == user_be_view:
 		context['view_user'] = request.user
@@ -203,10 +147,9 @@ def profile_review_list(request, view_user_id):
 	context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
 	
 	if Profile.objects.filter(user = user_be_view).count() > 0:
-		profile = Profile.objects.get(user = user_be_view)
+		profile = get_object_or_404(Profile, user = user_be_view)
 		context['profile'] = profile
-		# print profile.photo
-	# context['photo_form'] = PhotoForm()
+		
 	context['search_form'] = SearchForm()
 	user_be_followed = get_object_or_404(User, id = view_user_id)
 	if request.user.username:
@@ -229,11 +172,6 @@ def profile_following_list(request, view_user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
-	# print user_be_view.username
-
-	if Profile.objects.filter(user = user_be_view).count() == 0:
-		profile = Profile(user = user_be_view)
-		profile.save()
 
 	if request.user == user_be_view:
 		context['view_user'] = request.user
@@ -248,10 +186,9 @@ def profile_following_list(request, view_user_id):
 	context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
 	
 	if Profile.objects.filter(user = user_be_view).count() > 0:
-		profile = Profile.objects.get(user = user_be_view)
+		profile = get_object_or_404(Profile, user = user_be_view)
 		context['profile'] = profile
-		# print profile.photo
-	# context['photo_form'] = PhotoForm()
+		
 	context['search_form'] = SearchForm()
 	user_be_followed = get_object_or_404(User, id = view_user_id)
 	if request.user.username:

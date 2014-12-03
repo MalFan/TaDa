@@ -28,11 +28,6 @@ def profile(request, user_id):
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = user_id)
-	# print user_be_view.username
-
-	if Profile.objects.filter(user = user_be_view).count() == 0:
-		profile = Profile(user = user_be_view)
-		profile.save()
 
 	if request.user == user_be_view:
 		context['view_user'] = request.user
@@ -47,10 +42,9 @@ def profile(request, user_id):
 	context['reviews'] = Review.objects.filter(publisher = user_be_view).order_by('id').reverse()
 	
 	if Profile.objects.filter(user = user_be_view).count() > 0:
-		profile = Profile.objects.get(user = user_be_view)
+		profile = get_object_or_404(Profile, user = user_be_view)
 		context['profile'] = profile
-		# print profile.photo
-	# context['photo_form'] = PhotoForm()
+		
 	context['search_form'] = SearchForm()
 	user_be_followed = get_object_or_404(User, id = user_id)
 	if request.user.username:
@@ -63,6 +57,7 @@ def profile(request, user_id):
 		context['follow_text'] = 'follow'
 	return render(request, 'profile.html', context)
 
+@transaction.atomic
 @login_required
 def intro(request, user_id):
 
@@ -73,7 +68,7 @@ def intro(request, user_id):
 	if profile_new.count() == 0:
 		profile_new = Profile(user = request.user)
 	else:
-		profile_new = Profile.objects.get(user = request.user)
+		profile_new = get_object_or_404(Profile, user = request.user)
 
 	intro_form = IntroForm(request.POST, instance = profile_new)
 
@@ -83,6 +78,7 @@ def intro(request, user_id):
 	intro_form.save()
 	return redirect('/profile/' + user_id)
 
+@transaction.atomic
 @login_required
 def profile_photo(request, user_id):
 
@@ -94,9 +90,7 @@ def profile_photo(request, user_id):
 	if profile_new.count() == 0:
 		profile_new = Profile(user = request.user)
 	else:
-		profile_new = Profile.objects.get(user = request.user)
-
-	# print profile_new.user.username
+		profile_new = get_object_or_404(Profile, user = request.user)
 
 	photo_form = PhotoForm(request.POST, request.FILES, instance = profile_new)
 
@@ -110,7 +104,7 @@ def profile_photo(request, user_id):
 @login_required
 def follow(request, user_id):
 	user_be_followed = get_object_or_404(User, id = user_id)
-	# print user_be_followed.username
+
 	profile_of_login_user = get_object_or_404(Profile, user = request.user)
 	if user_be_followed in profile_of_login_user.users_followed.all():
 		profile_of_login_user.users_followed.remove(user_be_followed)
@@ -121,13 +115,12 @@ def follow(request, user_id):
 
 	return HttpResponse(response_text)
 
+
 def get_photo(request, user_id):
 
 	profile = get_object_or_404(Profile, user__id = user_id)
 	if not profile.photo:
 		raise Http404
 	
-	# print profile.photo.name
 	content_type = guess_type(profile.photo.name)
-	# print content_type
 	return HttpResponse(profile.photo, content_type = content_type)

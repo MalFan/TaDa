@@ -35,14 +35,12 @@ def get_fandango_name(imdb_name):
 def get_fandango_id(imdb_id):
 	imdb_url_firstpart = 'http://www.imdb.com/showtimes/title/tt'
 	imdb_url = imdb_url_firstpart + imdb_id
-	print imdb_url
 	
 	p = MyHTMLParserForUrl()
 	f_imdb = urllib2.urlopen(imdb_url)
 
 	html_imdb = f_imdb.read()
 	p.feed(html_imdb)
-	print url_fandango
 	start = url_fandango.find('mid') + 4
 	end = url_fandango.find('mid') + 10
 
@@ -59,6 +57,3 @@ def combine(fandango_name, fandango_id):
 	fandango_url = first_part + fandango_name + second_part + fandango_id + third_part
 	return fandango_url
 
-# name = "The Hunger Games: Mockingjay - Part 1"
-# theid = "1951265"
-# print get_fandango_url(name, theid)

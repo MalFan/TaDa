@@ -7,7 +7,8 @@ from django.db.models import Q, Count
 from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 from django.core import serializers
-from django.utils import timezone 
+from django.utils import timezone
+from django.db import transaction
 
 import imdb
 import numpy as np
@@ -72,47 +73,8 @@ def get_upcoming_movies():
 		if( len(m) > 0 ):
 			movies3.append(m[0])
 
-	# for m in movies1:
-	# 	movie_combo = {'imdb_id' : m.imdb_id,
-	# 					'title' : m.title,
-	# 					'year' : m.year,
-	# 					'duration' : m.duration,
-	# 					'cover' : m.cover,
-	# 					'director_list' : m.director_list.all(),
-	# 					'cast_list' : m.cast_list.all()[:4],
-	# 					'storyline' : m.short_storyline,
-	# 					'genre_list' : m.genre_list.all(),
-	# 					'certificate' : m.certificate,
-	# 					'ticket_url' : m.ticket_url}
-	# 	context['upcoming_movies_combo1'].append(movie_combo)	
 	context['upcoming_movies_combo1'] = movies1		
-	# for m in movies2:
-	# 	movie_combo = {'imdb_id' : m.imdb_id,
-	# 					'title' : m.title,
-	# 					'year' : m.year,
-	# 					'duration' : m.duration,
-	# 					'cover' : m.cover,
-	# 					'director_list' : m.director_list.all(),
-	# 					'cast_list' : m.cast_list.all()[:4],
-	# 					'storyline' : m.short_storyline,
-	# 					'genre_list' : m.genre_list.all(),
-	# 					'certificate' : m.certificate,
-	# 					'ticket_url' : m.ticket_url}
-	# 	context['upcoming_movies_combo2'].append(movie_combo)
 	context['upcoming_movies_combo2'] = movies2
-	# for m in movies3:
-	# 	movie_combo = {'imdb_id' : m.imdb_id,
-	# 					'title' : m.title,
-	# 					'year' : m.year,
-	# 					'duration' : m.duration,
-	# 					'cover' : m.cover,
-	# 					'director_list' : m.director_list.all(),
-	# 					'cast_list' : m.cast_list.all()[:4],
-	# 					'storyline' : m.short_storyline,
-	# 					'genre_list' : m.genre_list.all(),
-	# 					'certificate' : m.certificate,
-	# 					'ticket_url' : m.ticket_url}
-	# 	context['upcoming_movies_combo3'].append(movie_combo)
 	context['upcoming_movies_combo3'] = movies3
 	return context
 
@@ -135,26 +97,10 @@ def get_in_theater_movies():
 			'2398231']
 	for m_id in id_list:
 		try:
-			m = Movie.objects.get(imdb_id = m_id)
+			m = get_object_or_404(Movie, imdb_id = m_id)
 			movies.append(m)
 		except Movie.DoesNotExist:
 			pass
-
-	# movie_combos = []
-	# for m in movies:
-	# 	movie_combo = {'imdb_id' : m.imdb_id,
-	# 					'title' : m.title,
-	# 					'year' : m.year,
-	# 					'duration' : m.duration,
-	# 					'cover' : m.cover,
-	# 					'director_list' : m.director_list.all(),
-	# 					'cast_list' : m.cast_list.all()[:4],
-	# 					'storyline' : m.short_storyline,
-	# 					'genre_list' : m.genre_list.all(),
-	# 					'certificate' : m.certificate,
-	# 					'ticket_url' : m.ticket_url,
-	# 					'like_num' : m.like_list.all().count()}
-	# 	movie_combos.append(movie_combo)
 
 	return movies
 
@@ -174,20 +120,6 @@ def recommend_movie(request):
 def get_recommend_movies():
 	movies = []
 	movies = Movie.objects.all().annotate(num_likes=Count('like_list')).order_by('num_likes').reverse()[:15]
-	# movie_combos = []
-	# for m in movies:
-	# 	movie_combo = {'imdb_id' : m.imdb_id,
-	# 					'title' : m.title,
-	# 					'year' : m.year,
-	# 					'duration' : m.duration,
-	# 					'cover' : m.cover,
-	# 					'director_list' : m.director_list.all(),
-	# 					'cast_list' : m.cast_list.all()[:4],
-	# 					'storyline' : m.short_storyline,
-	# 					'genre_list' : m.genre_list.all(),
-	# 					'certificate' : m.certificate,
-	# 					'ticket_url' : m.ticket_url}
-	# 	movie_combos.append(movie_combo)
 
 	return movies
 
@@ -195,11 +127,10 @@ def get_recommend_movies():
 def update_in_alist(alist, key, value):
     	return [(k,v) if (k != key) else (key, value) for (k, v) in alist]
 
-def get_advanced_recommend_movies(user):
-	if not user.username:
+def get_advanced_recommend_movies(urrent_user):
+	if not urrent_user.username:
 		return get_recommend_movies()
 		
-	current_user = user
 	m_liked = current_user.m_like.all()
 	m_disliked = current_user.m_dislike.all()
 
@@ -217,17 +148,13 @@ def get_advanced_recommend_movies(user):
 			dist = np.linalg.norm(m_array - m2_array)
 			similarity = 1 / ( 1 + dist )
 			if not m2.imdb_id in m_recom_dict:
-				print m2.title + ' does not exist'
 				m_recom_list.append((m2, similarity))
 				m_recom_dict[m2.imdb_id] = similarity
 			elif similarity > m_recom_dict[m2.imdb_id]:
-				print m2.title + ' exists but needs update'
 				m_recom_list = update_in_alist(m_recom_list, m2, similarity)
 				m_recom_dict[m2.imdb_id] = similarity
 
-	# print m_recom_list
 	sorted_m_recom = sorted(m_recom_list, key=itemgetter(1))[::-1]
-	# print sorted_m_recom
 
 	movie_combos = []
 	for m_tuple in sorted_m_recom[:15]:
