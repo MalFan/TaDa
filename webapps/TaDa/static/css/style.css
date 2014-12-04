@@ -588,6 +588,14 @@ li.relevant-movie-item{
     width:100px;
 }
 
+.delete-btn-group{
+    width: 80%;
+    margin-right: auto;
+    margin-left:auto;
+}
+.delete-confirm,.delete-cancel{
+    width: 48%;
+}
 /*person*/
 .person-page-wrapper{
     padding-left: 15px;

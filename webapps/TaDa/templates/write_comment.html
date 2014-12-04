@@ -7,6 +7,9 @@
              <p class = "font-black inline multiline">{{comment.text}}</p>
           </div>
           <div class="comment-time  col-md-3">
+            {% if comment.publisher == user %}
+              <a href="{% url 'delete_comment' comment.id %}" class = "comment-link" title = "deleteComment" comment-id = "{{comment.id}}"><span class = "glyphicon glyphicon-remove"></span></a>
+            {% endif %}
             <p class = "font-black inline">{{comment.pub_time}}</p>                  
           </div>
       </div>

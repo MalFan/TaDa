@@ -13,11 +13,13 @@
             <div class = "review-detail col-md-10">
               <a href="/profile/{{review.publisher.id}}"><p class = "font-Calson bold inline font-md">{{review.publisher}}</p></a>
               <p class = "review-time inline">{{review.pub_time}}</p>
-              <p class = "review-subject font-md bold font-black"> {{review.title}}</p>
-              <p class = ""> {{review.text}}</p>      
+              <br>
+              <p class = "review-subject font-md bold font-black inline"> {{review.title}}</p>
               {% if review.publisher == user %}
-                <a role ="button"href="{% url 'delete_review_page' review.id %}" class = "help-btn btn btn-info btn-xs">delete</a>
-              {% endif %} 
+                <a href="{% url 'delete_review_page' review.id %}" class ="delete-from-view-page"><span class = "glyphicon glyphicon-remove"></span></a>
+              {% endif %}
+              <p class = ""> {{review.text}}</p>  
+                   
             </div>
           </div>
     </div>
@@ -52,11 +54,12 @@
                    <p class = "font-black inline multiline">{{comment.text}}</p>
                 </div>
                 <div class="comment-time  col-md-3">
-                  <p class = "font-black inline">{{comment.pub_time}}</p>                  
+                  {% if comment.publisher == user %}
+                    <a href="{% url 'delete_comment' comment.id %}" class = "comment-link" title = "deleteComment" comment-id = "{{comment.id}}"><span class = "glyphicon glyphicon-remove"></span></a>
+                  {% endif %} 
+                  <p class = "font-black inline">{{comment.pub_time}}</p> 
+                                
                 </div>
-                {% if comment.publisher == user %}
-                <button href="{% url 'delete_comment' comment.id %}" class = "comment-link" title = "deleteComment" comment-id = "{{comment.id}}">delete</button>
-                {% endif %}
             </div>
         </li>
         {% endfor %}
@@ -80,6 +83,21 @@
   </div>
 
 </div>
+
+<div class="modal fade bs-example-modal-sm delete-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class = "popup-wrapper">
+        <p class = "font-Calson font-lg text-center">Delete?</p>
+        <div class ="delete-btn-group">
+           <button class = "btn btn-info delete-confirm">Confirm</button>
+           <button class = "btn btn-info delete-cancel">Cancel</button>
+         </div>
+      </div>
+  </div>
+  </div>
+</div>
+
 <div class = "back-to-top">
   <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
     <p class="back-to-top-text text-center font-Calson font-md">Back to Top</p>
@@ -91,5 +109,6 @@
 <script src="/static/js/script.js"></script>
 <script src="/static/js/write_comment.js"></script>
 <script src="/static/js/delete_comment.js"></script>
+<script src="/static/js/delete_review.js"></script>
 <script src="/static/js/like_dislike_review.js"></script>
 {% endblock additional_js %}

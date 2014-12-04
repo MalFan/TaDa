@@ -65,11 +65,16 @@
               <div class = "review-detail col-md-11">
                 <a href="/profile/{{review.publisher.id}}"><p class = "font-black bold inline">{{review.publisher}}</p></a>
                 <p class = "review-time inline">{{review.pub_time}}</p>
-                <a href="{% url 'review'  review.id %}" class = "no-underline"><p class = "review-subject font-md bold font-black"> {{review.title}}</p></a>
-                <p > {{review.text}}</p>
+                <br>
+                <a href="{% url 'review'  review.id %}" class = "no-underline">                
+                <p class = "review-subject font-md bold font-black inline"> {{review.title}}</p></a>
+
                 {% if review.publisher == user %}
-                <button href="{% url 'delete_review' review.id %}" class = "comment-link" title = "deleteReview" review-id = "{{review.id}}">delete</button>
+                <a href="{% url 'delete_review' review.id %}" review-id = "{{review.id}}" class = "delete-btn"><span class = "glyphicon glyphicon-remove"></span></a>
                 {% endif %}
+
+                <p > {{review.text}}</p>
+                
                 <div class ="review-stat">
 
                   <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
@@ -142,6 +147,20 @@
             {% csrf_token %} 
         </form>
         <a href="{% url 'new_review' m.imdb_id %}">Open in a new page.</a>
+      </div>
+  </div>
+  </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm delete-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class = "popup-wrapper">
+        <p class = "font-Calson font-lg text-center">Delete?</p>
+        <div class ="delete-btn-group">
+           <button class = "btn btn-info delete-confirm">Confirm</button>
+           <button class = "btn btn-info delete-cancel">Cancel</button>
+         </div>
       </div>
   </div>
   </div>

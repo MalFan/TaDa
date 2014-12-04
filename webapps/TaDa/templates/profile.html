@@ -106,17 +106,18 @@
       {% else %}
       {{view_user.username}}'s
       {% endif %} Review</p>
-        <ul class = "review-list">
+        <ul class = "review-list" >
           {% for review in reviews|slice:":4" %}
-          <li class = "review-item row">
+          <li class = "review-item row" li-id = "{{review.id}}">
             <div class = "review-inner">
               <div class = "review-detail col-md-12">
                 <p class = "review-time inline">{{review.pub_time}}</p>
-                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black">{{review.title}}</p></a>
-                <p> {{review.text}}</p> 
+                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black inline">{{review.title}}</p></a>
                 {% if review.publisher == user %}
-                <button href="{% url 'delete_review' review.id %}" class = "comment-link delete" title = "deleteReview" review-id = "{{review.id}}">delete</button>
+                <a href="{% url 'delete_review' review.id %}" review-id = "{{review.id}}" class = "delete-btn"><span class = "glyphicon glyphicon-remove"></span></a>
                 {% endif %}
+                <p> {{review.text}}</p> 
+                
                 <div class ="review-stat">
 
                   <a href="{% url 'review'  review.id %}" class = "comment-link">Useful <span class="badge">{{review.like_list.all|length}}</span></a>&nbsp;&nbsp;
@@ -154,6 +155,19 @@
     </div>
   </div>
 
+  <div class="modal fade bs-example-modal-sm delete-popup" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class = "popup-wrapper">
+          <p class = "font-Calson font-lg text-center">Delete?</p>
+          <div class ="delete-btn-group">
+             <button class = "btn btn-info delete-confirm">Confirm</button>
+             <button class = "btn btn-info delete-cancel">Cancel</button>
+           </div>
+        </div>
+    </div>
+    </div>
+  </div>
 </div>
 <div class = "back-to-top">
   <a href = "#" class = "no-underline back-to-top-link glyphicon glyphicon-chevron-up">
@@ -165,5 +179,5 @@
 {% block additional_js %}
 <script src="/static/js/script.js"></script>
 <script src="/static/js/profile.js"></script>
-<script src="/static/js/delete_comment.js"></script>
+<script src="/static/js/delete_review.js"></script>
 {% endblock additional_js %}
