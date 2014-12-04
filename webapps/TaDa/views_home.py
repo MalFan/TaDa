@@ -85,12 +85,13 @@ def get_upcoming_movies():
 def get_in_theater_movies():
 	movies = []
 	id_list = [
-			'1951265', # In theater
-			'0816692', 
-			'2015381', 
+			 
+			'2015381', # In theater
 			'2170439',
 			'2096672',
 			'2245084',
+			'1951265', 
+			'0816692',
 			'2980516',
 			'2713180', 
 			'2267998', 
