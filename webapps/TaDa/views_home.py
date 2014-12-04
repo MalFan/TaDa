@@ -40,20 +40,27 @@ def get_upcoming_movies():
 	context['upcoming_movies_combo3'] = []
 
 	id_list1 = [
-			'1951265',
-			'3704538',
-			'2171902',
-			'2960930'
+			'1791528', # Upcoming 1
+			'1528100',
+			'2784678',
+			'2298394',
 			]
 	id_list2 = [
-			'2170439',
-			'1911658',
-			'2084970'
+			'2310332', # Upcoming 2
+			'1823664',
+			'2692250',
+			'2039393',
+			'2473794',
+			'2437548',
 			]
 	id_list3 = [
-			'2799166',
-			'2305051',
-			'2369205'
+			'2180411', # Upcoming 3
+			'1809398',
+			'2788710',
+			'2179136',
+			'1126590',
+			'2737050',
+			'2790236',
 			]
 
 	for m_id in id_list1:
@@ -78,23 +85,20 @@ def get_upcoming_movies():
 def get_in_theater_movies():
 	movies = []
 	id_list = [
-			'0829150', 
-			'0455944', 
+			'1951265', # In theater
+			'0816692', 
+			'2015381', 
+			'2170439',
+			'2096672',
+			'2245084',
+			'2980516',
 			'2713180', 
 			'2267998', 
-			'2911666', 
-			'1790864', 
-			'2872718', 
-			'0816692', 
-			'1872194', 
-			'2262227',
-			'1100089',
-			'3125324',
-			'2096672',
-			'2398231']
+			'1911658',
+			]
 	for m_id in id_list:
 		try:
-			m = get_object_or_404(Movie, imdb_id = m_id)
+			m = Movie.objects.get(imdb_id = m_id)
 			movies.append(m)
 		except Movie.DoesNotExist:
 			pass
@@ -171,6 +175,38 @@ def recommend_user(request):
 	context = {}
 	context.update(get_form_context())
 	context['next'] = '/'
-	context['user_combos'] = User.objects.all()[:20];
+	context['user_combos'] = get_advanced_recommend_users(request.user)
 	context['request'] = request
 	return render(request, 'recommend_user.html', context)
+
+def get_recommend_users():
+	users = []
+	users = User.objects.all()[:20]
+
+	return users
+
+def get_advanced_recommend_users(u):
+	if not u.username:
+		return get_recommend_users()
+		
+	u_other = User.objects.exclude(username=u.username)				
+
+	u_recom_list = []
+	u_recom_dict = {}
+	u_array = np.fromstring(u.profile.user_vector, dtype=int, sep=',')
+
+	for u2 in u_other:
+		u2_array = np.fromstring(u2.profile.user_vector, dtype=int, sep=',')
+		dist = np.linalg.norm(u_array - u2_array)
+		similarity = 1 / ( 1 + dist )
+		if not u2.username in u_recom_dict:
+			u_recom_list.append((u2, similarity))
+			u_recom_dict[u2.username] = similarity
+		elif similarity > u_recom_dict[u2.username]:
+			u_recom_list = update_in_alist(u_recom_list, u2, similarity)
+			u_recom_dict[u2.username] = similarity
+
+	sorted_u_recom = sorted(u_recom_list, key=itemgetter(1))[::-1]
+	users = [u_tuple[0] for u_tuple in sorted_u_recom[:20]]
+
+	return users

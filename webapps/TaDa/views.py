@@ -226,24 +226,37 @@ def get_recent_works(person_id):
 def like(request, movie_id):
 	current_user = request.user
 	movie_be_like = get_object_or_404(Movie, imdb_id = movie_id)
+	# Update the vector
 	vector_str = smart_bytes(movie_be_like.vector, encoding='utf-8', strings_only=False, errors='strict')
 	vector = vector_str.split(',')
+	# Update the user_vector
+	user_vector_str = smart_bytes(current_user.profile.user_vector, encoding='utf-8', strings_only=False, errors='strict')
+	user_vector = user_vector_str.split(',')
 
 	if current_user in movie_be_like.like_list.all():
 		movie_be_like.like_list.remove(request.user)
 		response_text = -1
+		# Update the vector
 		vector[current_user.id - 1] = '0'
+		user_vector[movie_be_like.id - 1] = '0'
 	else:		
 		movie_be_like.like_list.add(request.user)
 		response_text = 1
+		# Update the vector
 		vector[current_user.id - 1] = '1'
+		user_vector[movie_be_like.id - 1] = '1'
 
 		if current_user in movie_be_like.dislike_list.all():
 			movie_be_like.dislike_list.remove(request.user)
 
+	# Update the vector
 	vector_str = ','.join(vector)
 	movie_be_like.vector = vector_str
 	movie_be_like.save()
+	# Update the user_vector
+	user_vector_str = ','.join(user_vector)
+	current_user.profile.user_vector = user_vector_str
+	current_user.profile.save()
 
 	return HttpResponse(response_text)
 
@@ -252,25 +265,37 @@ def like(request, movie_id):
 def dislike(request, movie_id):
 	current_user = request.user
 	movie_be_dislike = get_object_or_404(Movie, imdb_id = movie_id)
-
+	# Update the vector
 	vector_str = smart_bytes(movie_be_dislike.vector, encoding='utf-8', strings_only=False, errors='strict')
 	vector = vector_str.split(',')
+	# Update the user_vector
+	user_vector_str = smart_bytes(current_user.profile.user_vector, encoding='utf-8', strings_only=False, errors='strict')
+	user_vector = user_vector_str.split(',')
 
 	if current_user in movie_be_dislike.dislike_list.all():
 		movie_be_dislike.dislike_list.remove(request.user)
 		response_text = -1
+		# Update the vector
 		vector[current_user.id - 1] = '0'
+		user_vector[movie_be_dislike.id - 1] = '0'
 	else:
 		movie_be_dislike.dislike_list.add(request.user)
 		response_text = 1
+		# Update the vector
 		vector[current_user.id - 1] = '-1'
+		user_vector[movie_be_dislike.id - 1] = '-1'
 
 		if current_user in movie_be_dislike.like_list.all():
 			movie_be_dislike.like_list.remove(request.user)
 
+	# Update the vector
 	vector_str = ','.join(vector)
 	movie_be_dislike.vector = vector_str
 	movie_be_dislike.save()
+	# Update the user_vector
+	user_vector_str = ','.join(user_vector)
+	current_user.profile.user_vector = user_vector_str
+	current_user.profile.save()
 
 	return HttpResponse(response_text)
 

@@ -60,9 +60,9 @@ class Profile(models.Model):
 			upload_to = 'profile-photos', 
 			default = 'profile-photos/user_default.png')
 	users_followed = models.ManyToManyField(User, related_name = 'followed_by', blank = True)
-
 	last_check_time = models.DateTimeField(auto_now_add = True)
-
+	user_vector = models.CharField(max_length = 1024, blank = True)
+	
 	def __unicode__(self):
 		return self.user.username
 

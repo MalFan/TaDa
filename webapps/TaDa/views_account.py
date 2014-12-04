@@ -24,6 +24,23 @@ from views import 	get_form_context
 
 # Create your views here.
 @transaction.atomic
+def update_user_vector_all(user):
+	movie_num = Movie.objects.all().count()
+	user_vector = np.asarray([0] * movie_num)
+
+	like_list = user.m_like.all()
+	dislike_list = user.m_dislike.all()
+	for movie in like_list:
+		user_vector[movie.id - 1] = 1
+	for movie in dislike_list:
+		user_vector[movie.id - 1] = -1
+
+	user_vector_str = ','.join(['%d' % num for num in user_vector])
+
+	user.profile.user_vector = user_vector_str
+	user.profile.save()
+	
+@transaction.atomic
 def register(request):
 	context = {}
 	regis_form = RegistrationForm(request.POST)
@@ -46,7 +63,9 @@ def register(request):
 	
 	profile = Profile(user = new_user)
 	profile.save()
-
+	# Update the user_vector
+	update_user_vector_all(new_user)
+	# Update the vector
 	movies_all = Movie.objects.all()
 	for m in movies_all:
 		s = smart_bytes(m.vector, encoding='utf-8', strings_only=False, errors='strict')

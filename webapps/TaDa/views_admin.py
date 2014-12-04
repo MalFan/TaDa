@@ -58,6 +58,7 @@ def admin_save_movie(movie_id):
 		except KeyError:
 	    		pass
 
+	    	# http://stackoverflow.com/questions/3042757/downloading-a-picture-via-urllib-and-python
 		try:
 		    	os.chdir(settings.MEDIA_ROOT + '/movie-covers/')  # set where files download to
 
@@ -65,7 +66,7 @@ def admin_save_movie(movie_id):
 			url = movie['full-size cover url']
 			url = url[:-3] + '_V1_SX214_AL_.jpg'
 
-			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
+			urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
 			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
 		except KeyError:
@@ -78,9 +79,9 @@ def admin_save_movie(movie_id):
 					director = Person.objects.get(person_id = d.personID)
 					m_to_add.director_list.add(director)
 				except Person.DoesNotExist:
-					new_director = Person(person_id = d.personID, name = d['name'])
-					new_director.save()
-					m_to_add.director_list.add(new_director)
+					# new_director = Person(person_id = d.personID, name = d['name'])
+					# new_director.save()
+					m_to_add.director_list.add(admin_save_person(d.personID))
 		except KeyError:
 	    		pass
 
@@ -91,9 +92,9 @@ def admin_save_movie(movie_id):
 					producer = Person.objects.get(person_id = pd.personID)
 					m_to_add.producer_list.add(producer)
 				except Person.DoesNotExist:
-					new_producer = Person(person_id = pd.personID, name = pd['name'])
-					new_producer.save()
-					m_to_add.producer_list.add(new_producer)
+					# new_producer = Person(person_id = pd.personID, name = pd['name'])
+					# new_producer.save()
+					m_to_add.producer_list.add(admin_save_person(pd.personID))
 		except KeyError:
 	    		pass
 
@@ -104,9 +105,9 @@ def admin_save_movie(movie_id):
 					writer = Person.objects.get(person_id = w.personID)
 					m_to_add.writer_list.add(writer)
 				except Person.DoesNotExist:
-					new_writer = Person(person_id = w.personID, name = w['name'])
-					new_writer.save()
-					m_to_add.writer_list.add(new_writer)
+					# new_writer = Person(person_id = w.personID, name = w['name'])
+					# new_writer.save()
+					m_to_add.writer_list.add(admin_save_person(w.personID))
 		except KeyError:
 	    		pass
 
@@ -118,14 +119,14 @@ def admin_save_movie(movie_id):
 
 	    	try:
 			cast_list = movie['cast']
-			for s in cast_list:
+			for s in cast_list[:20]: # That "20" is to be deleted
 				try:
 					star = Person.objects.get(person_id = s.personID)
 					m_to_add.cast_list.add(star)
 				except Person.DoesNotExist:
-					new_star = Person(person_id = s.personID, name = s['name'])
-					new_star.save()
-					m_to_add.cast_list.add(new_star)
+					# new_star = Person(person_id = s.personID, name = s['name'])
+					# new_star.save()
+					m_to_add.cast_list.add(admin_save_person(s.personID))
 				try:
 					new_character = Character(name = s.currentRole['name'])
 					new_character.save()
@@ -157,11 +158,15 @@ def admin_save_movie(movie_id):
 
 	    	try:
 			certificates = movie['certificates']
-			last_usa_cer = [cer for cer in certificates if 'USA' in cer][-1]
-			index_first_colon = last_usa_cer.find(':') + 1
-			index_second_colon = last_usa_cer.replace(':', '?', 1).find(':')
-			c = last_usa_cer[index_first_colon:index_second_colon]
-			m_to_add.certificate = c
+			last_usa_cer = [cer for cer in certificates if 'USA' in cer]
+			if last_usa_cer:
+				last_usa_cer = last_usa_cer[-1]
+				index_first_colon = last_usa_cer.find(':') + 1
+				index_second_colon = last_usa_cer.replace(':', '?', 1).find(':')
+				c = last_usa_cer[index_first_colon:index_second_colon]
+				m_to_add.certificate = c
+			else:
+				m_to_add.certificate = last_usa_cer
 		except KeyError:
 	    		pass
 
@@ -172,6 +177,13 @@ def admin_save_movie(movie_id):
 
 	# Update the vector
 	update_vector_all(m_to_add)
+	# Update the user_vector
+	users_all = User.objects.all()
+	for u in users_all:
+		s = smart_bytes(u.profile.user_vector, encoding='utf-8', strings_only=False, errors='strict')
+		s += ',0'
+		u.profile.user_vector = s
+		u.profile.save()
 
 	return m_to_add
 
@@ -208,6 +220,8 @@ def admin_save_person(person_id):
 		i = imdb.IMDb()
 		person = i.get_person(person_id)
 
+		p_to_add.name = person['name']
+
 		try:
 			p_to_add.birthyear = person['birth date']
 		except KeyError:
@@ -228,7 +242,7 @@ def admin_save_person(person_id):
 
 			fileName=str('nm' + person_id + ".jpg")  # string containing the file name
 			url = person['headshot']
-			urllib.urlretrieve(url, fileName) # uses the function defined above to download the comic
+			urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
 			p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
 		except KeyError:
@@ -254,34 +268,38 @@ def admin_add_person(request, person_id):
 	return render(request, 'admin_person.html', context)
 
 def admin_one_touch(request):
-	movie_list = [		
-			'0829150', # In theater
-			'0455944', 
-			'2713180', 
-			'2267998', 
-			'2911666', 
-			'1790864', 
-			'2872718', 
+	movie_list = [		 
+			'2180411', # Upcoming 3
+			'1951265', # In theater
 			'0816692', 
-			'1872194', 
-			'2262227',
-			'1100089',
-			'3125324',
-			'2096672',
-			'2398231',
+			'2015381', 
+			# '2170439',
+			# '2096672',
+			# '2245084',
+			# '2980516',
+			# '2713180', 
+			# '2267998', 
+			# '1911658',	
 
-			'1951265', # Upcoming 1
-			'3704538',
-			'2171902',
-			'2960930',
+			'1791528', # Upcoming 1
+			# '1528100',
+			# '2784678',
+			# '2298394',
 
-			'2170439', # Upcoming 2
-			'1911658',
-			'2084970',
+			'2310332', # Upcoming 2
+			# '1823664',
+			# '2692250',
+			# '2039393',
+			# '2473794',
+			# '2437548',
 
-			'2799166', # Upcoming 3
-			'2305051',
-			'2369205',
+
+			# '1809398',
+			# '2788710',
+			# '2179136',
+			# '1126590',
+			# '2737050',
+			# '2790236',
 			]
 	for movie_id in movie_list:
 		admin_save_movie(movie_id)
