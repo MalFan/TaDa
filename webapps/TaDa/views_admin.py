@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.db import transaction
+from django.utils.encoding import *
 import imdb
 import numpy as np
 
@@ -240,8 +241,9 @@ def admin_save_person(person_id):
 
 		try:
 		    	os.chdir(settings.MEDIA_ROOT + '/person-photos/')  # set where files download to
+			
+			fileName=str('nm' + person_id + ".jpg")  # string containing the file name
 			if not os.path.isfile(fileName):
-				fileName=str('nm' + person_id + ".jpg")  # string containing the file name
 				url = person['headshot']
 				urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
