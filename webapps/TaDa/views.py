@@ -28,7 +28,8 @@ def get_form_context():
 	context['search_form'] = SearchForm()	
 	return context
 
-# Used for searching action
+# Improve search feature
+# http://julienphalip.com/post/2825034077/adding-search-to-a-django-site-in-a-snap
 def normalize_query(query_string,
 					findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
 					normspace=re.compile(r'\s{2,}').sub):

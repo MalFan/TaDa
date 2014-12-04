@@ -63,12 +63,13 @@ def admin_save_movie(movie_id):
 		    	os.chdir(settings.MEDIA_ROOT + '/movie-covers/')  # set where files download to
 
 			fileName=str('tt' + movie_id + ".jpg")  # string containing the file name
-			url = movie['full-size cover url']
-			url = url[:-3] + '_V1_SX214_AL_.jpg'
+			if not os.path.isfile(fileName):
+				url = movie['full-size cover url']
+				url = url[:-3] + '_V1_SX214_AL_.jpg'
 
-			urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
+				urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
-			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
+				m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
 		except KeyError:
 	    		pass
 		
@@ -119,7 +120,7 @@ def admin_save_movie(movie_id):
 
 	    	try:
 			cast_list = movie['cast']
-			for s in cast_list[:20]: # That "20" is to be deleted
+			for s in cast_list:
 				try:
 					star = Person.objects.get(person_id = s.personID)
 					m_to_add.cast_list.add(star)
@@ -239,12 +240,12 @@ def admin_save_person(person_id):
 
 		try:
 		    	os.chdir(settings.MEDIA_ROOT + '/person-photos/')  # set where files download to
+			if not os.path.isfile(fileName):
+				fileName=str('nm' + person_id + ".jpg")  # string containing the file name
+				url = person['headshot']
+				urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
-			fileName=str('nm' + person_id + ".jpg")  # string containing the file name
-			url = person['headshot']
-			urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
-
-			p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
+				p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
 		except KeyError:
 	    		pass
 
@@ -269,37 +270,36 @@ def admin_add_person(request, person_id):
 
 def admin_one_touch(request):
 	movie_list = [		 
-			'2180411', # Upcoming 3
 			'1951265', # In theater
 			'0816692', 
 			'2015381', 
-			# '2170439',
-			# '2096672',
-			# '2245084',
-			# '2980516',
-			# '2713180', 
-			# '2267998', 
-			# '1911658',	
+			'2170439',
+			'2096672',
+			'2245084',
+			'2980516',
+			'2713180', 
+			'2267998', 
+			'1911658',	
 
 			'1791528', # Upcoming 1
-			# '1528100',
-			# '2784678',
-			# '2298394',
+			'1528100',
+			'2784678',
+			'2298394',
 
 			'2310332', # Upcoming 2
-			# '1823664',
-			# '2692250',
-			# '2039393',
-			# '2473794',
-			# '2437548',
+			'1823664',
+			'2692250',
+			'2039393',
+			'2473794',
+			'2437548',
 
-
-			# '1809398',
-			# '2788710',
-			# '2179136',
-			# '1126590',
-			# '2737050',
-			# '2790236',
+			'2180411', # Upcoming 3
+			'1809398',
+			'2788710',
+			'2179136',
+			'1126590',
+			'2737050',
+			'2790236',
 			]
 	for movie_id in movie_list:
 		admin_save_movie(movie_id)
