@@ -13,6 +13,7 @@
 
     <body>
         <div class="container">
+            <!-- navigation bar template is from Bootstrap -->
             {% block navi-bar %}
             <div class="navbar-wrapper shadow">
               <nav class="navbar navbar-default" role="navigation">
@@ -40,31 +41,31 @@
                         {% endblock active-status %}
                       </ul>
                       <ul class="nav navbar-nav navbar-right">
-                          <li>
-                              <form class="navbar-form search hidden-xs" action = "/search" method="get">                            
-                                  <div class="row">
-                                    <div class="col-lg">
-                                      <div class="input-group search-input">
-                                        <input type="text" class="form-control" name="search_content" placeholder="Search TaDa...">
-                                        <div class="hidden">{{search_form.search_type}}</div>
-                                        <span class="input-group-btn">
-                                          <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button>
-                                        </span>
-                                      </div>
+                        <li>
+                            <form class="navbar-form search hidden-xs" action = "/search" method="get">                            
+                                <div class="row">
+                                  <div class="col-lg">
+                                    <div class="input-group search-input">
+                                      <input type="text" class="form-control" name="search_content" placeholder="Search TaDa...">
+                                      <div class="hidden">{{search_form.search_type}}</div>
+                                      <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button>
+                                      </span>
                                     </div>
                                   </div>
-                              </form>
-                          </li>
-                          <li><a href="/search" class="hidden-md hidden-sm hidden-lg">Search</a></li>
-                          {% if user.username %}
-		              <li id = "notification" class="notification dropdown hidden-md hidden-sm hidden-xs">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-exclamation-sign notification-icon"></span></a>
-                            <ul id= "notification-list" class="dropdown-menu" role="menu">
-                            </ul>
-                          </li>
-                        <li><a href="{% url 'profile' user.id %}" class="hidden-md hidden-sm hidden-xs"><img src="{% url 'get-photo' user.id %}" alt="{{user}}" class="photo-sm"> {{user}}</a></li>
-                        
-                        <li><a data-toggle="modal" href="{% url 'logout' %}" id="log-btn" status="loggedin">Log Out</a></li>
+                                </div>
+                            </form>
+                        </li>
+                        <li><a href="/search" class="hidden-md hidden-sm hidden-lg">Search</a></li>
+                        {% if user.username %}
+  		                    <li id = "notification" class="notification dropdown hidden-md hidden-sm hidden-xs">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-exclamation-sign notification-icon"></span></a>
+                              <ul id= "notification-list" class="dropdown-menu" role="menu">
+                              </ul>
+                            </li>
+                          <li><a href="{% url 'profile' user.id %}" class="hidden-md hidden-sm hidden-xs"><img src="{% url 'get-photo' user.id %}" alt="{{user}}" class="photo-sm"> {{user}}</a></li>
+                          
+                          <li><a data-toggle="modal" href="{% url 'logout' %}" id="log-btn" status="loggedin">Log Out</a></li>
                         {% else %}
                         <li><a data-toggle="modal" href=".login-popup" id="log-btn" status="loggedout">Log In</a></li>
                         {% endif%}
@@ -73,7 +74,7 @@
                   </div>
                 </nav>
               </div>
-
+              <!-- popup modal template is from Bootstrap -->
       			<div class="modal fade bs-example-modal-sm login-popup popup popup2 popup3" data-reveal role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       			  <div class="modal-dialog modal-sm">
       				<div class="modal-content">

@@ -297,6 +297,7 @@ img.movie-pic-reverse{
 }
 
 /*div flipping*/
+/*this section of flipping div is from http://stackoverflow.com/questions/26983497/css-issue-aligning-vertical-and-horizontal*/
 .flip-container {
     position: absolute;
     display: none;
@@ -412,6 +413,7 @@ img.movie-pic-reverse{
     transform: rotateY(-180deg);
     
 }
+/*end of flipping div*/
 
 /*search*/
 .search-outer{

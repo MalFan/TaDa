@@ -38,7 +38,6 @@ $(document).ready( function() {
 				dataType: "html",
 				success:function(html) 
 				{
-					// alert( "success" );
 
 					if(html == "error"){
 		  				input_username.attr("class","form-control input_warning");
@@ -52,8 +51,6 @@ $(document).ready( function() {
 				},
 				error: function() 
 				{
-					//if fails
-					alert( "error" );      
 				}
 			});
 		}
@@ -128,7 +125,6 @@ $(document).ready( function() {
 				dataType: "html",
 				success:function(html) 
 				{
-					// alert( "success" );
 					if(html == "username"){
 		  				input_username.attr("class","form-control input_warning");						
 						$("#register-form").prepend("<p id = 'register-error'>Username has already been taken.</p>")
@@ -151,9 +147,7 @@ $(document).ready( function() {
 					}   
 				},
 				error: function() 
-				{
-					//if fails
-					alert( "error" );      
+				{   
 				}
 			});
 		}

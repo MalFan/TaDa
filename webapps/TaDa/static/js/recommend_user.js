@@ -1,3 +1,4 @@
+// Adopted from http://www.webdesigncrowd.com/menu-transition-effects/
 $(function() {
  	
  	$('.recommend-user-item').each(function(idx){

@@ -75,7 +75,6 @@ function changePasswordValidation(){
 				dataType: "html",
 				success:function(html) 
 				{
-					// alert( "success" );
 					console.log(html);
 					if(html == "error"){
 						input_password0.val("");
@@ -88,9 +87,7 @@ function changePasswordValidation(){
 					}   
 				},
 				error: function() 
-				{
-					//if fails
-					alert( "error" );      
+				{  
 				}
 			});
 		}

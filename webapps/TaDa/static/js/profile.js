@@ -12,14 +12,11 @@ $(document).ready(function() {
                 url: btnHref,
                 success:function(response) 
                 {
-                    // alert( "success" );
                     $(".btn-follow").html(response);
                         
                 },
                 error: function() 
-                {
-                    //if fails 
-                    // alert( "error" );     
+                {    
                 }
             });         
         }else{

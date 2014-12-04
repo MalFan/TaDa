@@ -1,3 +1,4 @@
+// Adopted from http://www.webdesigncrowd.com/menu-transition-effects/
 $(function() {
  	var window_width = $(window).width();
  	var number_in_row = 5;

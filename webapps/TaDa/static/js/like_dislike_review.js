@@ -15,7 +15,6 @@ function likeAjax() {
 				url: btnHref,
 				success:function(response) 
 				{
-					// alert( "success" );
 					var currentLikes = $( "#like-badge-span" ).html();
 					var newLikes = parseInt(currentLikes, 10) + parseInt(response, 10);
 					$( "#like-badge-span" ).html( newLikes );
@@ -38,9 +37,7 @@ function likeAjax() {
 						
 				},
 				error: function() 
-				{
-				    //if fails 
-				    // alert( "error" );     
+				{    
 				}
 			});			
 		}else{
@@ -59,7 +56,6 @@ function dislikeAjax() {
 				url: btnHref,
 				success:function(response) 
 				{
-					// alert( "success" );
 					var currentDislikes = $( "#dislike-badge-span" ).html();
 					var newDislikes = parseInt(currentDislikes, 10) + parseInt(response, 10);
 					$( "#dislike-badge-span" ).html( newDislikes );
@@ -81,9 +77,7 @@ function dislikeAjax() {
 					}
 				},
 				error: function() 
-				{
-				    //if fails 
-				    // alert( "error" );     
+				{   
 				}
 			});
 		}else{
