@@ -22,7 +22,7 @@
 
   <div class = "search-result-wrapper">
     {% if user_combos or person_combos or movie_combos %}
-      <p class = "font-Georgia font-lg font-bold">Search results for "{{request.GET.search_content}}"</p>
+      <p class = "font-Georgia font-lg font-bold multiline">Search results for "{{request.GET.search_content}}"</p>
       {% if user_combos %}
       <p class = "search-title font-Georgia font-md font-bold">Users</p>
       <ul class = "person-list">

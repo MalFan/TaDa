@@ -20,8 +20,8 @@
         <a href="{% url 'profile' u.id %}"><img src="{% url 'get-photo' u.id %}" alt="{{u}}" class="photo-lg"></a> 
       </div>
       <div class ="col-md-10">
-      <a href="{% url 'profile' u.id %}"><p class = "font-black font-Calson font-lg inline">{{u}}</p></a>
-      <p class = "">{{u.profile.intro}}</p>
+      <a href="{% url 'profile' u.id %}"><p class = "font-black font-Calson font-lg inline  multiline">{{u}}</p></a>
+      <p class = "multiline">{{u.profile.intro}}</p>
       <p class = "font-bold inline">Shared interests:</p>&nbsp;{% for m in u.m_like.all%}<a href = "/movie/{{m.imdb_id}}">{{m.title}}</a>, {% endfor %}
       </div>
     </div>

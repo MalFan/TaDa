@@ -64,16 +64,16 @@
               </div>
               <div class = "review-detail col-md-11">
                 <a href="/profile/{{review.publisher.id}}"><p class = "font-black bold inline">{{review.publisher}}</p></a>
-                <p class = "review-time inline">{{review.pub_time}}</p>
-                <br>
-                <a href="{% url 'review'  review.id %}" class = "no-underline">                
-                <p class = "review-subject font-md bold font-black inline"> {{review.title}}</p></a>
-
                 {% if review.publisher == user %}
                 <a href="{% url 'delete_review' review.id %}" review-id = "{{review.id}}" class = "delete-btn"><span class = "glyphicon glyphicon-remove"></span></a>
                 {% endif %}
+                <p class = "review-time inline">{{review.pub_time}}</p>
+                <br>
+                <a href="{% url 'review'  review.id %}" class = "no-underline">                
+                <p class = "review-subject font-md bold font-black inline multiline"> {{review.title}}</p></a>
+              
 
-                <p > {{review.text}}</p>
+                <p class = "multiline"> {{review.text}}</p>
                 
                 <div class ="review-stat">
 

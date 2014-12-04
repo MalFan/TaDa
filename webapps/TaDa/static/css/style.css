@@ -598,6 +598,16 @@ li.relevant-movie-item{
 .delete-confirm,.delete-cancel{
     width: 48%;
 }
+
+.limit-user-wrapper{
+    width:50px;
+    overflow: hidden;
+    display: inline-block;
+}
+.limit-user-inner{
+    margin: auto;
+}
+
 /*person*/
 .person-page-wrapper{
     padding-left: 15px;
@@ -760,7 +770,7 @@ li.following-item{
     position: absolute;
     padding: 20px;
     width: 100%;
-    height: 170px;
+    height: 240px;
     margin-left: auto;    
     margin-right: auto;
 

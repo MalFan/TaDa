@@ -3,7 +3,7 @@ $(function() {
  	
  	$('.recommend-user-item').each(function(idx){
 	    
-	    var fromTop = idx * 150;
+	    var fromTop = idx * 200;
 	    var delayTime = ((idx+1) * 200) + Math.floor((Math.random() * 200) + 1);
 
 		$(this).css("top", fromTop + 800);

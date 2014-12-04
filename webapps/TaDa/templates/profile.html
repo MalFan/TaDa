@@ -19,7 +19,7 @@
       </div>
       <div class ="user-wrapper col-md-8">   
         <div class = "user-brief">                     
-          <p class="font-black font-Calson font-lg inline">{{view_user.username}}</p>&nbsp; 
+          <p class="font-black font-Calson font-lg inline multiline">{{view_user.username}}</p>&nbsp; 
           {% if user == view_user %}
             <a href ="/password-change">Change Password</a>
           {% endif %}
@@ -29,7 +29,7 @@
             <button class="btn btn-default btn-xs btn-edit"><i class = "glyphicon glyphicon-pencil"></i></button>&nbsp;
             {% endif %}
             <!--  -->
-            <p class="inline" >{{profile.intro}}</p>
+            <p class="inline multiline" >{{profile.intro}}</p>
           </div>
           <!-- display only when view user's own profile -->
           {% if user == view_user %}
@@ -111,12 +111,13 @@
           <li class = "review-item row" li-id = "{{review.id}}">
             <div class = "review-inner">
               <div class = "review-detail col-md-12">
-                <p class = "review-time inline">{{review.pub_time}}</p>
-                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black inline">{{review.title}}</p></a>
                 {% if review.publisher == user %}
                 <a href="{% url 'delete_review' review.id %}" review-id = "{{review.id}}" class = "delete-btn"><span class = "glyphicon glyphicon-remove"></span></a>
                 {% endif %}
-                <p> {{review.text}}</p> 
+                <p class = "review-time inline">{{review.pub_time}}</p>
+                <a href="/review/{{review.id}}" class = "no-underline"><p class = "review-subject font-md bold font-black inline multiline">{{review.title}}</p></a>
+                
+                <p class = "multiline"> {{review.text}}</p> 
                 
                 <div class ="review-stat">
 

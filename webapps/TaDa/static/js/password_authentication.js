@@ -75,7 +75,6 @@ function changePasswordValidation(){
 				dataType: "html",
 				success:function(html) 
 				{
-					console.log(html);
 					if(html == "error"){
 						input_password0.val("");
 		  				input_password0.attr("class","form-control input_warning");					    

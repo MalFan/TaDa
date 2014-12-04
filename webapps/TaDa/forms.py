@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from models import *
 
 class RegistrationForm(forms.Form):
-	email = forms.EmailField(max_length = 200, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Email'}))
-	username = forms.CharField(max_length = 200,widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))	
+	email = forms.EmailField(max_length = 100, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Email'}))
+	username = forms.CharField(max_length = 30,widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))	
 	password1 = forms.CharField(max_length = 20, 
 								widget = forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}))
 	password2 = forms.CharField(max_length = 20,  
@@ -38,8 +38,8 @@ class RegistrationForm(forms.Form):
 		return username
 
 class LoginForm(AuthenticationForm):
-	username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
-	password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'Password'}))
+	username = forms.CharField(max_length = 30,widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
+	password = forms.CharField(max_length = 20,widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'Password'}))
 
 	def clean(self):
 		# Calls our parent (forms.Form) .clean function, gets a dictionary
@@ -80,7 +80,7 @@ class ChangePasswordForm(forms.Form):
 		return cleaned_data
 # enter the email for setting password
 class EmailEnterForm(PasswordResetForm):
-	email = forms.EmailField(max_length = 200, 
+	email = forms.EmailField(max_length = 100, 
 								widget = forms.TextInput(attrs={'class': 'form-control'}))
 
 	def clean_email(self):

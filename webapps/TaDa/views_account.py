@@ -72,27 +72,17 @@ def log_in(request):
 
 @login_required
 def log_out(request):
-	# next = next_page
 	return logout(request,next_page='/')
 
 def send_reset_email(request):
 	email_form = EmailEnterForm(request.POST)
 	if not email_form.is_valid():
 		return HttpResponse("failed")	
-		# print 234
-		# return password_reset(request,
-		# 	post_reset_redirect=request.POST['next'],
-		# 	password_reset_form=EmailEnterForm)
-
-		# return HttpResponse("successful")
 
 	return password_reset(request,
 							post_reset_redirect='email-password-send',
 							password_reset_form=EmailEnterForm)
-			
-	#if email not exist
-		#reutrn HttpResponse("failed")
-	# if(True):
+
 
 		
 def email_receive_confirm(request):
@@ -108,21 +98,16 @@ def email_password_reset_confirm(request,uidb64=None, token=None):
 									template_name='password_reset.html',
 									set_password_form= EmailResetPasswordForm,
 									post_reset_redirect= 'email-password-reset-complete',
-									extra_context = {'regis_form':RegistrationForm,'login_form':LoginForm})
+									extra_context = {'regis_form':RegistrationForm,'search_form':SearchForm,'login_form':LoginForm})
 
 @transaction.atomic
 @login_required
 def my_password_change(request):
-	context = {}
+	context = {}	
+	context.update(get_form_context())
 	context['change_password_form'] = ChangePasswordForm()
-	# if not change_password_form.is_valid():		
-	# 	return HttpResponse("error")
 
 	return render(request,'password_change.html',context);
-	# return password_change(request,
-	# 						template_name='password_change.html',
-	# 						post_change_redirect='login-save-password-done',
-	# 						password_change_form=LoginChangePasswordForm)
 
 @transaction.atomic
 @login_required
