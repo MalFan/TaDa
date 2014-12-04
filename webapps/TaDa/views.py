@@ -21,6 +21,13 @@ from forms import *
 
 max_id = 9223372036854775807
 # Create your views here.
+def get_form_context():
+	context = {}
+	context['regis_form'] = RegistrationForm()
+	context['login_form'] = LoginForm()
+	context['search_form'] = SearchForm()	
+	return context
+
 # Used for searching action
 def normalize_query(query_string,
 					findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
@@ -72,14 +79,11 @@ def get_query(query_string, search_fields):
 
 def search(request):
 	context = {}
+	context.update(get_form_context())
 	search_form = SearchForm(request.GET) 
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
 	
 	if not search_form.is_valid():
-		context['search_form'] = SearchForm()	
+		context.update(get_form_context())
 		return  render(request, 'search.html', context)
 
 	context['search_form'] = search_form
@@ -121,6 +125,7 @@ def search(request):
 
 def movie(request, movie_id):
 	context = {}
+	context.update(get_form_context())
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 
 	if len(m.cast_list.all()) > 15:
@@ -148,11 +153,6 @@ def movie(request, movie_id):
 		context['dislike_status'] = 'disliked'
 	context['dislike_num'] = dislike_list.count()
 
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
 	context['m_also'] = get_people_also_liked_movies(movie_id, request.user)
 	if len(context['m_also']) > 5:
 		context['m_also'] = context['m_also'][:5]
@@ -205,11 +205,7 @@ def get_people_who_liked_this(movie_id, current_user):
 
 def person(request, person_id):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
+	context.update(get_form_context())
 	p = get_object_or_404(Person, person_id = person_id)
 	context['p'] = p
 	context['recent_works'] = get_recent_works(person_id)
@@ -302,11 +298,7 @@ def write_review(request,movie_id):
 @login_required
 def new_review(request,movie_id):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
+	context.update(get_form_context())
 	review_form = ReviewForm()
 	context['review_form'] = review_form
 	m = get_object_or_404(Movie, imdb_id = movie_id)
@@ -345,13 +337,9 @@ def review(request,review_id):
 	if int(review_id) >= max_id:
 		raise Http404
 	context = {}
+	context.update(get_form_context())
 	comment_form = CommentForm()
 	context['comment_form'] = comment_form 
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
 	review_be_checked = get_object_or_404(Review, id = review_id)
 	context['review'] = review_be_checked
 	comments = Comment.objects.filter(review = review_be_checked).order_by('id').reverse()
@@ -397,6 +385,7 @@ def write_comment(request, review_id):
 		return redirect('/review/' + review_id)
 	
 	context = {}
+	context.update(get_form_context())
 	review_be_comment = get_object_or_404(Review, id = review_id)
 	comment_new = Comment(review = review_be_comment, publisher = request.user)
 	comment_form = CommentForm(request.POST, instance = comment_new)

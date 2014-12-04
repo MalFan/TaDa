@@ -22,10 +22,8 @@ max_id = 9223372036854775807
 # Create your views here.
 def movie_cast_list(request,movie_id):
 	context = {}
-	context['search_form'] = SearchForm()	
+	context.update(get_form_context())
 	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 	review_form = ReviewForm()
@@ -38,10 +36,8 @@ def movie_cast_list(request,movie_id):
 
 def movie_review_list(request,movie_id):
 	context = {}
-	context['search_form'] = SearchForm()	
+	context.update(get_form_context())
 	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 
@@ -55,10 +51,8 @@ def movie_review_list(request,movie_id):
 
 def movie_people_also_liked_list(request, movie_id):
 	context = {}
-	context['search_form'] = SearchForm()	
+	context.update(get_form_context())
 	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 
@@ -71,10 +65,8 @@ def movie_people_also_liked_list(request, movie_id):
 
 def movie_people_who_liked_list(request,movie_id):
 	context = {}
-	context['search_form'] = SearchForm()	
+	context.update(get_form_context())
 	context['review_form'] = ReviewForm()
-	context['regis_form'] = RegistrationForm()
-	context['login_form'] = LoginForm()
 
 	m = get_object_or_404(Movie, imdb_id = movie_id)
 
@@ -89,11 +81,7 @@ def profile_movie_list(request, view_user_id):
 	if int(view_user_id) > max_id:
 		raise Http404
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
+	context.update(get_form_context())
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
@@ -130,11 +118,7 @@ def profile_review_list(request, view_user_id):
 	if int(view_user_id) > max_id:
 		raise Http404
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
+	context.update(get_form_context())
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)
@@ -171,11 +155,7 @@ def profile_following_list(request, view_user_id):
 	if int(view_user_id) > max_id:
 		raise Http404
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
+	context.update(get_form_context())
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = view_user_id)

@@ -20,6 +20,7 @@ from django.db import transaction
 from models import *
 from forms import *
 from views_home import *
+from views import 	get_form_context
 
 # Create your views here.
 @transaction.atomic
@@ -127,6 +128,7 @@ def my_password_change(request):
 @login_required
 def password_change_complete(request):
 	context = {}
+	context.update(get_form_context())
 	if request.method == 'GET':
 		return redirect('/profile/'+str(request.user.id))
 

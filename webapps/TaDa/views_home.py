@@ -17,15 +17,12 @@ from operator import itemgetter
 
 from models import *
 from forms import *
+from views import get_form_context
 
 # Create your views here.
 def home(request):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
+	context.update(get_form_context())
 	context['next'] = '/'
 	context['movie_combos'] = get_in_theater_movies()
 	context['request'] = request
@@ -107,11 +104,7 @@ def get_in_theater_movies():
 
 def recommend_movie(request):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
+	context.update(get_form_context())
 	context['movie_combos'] = get_advanced_recommend_movies(request.user)
 	context['next_page'] = '/recommend-movie'
 	context['request'] = request
@@ -176,11 +169,7 @@ def get_advanced_recommend_movies(current_user):
 
 def recommend_user(request):
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm() 
+	context.update(get_form_context())
 	context['next'] = '/'
 	context['user_combos'] = User.objects.all()[:20];
 	context['request'] = request

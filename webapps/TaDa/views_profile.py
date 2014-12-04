@@ -24,11 +24,7 @@ def profile(request, user_id):
 		raise Http404
 	
 	context = {}
-	regis_form = RegistrationForm()
-	login_form = LoginForm()
-	context['regis_form'] = regis_form
-	context['login_form'] = login_form
-	context['search_form'] = SearchForm()
+	context.update(get_form_context())
 	context['request'] = request
 	context['user'] = request.user
 	user_be_view = get_object_or_404(User,id = user_id)
