@@ -14,6 +14,12 @@
                       
 {% block content %}
   <div class="recommend-user-wrapper ">
+    {% if not user_combos %} 
+       <div class = "recommend-user-item row white-block shadow">
+        
+        <p class = "font-black font-Calson font-lg text-center">Oops... No recommendation for you.</p></a>
+       </div>
+    {% endif %}
     {% for u in user_combos %}    
     <div class = "recommend-user-item row white-block shadow">
       <div class ="col-md-2">

@@ -189,7 +189,7 @@ def get_advanced_recommend_users(u):
 	if not u.username:
 		return get_recommend_users()
 		
-	u_other = User.objects.exclude(username=u.username)				
+	u_other = User.objects.all().exclude(username=u.username).exclude(username__in = u.profile.users_followed.all().values_list('username', flat=True))
 
 	u_recom_list = []
 	u_recom_dict = {}
