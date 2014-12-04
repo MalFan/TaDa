@@ -5,7 +5,7 @@ $(document).ready( function() {
 });
 
 function deleteCommentAjax(){
-	$("[title='deleteComment']").click(function(e){
+	$(".delete-comment").click(function(e){
 		e.preventDefault();
 		var comment_id = $(this).attr("comment-id");
 		var comment_li = $("li[li-id*=" + comment_id + "]");

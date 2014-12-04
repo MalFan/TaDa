@@ -328,7 +328,7 @@ def delete_review(request,review_id):
 	movie_be_reviewed = get_object_or_404(Movie, reviews_included = review_be_delete)
 	
 	review_be_delete.delete()
-	return HttpResponse()
+	return redirect('/movie/'+movie_be_reviewed.imdb_id)
 
 @transaction.atomic
 @login_required
@@ -423,7 +423,7 @@ def delete_comment(request,comment_id):
 	review_be_commented = get_object_or_404(Review, comments_included = comment_be_delete)
 	
 	comment_be_delete.delete()
-	return HttpResponse()
+	return redirect('/review/' + str(review_be_commented.id))
 
 @transaction.atomic
 @login_required
