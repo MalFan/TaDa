@@ -70,7 +70,7 @@ def admin_save_movie(movie_id):
 
 				urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
-				m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
+			m_to_add.cover = settings.MEDIA_URL + 'movie-covers/' + fileName
 		except KeyError:
 	    		pass
 		
@@ -247,7 +247,7 @@ def admin_save_person(person_id):
 				url = person['headshot']
 				urllib.urlretrieve(url, fileName) # uses the function defined above to download the pic
 
-				p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
+			p_to_add.photo = settings.MEDIA_URL + 'person-photos/' + fileName
 		except KeyError:
 	    		pass
 

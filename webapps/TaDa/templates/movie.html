@@ -13,7 +13,7 @@
       <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-lg inline">{{m.title}}</p></a>&nbsp;<br>
       <div id = "certificate" class="inline">{{m.certificate}} </div>
       <div id = "time" class="inline">{{m.duration}}</div>
-      <div id ="genre"><b>Genre: </b>{% for g in m.genre_list.all %} <a>{{g}}</a> {% endfor %}</div>
+      <div id ="genre"><b>Genre: </b>{% for g in m.genre_list.all %}{{g}} {% endfor %}</div>
       
       <div id ="director"><b>Director: </b>{% for d in m.director_list.all %}<a href="/person/{{d.person_id}}">{{d}}</a>, {% endfor %}</div>
       <div id ="writer"><b>Writer: </b>{% for w in m.writer_list.all %}<a href="/person/{{w.person_id}}">{{w}}</a>, {% endfor %}</div>

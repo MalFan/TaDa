@@ -20,7 +20,7 @@
       <img class="movie-pic colorflow-shadow" src="{{m.cover}}"/>                  
       <div class="coverflow-detail" ><br>
         <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md">{{m.title}}</p></a>
-        <a href=""><p class="font-black inline">Liked by {{m.like_num}} user{% if m.like_num > 1 %}s{% endif %}</p></a>
+        <a href=""><p class="font-black inline">Liked by {{m.like_list.all|length}} user{% if m.like_list.all|length > 1 %}s{% endif %}</p></a>
 
         <span class="imdbRatingPlugin"data-title="tt{{m.imdb_id}}" data-style="p4">
           <a href="http://www.imdb.com/title/tt{{m.imdb_id}}/?ref_=plg_rt_1"><img src="http://g-ecx.images-amazon.com/images/G/01/imdb/plugins/rating/images/imdb_31x14.png" alt="{{m.title}} on IMDb" />
@@ -40,7 +40,7 @@
   <div id = "week1" class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper">
       <a href = "#week1" class = "no-underline">
-        <p class="divider font-Georgia font-md font-bold text-center">Nov 21, 2014</p>
+        <p class="divider font-Georgia font-md font-bold text-center">Dec 12, 2014</p>
       </a>
     </div>
     <div class = "upcoming-movie-wrapper">
@@ -55,7 +55,7 @@
               <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
-              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}{{genre}} {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
               <div id ="director"><b>Director: </b>{% for director in m.director_list.all %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
               <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list.all|slice:":4" %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
@@ -70,7 +70,7 @@
   <div id = "week2" class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper">
       <a href = "#week2" class = "no-underline">
-        <p class="divider font-Georgia font-md font-bold text-center">Nov 28, 2014</p>
+        <p class="divider font-Georgia font-md font-bold text-center">Dec 19, 2014</p>
       </a>
     </div>
     <div class = "upcoming-movie-wrapper">
@@ -85,7 +85,7 @@
               <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
-              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}{{genre}} {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
               <div id ="director"><b>Director: </b>{% for director in m.director_list.all %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
               <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list.all|slice:":4" %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
@@ -100,7 +100,7 @@
    <div id = "week3" class = "upcoming-group-wrapper">
     <div class = "upcoming-date-wrapper">
       <a href = "#week3" class = "no-underline">
-        <p class="divider font-Georgia font-md font-bold text-center">Dec 5, 2014</p>
+        <p class="divider font-Georgia font-md font-bold text-center">Dec 26, 2014</p>
       </a>
     </div>
     <div class = "upcoming-movie-wrapper">
@@ -116,7 +116,7 @@
               <a href="/movie/{{m.imdb_id}}"><p class="font-black font-Calson font-md inline">{{m.title}}</p></a>&nbsp;
               <div id = "certificate" class="inline">{{m.certificate}} </div>
               <div id = "time" class="inline">{{m.duration}}</div>
-              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}<a>{{genre}}</a> {% endfor %}</div>
+              <div id ="genre"><b>Genre: </b>{% for genre in m.genre_list.all %}{{genre}} {% endfor %}</div>
               <div id = "plot"><b>Plot: </b>{{m.storyline}}</div>
               <div id ="director"><b>Director: </b>{% for director in m.director_list.all %}<a href="/person/{{director.person_id}}">{{director.name}}</a>, {% endfor %}</div>
               <div id ="stars"><b>Stars: </b>{% for cast in m.cast_list.all|slice:":4" %}<a href="/person/{{cast.person_id}}">{{cast.name}}</a>, {% endfor %}</div>
